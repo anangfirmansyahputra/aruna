@@ -1,4 +1,5 @@
 import { PieChartOutlined, ShoppingOutlined } from '@ant-design/icons'
+import { router } from '@inertiajs/react'
 import type { MenuProps } from 'antd'
 import { Breadcrumb, Layout, Menu, theme } from 'antd'
 import React, { ReactNode, useState } from 'react'
@@ -6,6 +7,7 @@ import React, { ReactNode, useState } from 'react'
 interface DashboardLayoutProps {
   children: ReactNode
   breadcrumbs: string[]
+  removeBg?: boolean
 }
 
 const { Header, Content, Footer, Sider } = Layout
@@ -27,14 +29,18 @@ function getItem(
 }
 
 const items = [
-  getItem('Dashboard', 'dashboard', <PieChartOutlined />),
-  getItem('Products', 'products', <ShoppingOutlined />, [
-    getItem('Category', 'categories'),
-    getItem('Product', 'products'),
+  getItem('Dashboard', '/dashboard', <PieChartOutlined />),
+  getItem('Products', '/products', <ShoppingOutlined />, [
+    getItem('Category', '/dashboard/categories'),
+    getItem('Product', '/dashboard/products'),
   ]),
 ] as MenuItem[]
 
-const DashboardLayout = ({ children, breadcrumbs }: DashboardLayoutProps) => {
+const DashboardLayout = ({
+  children,
+  breadcrumbs,
+  removeBg = false,
+}: DashboardLayoutProps) => {
   const [collapsed, setCollapsed] = useState(false)
   const {
     token: { colorBgContainer, borderRadiusLG },
@@ -50,6 +56,9 @@ const DashboardLayout = ({ children, breadcrumbs }: DashboardLayoutProps) => {
       >
         {/* <img src={Logo} className="mx-auto" /> */}
         <Menu
+          onClick={({ key }) => {
+            router.get(key)
+          }}
           theme="dark"
           defaultSelectedKeys={['dashboard']}
           mode="inline"
@@ -66,10 +75,10 @@ const DashboardLayout = ({ children, breadcrumbs }: DashboardLayoutProps) => {
           </Breadcrumb>
           <div
             style={{
-              padding: 24,
+              padding: removeBg ? 0 : 24,
               height: '100%',
-              background: colorBgContainer,
-              borderRadius: borderRadiusLG,
+              background: removeBg ? '' : colorBgContainer,
+              // borderRadius: borderRadiusLG,
             }}
           >
             {children}
