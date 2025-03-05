@@ -52,7 +52,7 @@ export default function FormPage({ category }: FormPageProps) {
               >
                 Cancel
               </Button>
-              <Button type="primary" onClick={submit}>
+              <Button type="primary" onClick={() => submit()}>
                 Submit
               </Button>
             </Space>
