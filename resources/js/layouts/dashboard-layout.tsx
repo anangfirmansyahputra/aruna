@@ -2,7 +2,7 @@ import { PieChartOutlined, ShoppingOutlined } from '@ant-design/icons'
 import { router } from '@inertiajs/react'
 import type { MenuProps } from 'antd'
 import { Breadcrumb, Layout, Menu, theme } from 'antd'
-import React, { ReactNode, useState } from 'react'
+import React, { ReactNode, useEffect, useState } from 'react'
 
 interface DashboardLayoutProps {
   children: ReactNode
@@ -30,7 +30,7 @@ function getItem(
 
 const items = [
   getItem('Dashboard', '/dashboard', <PieChartOutlined />),
-  getItem('Products', '/products', <ShoppingOutlined />, [
+  getItem('Products', '/dashboard/products', <ShoppingOutlined />, [
     getItem('Category', '/dashboard/categories'),
     getItem('Product', '/dashboard/products'),
   ]),
@@ -46,6 +46,25 @@ const DashboardLayout = ({
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken()
 
+  const [selectedKey, setSelectedKey] = useState<string>('')
+  const currentPath = window.location.pathname
+
+  useEffect(() => {
+    // @ts-ignore
+    const childItems = items.flatMap((item) => item.children || [])
+
+    // @ts-ignore
+    const selectedChild = childItems.find((child) =>
+      currentPath.includes(child.key as string)
+    )
+
+    if (currentPath === '/dashboard') {
+      setSelectedKey('/dashboard')
+    } else {
+      setSelectedKey(selectedChild.key as string)
+    }
+  }, [currentPath])
+
   return (
     <Layout style={{ minHeight: '100vh' }}>
       <Sider
@@ -60,17 +79,17 @@ const DashboardLayout = ({
             router.get(key)
           }}
           theme="dark"
-          defaultSelectedKeys={['dashboard']}
+          selectedKeys={[selectedKey]} // Set active menu sesuai halaman
           mode="inline"
-          items={items}
+          items={items} // Tambahkan items ke Menu
         />
       </Sider>
       <Layout>
         <Header style={{ padding: 0, background: colorBgContainer }} />
         <Content style={{ margin: '0 16px' }}>
           <Breadcrumb style={{ margin: '16px 0' }}>
-            {breadcrumbs.map((breadcrumb) => (
-              <Breadcrumb.Item>{breadcrumb}</Breadcrumb.Item>
+            {breadcrumbs.map((breadcrumb, index) => (
+              <Breadcrumb.Item key={index}>{breadcrumb}</Breadcrumb.Item>
             ))}
           </Breadcrumb>
           <div

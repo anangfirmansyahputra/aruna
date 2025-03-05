@@ -106,7 +106,11 @@ export default function ProductPage({ data }: ProductPage) {
         <div className="flex items-center justify-between">
           <Typography.Title level={4}>Product</Typography.Title>
           <Button
-            onClick={() => router.visit('/dashboard/products/create')}
+            onClick={() =>
+              router.visit('/dashboard/products/create', {
+                preserveState: true,
+              })
+            }
             type="primary"
           >
             Add product
