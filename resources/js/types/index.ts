@@ -32,3 +32,14 @@ export interface Product {
   created_at: Date
   updated_at: Date
 }
+
+export interface News {
+  id: number
+  title: string
+  image_url: string
+  keywords: string
+  meta_description: string
+  content: string
+  slug: string
+  tags: string
+}

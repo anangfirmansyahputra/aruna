@@ -1,4 +1,8 @@
-import { PieChartOutlined, ShoppingOutlined } from '@ant-design/icons'
+import {
+  PieChartOutlined,
+  ReadOutlined,
+  ShoppingOutlined,
+} from '@ant-design/icons'
 import { router } from '@inertiajs/react'
 import type { MenuProps } from 'antd'
 import { Breadcrumb, Layout, Menu, theme } from 'antd'
@@ -34,6 +38,7 @@ const items = [
     getItem('Category', '/dashboard/categories'),
     getItem('Product', '/dashboard/products'),
   ]),
+  getItem('News', '/dashboard/news', <ReadOutlined />),
 ] as MenuItem[]
 
 const DashboardLayout = ({
@@ -46,24 +51,9 @@ const DashboardLayout = ({
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken()
 
-  const [selectedKey, setSelectedKey] = useState<string>('')
   const currentPath = window.location.pathname
-
-  useEffect(() => {
-    // @ts-ignore
-    const childItems = items.flatMap((item) => item.children || [])
-
-    // @ts-ignore
-    const selectedChild = childItems.find((child) =>
-      currentPath.includes(child.key as string)
-    )
-
-    if (currentPath === '/dashboard') {
-      setSelectedKey('/dashboard')
-    } else {
-      setSelectedKey(selectedChild.key as string)
-    }
-  }, [currentPath])
+    .replace('/create', '')
+    .replace('/edit', '')
 
   return (
     <Layout style={{ minHeight: '100vh' }}>
@@ -79,7 +69,7 @@ const DashboardLayout = ({
             router.get(key)
           }}
           theme="dark"
-          selectedKeys={[selectedKey]} // Set active menu sesuai halaman
+          selectedKeys={[currentPath]} // Set active menu sesuai halaman
           mode="inline"
           items={items} // Tambahkan items ke Menu
         />

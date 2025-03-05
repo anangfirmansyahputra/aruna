@@ -1,5 +1,6 @@
 import './bootstrap'
 import '../css/app.css'
+import '../css/tiptap.css'
 import '@ant-design/v5-patch-for-react-19'
 
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers'
