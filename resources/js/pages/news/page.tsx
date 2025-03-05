@@ -56,9 +56,13 @@ export default function NewsPage({ data }: NewsPage) {
       dataIndex: 'keywords',
       key: 'keywords',
       render: (_, record) => {
-        return record.keywords
-          .split(',')
-          .map((keyword) => <Tag color="green">{keyword}</Tag>)
+        return (
+          <div className="flex flex-wrap gap-y-1">
+            {record.keywords.split(',').map((keyword) => (
+              <Tag color="green">{keyword}</Tag>
+            ))}
+          </div>
+        )
       },
     },
     {
@@ -66,9 +70,13 @@ export default function NewsPage({ data }: NewsPage) {
       dataIndex: 'tags',
       key: 'tags',
       render: (_, record) => {
-        return record.tags
-          .split(',')
-          .map((tag) => <Tag color="green">{tag}</Tag>)
+        return (
+          <div className="flex flex-wrap gap-y-1">
+            {record.tags.split(',').map((tag) => (
+              <Tag color="green">{tag}</Tag>
+            ))}
+          </div>
+        )
       },
     },
     {
@@ -84,7 +92,7 @@ export default function NewsPage({ data }: NewsPage) {
         <Space>
           <Button
             icon={<EditOutlined />}
-            onClick={() => router.visit(`/dashboard/news/${record.id}`)}
+            onClick={() => router.visit(`/dashboard/news/${record.id}/edit`)}
           />
 
           <Popconfirm

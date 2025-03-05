@@ -82,7 +82,9 @@ export default function ProductPage({ data }: ProductPage) {
         <Space>
           <Button
             icon={<EditOutlined />}
-            onClick={() => router.visit(`/dashboard/products/${record.id}`)}
+            onClick={() =>
+              router.visit(`/dashboard/products/${record.id}/edit`)
+            }
           />
 
           <Popconfirm

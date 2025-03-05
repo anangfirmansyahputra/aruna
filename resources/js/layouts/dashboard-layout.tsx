@@ -53,7 +53,9 @@ const DashboardLayout = ({
 
   const currentPath = window.location.pathname
     .replace('/create', '')
-    .replace('/edit', '')
+    .replace(/\/\d+\/edit$/, '')
+
+  console.log(currentPath)
 
   return (
     <Layout style={{ minHeight: '100vh' }}>

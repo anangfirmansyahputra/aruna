@@ -49,3 +49,6 @@
     font-weight: bold;
   }
   
+.ant-upload-list-item-container {
+  margin-top: 10px;
+}

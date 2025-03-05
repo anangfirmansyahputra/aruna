@@ -20,7 +20,7 @@ class News extends Model
 
     protected function createdAt(): Attribute
     {
-        return Attribute::get(fn($value) => \Carbon\Carbon::parse($value)->format('d M Y H:i'));
+        return Attribute::get(fn($value) => \Carbon\Carbon::parse($value)->format('d M Y'));
     }
 
     protected function imageUrl(): Attribute

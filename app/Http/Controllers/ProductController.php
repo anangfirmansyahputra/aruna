@@ -71,7 +71,12 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        //
+        $categories = Category::all();
+
+        return Inertia::render('product/form', [
+            'product' => $product,
+            'categories' => $categories
+        ]);
     }
 
     /**

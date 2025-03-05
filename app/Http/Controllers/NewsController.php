@@ -68,7 +68,9 @@ class NewsController extends Controller
      */
     public function edit(News $news)
     {
-        //
+        return Inertia::render('news/form', [
+            'news' => $news
+        ]);
     }
 
     /**

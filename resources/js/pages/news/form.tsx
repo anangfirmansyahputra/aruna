@@ -2,7 +2,7 @@ import Tiptap from '@/components/tiptap'
 import { useFormHandler } from '@/hooks/use-form-handler'
 import DashboardLayout from '@/layouts/dashboard-layout'
 import { Category, News } from '@/types'
-import { PlusOutlined } from '@ant-design/icons'
+import { InboxOutlined, PlusOutlined } from '@ant-design/icons'
 import { Head, router } from '@inertiajs/react'
 import type { GetProp, UploadFile, UploadProps } from 'antd'
 import {
@@ -18,6 +18,7 @@ import {
   Typography,
   Upload,
 } from 'antd'
+import Dragger from 'antd/es/upload/Dragger'
 import { JSX, useEffect, useState } from 'react'
 
 const breadcrumbs = ['Dashboard', 'Category', 'Create']
@@ -108,6 +109,18 @@ export default function FormPage({ news }: FormPageProps) {
       <div style={{ marginTop: 8 }}>Upload</div>
     </button>
   )
+
+  const uploadProps: UploadProps = {
+    name: 'image_url',
+    multiple: false,
+    beforeUpload: () => false,
+    accept: 'image/*',
+    fileList,
+    onPreview: handlePreview,
+    onChange: handleChange,
+    maxCount: 1,
+    listType: 'picture',
+  }
 
   return (
     <>
@@ -203,32 +216,30 @@ export default function FormPage({ news }: FormPageProps) {
                 },
               ]}
             >
-              <>
-                <Upload
-                  beforeUpload={() => false}
-                  listType="picture-card"
-                  accept="image/*"
-                  fileList={fileList}
-                  onPreview={handlePreview}
-                  multiple={false}
-                  maxCount={1}
-                  onChange={handleChange}
-                >
-                  {fileList.length >= 8 ? null : uploadButton}
-                </Upload>
-                {previewImage && (
-                  <Image
-                    wrapperStyle={{ display: 'none' }}
-                    preview={{
-                      visible: previewOpen,
-                      onVisibleChange: (visible) => setPreviewOpen(visible),
-                      afterOpenChange: (visible) =>
-                        !visible && setPreviewImage(''),
-                    }}
-                    src={previewImage}
-                  />
-                )}
-              </>
+              <Dragger {...uploadProps}>
+                <p className="ant-upload-drag-icon">
+                  <InboxOutlined />
+                </p>
+                <p className="ant-upload-text">
+                  Click or drag file to this area to upload
+                </p>
+                <p className="ant-upload-hint">
+                  Support for a single or bulk upload. Strictly prohibited from
+                  uploading company data or other banned files.
+                </p>
+              </Dragger>
+              {previewImage && (
+                <Image
+                  wrapperStyle={{ display: 'none' }}
+                  preview={{
+                    visible: previewOpen,
+                    onVisibleChange: (visible) => setPreviewOpen(visible),
+                    afterOpenChange: (visible) =>
+                      !visible && setPreviewImage(''),
+                  }}
+                  src={previewImage}
+                />
+              )}
             </Form.Item>
 
             <Form.Item

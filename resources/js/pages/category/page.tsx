@@ -50,7 +50,9 @@ export default function CategoryPage({ data }: CategoryPageProps) {
         <Space>
           <Button
             icon={<EditOutlined />}
-            onClick={() => router.visit(`/dashboard/categories/${record.id}`)}
+            onClick={() =>
+              router.visit(`/dashboard/categories/${record.id}/edit`)
+            }
           />
 
           <Popconfirm
