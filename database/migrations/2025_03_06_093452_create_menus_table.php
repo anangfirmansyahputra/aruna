@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('icon')->nullable();
             $table->string('path')->nullable();
             $table->string('group')->nullable();
+            $table->integer('order')->default(0);
             $table->timestamps();
         });
 

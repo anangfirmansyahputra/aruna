@@ -43,7 +43,23 @@ class PermissionSeeder extends Seeder
             // Menu
             ['name' => 'View Menu', 'codes' => 'menus.index'],
             ['name' => 'Edit Menu', 'codes' => 'menus.edit'],
-            ['name' => 'Update Menu', 'codes' => 'menus.update']
+            ['name' => 'Update Menu', 'codes' => 'menus.update'],
+
+            // Role
+            ['name' => 'View Role', 'codes' => 'roles.index'],
+            ['name' => 'Create Role', 'codes' => 'roles.create'],
+            ['name' => 'Store Role', 'codes' => 'roles.store'],
+            ['name' => 'Edit Role', 'codes' => 'roles.edit'],
+            ['name' => 'Update Role', 'codes' => 'roles.update'],
+            ['name' => 'Delete Role', 'codes' => 'roles.delete'],
+
+            // User
+            ['name' => 'View User', 'codes' => 'users.index'],
+            ['name' => 'Create User', 'codes' => 'users.create'],
+            ['name' => 'Store User', 'codes' => 'users.store'],
+            ['name' => 'Edit User', 'codes' => 'users.edit'],
+            ['name' => 'Update User', 'codes' => 'users.update'],
+            ['name' => 'Delete User', 'codes' => 'users.delete'],
         ];
 
         foreach ($permissions as $permission) {

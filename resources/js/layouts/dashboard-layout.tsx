@@ -1,10 +1,6 @@
-import {
-  PieChartOutlined,
-  ReadOutlined,
-  SafetyCertificateOutlined,
-  ShoppingOutlined,
-  UserOutlined,
-} from '@ant-design/icons'
+import { Menu as MenuType } from '@/types'
+import * as Icons from '@ant-design/icons'
+import { UserOutlined } from '@ant-design/icons'
 import { router, usePage } from '@inertiajs/react'
 import type { MenuProps } from 'antd'
 import {
@@ -19,14 +15,12 @@ import {
   theme,
   Typography,
 } from 'antd'
-import React, { ReactNode, useState } from 'react'
+import React, { ReactNode, useEffect, useState } from 'react'
 import Logo from '../../../public/assets/logo.png'
-import { Menu as MenuType } from '@/types'
-import * as Icons from '@ant-design/icons'
 
 const iconsMap: any = Icons
 
-const { Title, Text } = Typography
+const { Text } = Typography
 
 interface DashboardLayoutProps {
   children: ReactNode
@@ -57,7 +51,7 @@ const DashboardLayout = ({
   breadcrumbs,
   removeBg = false,
 }: DashboardLayoutProps) => {
-  const { auth, menus } = usePage().props
+  const { auth, menus, flash } = usePage().props
 
   if (!auth || !menus) {
     router.get('/login')
@@ -106,6 +100,7 @@ const DashboardLayout = ({
   const handleLogout = () => {
     router.delete('/logout', {
       onSuccess: () => {
+        localStorage.removeItem('openKeys')
         message.success('Logout success')
       },
       onError: (error) => {
@@ -113,6 +108,33 @@ const DashboardLayout = ({
         message.error('Internal server error')
       },
     })
+  }
+
+  useEffect(() => {
+    if ((flash as { error: string }).error) {
+      message.error((flash as { error: string }).error)
+    }
+  }, [flash])
+
+  const [openKeys, setOpenKeys] = useState<string[]>(() => {
+    if (typeof window !== 'undefined') {
+      return JSON.parse(localStorage.getItem('openKeys') || '[]')
+    }
+    return []
+  })
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('openKeys', JSON.stringify(openKeys))
+    }
+  }, [openKeys])
+
+  const handleMenuClick = ({ key }: { key: string }) => {
+    router.get(key)
+  }
+
+  const handleOpenChange = (keys: string[]) => {
+    setOpenKeys(keys)
   }
 
   return (
@@ -125,13 +147,13 @@ const DashboardLayout = ({
       >
         <img src={Logo} className="mx-auto p-5" />
         <Menu
-          onClick={({ key }) => {
-            router.get(key)
-          }}
+          onClick={handleMenuClick}
           theme="dark"
-          selectedKeys={[currentPath]} // Set active menu sesuai halaman
+          selectedKeys={[currentPath]}
+          openKeys={openKeys}
+          onOpenChange={handleOpenChange}
           mode="inline"
-          items={items} // Tambahkan items ke Menu
+          items={items}
         />
       </Sider>
       <Layout>

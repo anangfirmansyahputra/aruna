@@ -16,15 +16,15 @@ class AdminSeeder extends Seeder
     {
 
         $role = Role::where('name', 'Admin')->first();
-        $user = User::where('email', 'admin@gmail.com');
+        // $user = User::where('email', 'admin@gmail.com');
 
-        if ($role && !$user) {
-            User::updateOrCreate([
-                'email' => "admin@gmail.com",
-                'name' => 'admin',
-                'password' => "rahasia",
-                'role_id' => $role->id
-            ]);
-        }
+        // if ($role) {
+        //     User::updateOrCreate([
+        //         'email' => "admin@gmail.com",
+        //         'name' => 'admin',
+        //         'password' => "rahasia",
+        //         'role_id' => $role->id
+        //     ]);
+        // }
     }
 }

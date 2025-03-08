@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -21,6 +23,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role_id'
     ];
 
     /**
@@ -46,6 +49,11 @@ class User extends Authenticatable
         ];
     }
 
+    protected function createdAt(): Attribute
+    {
+        return Attribute::get(fn($value) => \Carbon\Carbon::parse($value)->format('d M Y H:i'));
+    }
+
     // public function roles()
     // {
     //     return $this->belongsToMany(Role::class, 'user_roles');
@@ -59,6 +67,11 @@ class User extends Authenticatable
     public function hasRole($role): bool
     {
         return $this->roles()->where('name', $role)->exists();
+    }
+
+    public function permissions()
+    {
+        return $this->role ? $this->role->permissions : collect([]);
     }
 
     public function hasPermission($permission): bool
