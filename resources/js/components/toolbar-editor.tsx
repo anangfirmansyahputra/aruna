@@ -10,6 +10,8 @@ import {
   Code2,
   Image,
   Italic,
+  List,
+  ListOrdered,
   Strikethrough,
   Underline,
 } from 'lucide-react'
@@ -28,6 +30,8 @@ const tools = [
   { task: 'left', icon: AlignLeft },
   { task: 'center', icon: AlignCenter },
   { task: 'right', icon: AlignRight },
+  { task: 'bulletList', icon: List }, // Tambahkan Bullet List
+  { task: 'orderedList', icon: ListOrdered }, // Tambahkan Bullet List
 ] as const
 
 const chainMethods = (
@@ -63,6 +67,10 @@ export default function ToolbarEditor({
         return chainMethods(editor, (chain) => chain.setTextAlign('center'))
       case 'right':
         return chainMethods(editor, (chain) => chain.setTextAlign('right'))
+      case 'bulletList':
+        return chainMethods(editor, (chain) => chain.toggleBulletList()) // Toggle Bullet List
+      case 'orderedList':
+        return chainMethods(editor, (chain) => chain.toggleOrderedList())
     }
   }
 

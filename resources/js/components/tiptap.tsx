@@ -1,5 +1,7 @@
 'use client'
 
+import '../../css/tiptap.css'
+
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 import Heading from '@tiptap/extension-heading'
 import Paragraph from '@tiptap/extension-paragraph'
@@ -15,10 +17,13 @@ import js from 'highlight.js/lib/languages/javascript'
 import php from 'highlight.js/lib/languages/php'
 import python from 'highlight.js/lib/languages/python'
 import html from 'highlight.js/lib/languages/xml'
+import BulletList from '@tiptap/extension-bullet-list'
 import { all, createLowlight } from 'lowlight'
 import { Dispatch, SetStateAction, useEffect } from 'react'
 import ImageResize from 'tiptap-extension-resize-image'
 import ToolbarEditor from './toolbar-editor'
+import ListItem from '@tiptap/extension-list-item'
+import OrderedList from '@tiptap/extension-ordered-list'
 
 interface TiptapProps {
   content?: string
@@ -70,6 +75,11 @@ const extensions = [
     },
   }),
   Text,
+  ListItem,
+  BulletList,
+  OrderedList.configure({
+    itemTypeName: 'listItem',
+  }),
 ]
 
 const Tiptap = ({ content, setContent, editable = true }: TiptapProps) => {

@@ -1,7 +1,7 @@
 import { useFormHandler } from '@/hooks/use-form-handler'
 import DashboardLayout from '@/layouts/dashboard-layout'
 import { Category, Product } from '@/types'
-import { PlusOutlined, UploadOutlined } from '@ant-design/icons'
+import { InboxOutlined, PlusOutlined, UploadOutlined } from '@ant-design/icons'
 import { Head, router } from '@inertiajs/react'
 import {
   Button,
@@ -17,6 +17,7 @@ import {
 } from 'antd'
 import { JSX, useEffect, useState } from 'react'
 import type { GetProp, UploadFile, UploadProps } from 'antd'
+import Dragger from 'antd/es/upload/Dragger'
 
 const breadcrumbs = ['Dashboard', 'Category', 'Create']
 
@@ -96,6 +97,18 @@ export default function FormPage({ product, categories }: FormPageProps) {
     </button>
   )
 
+  const uploadProps: UploadProps = {
+    name: 'image_url',
+    multiple: false,
+    beforeUpload: () => false,
+    accept: 'image/*',
+    fileList,
+    onPreview: handlePreview,
+    onChange: handleChange,
+    maxCount: 1,
+    listType: 'picture',
+  }
+
   return (
     <>
       <Head title={product ? 'Edit Product' : 'Create Product'} />
@@ -140,33 +153,40 @@ export default function FormPage({ product, categories }: FormPageProps) {
               <Switch value={isCredit} onChange={(e) => setIsCredit(e)} />
             </Form.Item>
 
-            <Form.Item label="Image" name="image_url">
-              <>
-                <Upload
-                  beforeUpload={() => false}
-                  listType="picture-card"
-                  accept="image/*"
-                  fileList={fileList}
-                  onPreview={handlePreview}
-                  multiple={false}
-                  maxCount={1}
-                  onChange={handleChange}
-                >
-                  {fileList.length >= 8 ? null : uploadButton}
-                </Upload>
-                {previewImage && (
-                  <Image
-                    wrapperStyle={{ display: 'none' }}
-                    preview={{
-                      visible: previewOpen,
-                      onVisibleChange: (visible) => setPreviewOpen(visible),
-                      afterOpenChange: (visible) =>
-                        !visible && setPreviewImage(''),
-                    }}
-                    src={previewImage}
-                  />
-                )}
-              </>
+            <Form.Item
+              label="Image"
+              name="image_url"
+              rules={[
+                {
+                  required: true,
+                  message: 'Please insert 1 image',
+                },
+              ]}
+            >
+              <Dragger {...uploadProps}>
+                <p className="ant-upload-drag-icon">
+                  <InboxOutlined />
+                </p>
+                <p className="ant-upload-text">
+                  Click or drag file to this area to upload
+                </p>
+                <p className="ant-upload-hint">
+                  Support for a single or bulk upload. Strictly prohibited from
+                  uploading company data or other banned files.
+                </p>
+              </Dragger>
+              {previewImage && (
+                <Image
+                  wrapperStyle={{ display: 'none' }}
+                  preview={{
+                    visible: previewOpen,
+                    onVisibleChange: (visible) => setPreviewOpen(visible),
+                    afterOpenChange: (visible) =>
+                      !visible && setPreviewImage(''),
+                  }}
+                  src={previewImage}
+                />
+              )}
             </Form.Item>
 
             <Space className="flex justify-end mt-4">

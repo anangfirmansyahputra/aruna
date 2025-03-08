@@ -103,13 +103,6 @@ export default function FormPage({ news }: FormPageProps) {
     submit(formData)
   }
 
-  const uploadButton = (
-    <button style={{ border: 0, background: 'none' }} type="button">
-      <PlusOutlined />
-      <div style={{ marginTop: 8 }}>Upload</div>
-    </button>
-  )
-
   const uploadProps: UploadProps = {
     name: 'image_url',
     multiple: false,

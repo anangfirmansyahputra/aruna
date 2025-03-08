@@ -42,4 +42,31 @@ export interface News {
   content: string
   slug: string
   tags: string
+  created_at: Date
+  updated_at: Date
+}
+
+export interface Menu {
+  id: number
+  name: string
+  icon: string
+  path: string
+  group: string
+  created_at: Date
+  updated_at: Date
+}
+
+export interface Role {
+  id: number
+  name: string
+  created_at: Date
+  updated_at: Date
+}
+
+export interface Permission {
+  id: number
+  name: string
+  codes: string
+  created_at: Date
+  updated_at: Date
 }

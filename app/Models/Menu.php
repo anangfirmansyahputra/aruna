@@ -5,15 +5,22 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 
-class Category extends Model
+class Menu extends Model
 {
     protected $fillable = [
+        'group',
+        'icon',
         'name',
-        'description'
+        'path'
     ];
 
     protected function createdAt(): Attribute
     {
         return Attribute::get(fn($value) => \Carbon\Carbon::parse($value)->format('d M Y'));
+    }
+
+    public function rolse()
+    {
+        return $this->belongsToMany(Role::class, 'role_menus');
     }
 }

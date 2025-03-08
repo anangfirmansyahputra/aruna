@@ -1,12 +1,32 @@
 import {
   PieChartOutlined,
   ReadOutlined,
+  SafetyCertificateOutlined,
   ShoppingOutlined,
+  UserOutlined,
 } from '@ant-design/icons'
-import { router } from '@inertiajs/react'
+import { router, usePage } from '@inertiajs/react'
 import type { MenuProps } from 'antd'
-import { Breadcrumb, Layout, Menu, theme } from 'antd'
-import React, { ReactNode, useEffect, useState } from 'react'
+import {
+  Avatar,
+  Breadcrumb,
+  Button,
+  Layout,
+  Menu,
+  message,
+  Popover,
+  Space,
+  theme,
+  Typography,
+} from 'antd'
+import React, { ReactNode, useState } from 'react'
+import Logo from '../../../public/assets/logo.png'
+import { Menu as MenuType } from '@/types'
+import * as Icons from '@ant-design/icons'
+
+const iconsMap: any = Icons
+
+const { Title, Text } = Typography
 
 interface DashboardLayoutProps {
   children: ReactNode
@@ -32,20 +52,48 @@ function getItem(
   } as MenuItem
 }
 
-const items = [
-  getItem('Dashboard', '/dashboard', <PieChartOutlined />),
-  getItem('Products', '/dashboard/products', <ShoppingOutlined />, [
-    getItem('Category', '/dashboard/categories'),
-    getItem('Product', '/dashboard/products'),
-  ]),
-  getItem('News', '/dashboard/news', <ReadOutlined />),
-] as MenuItem[]
-
 const DashboardLayout = ({
   children,
   breadcrumbs,
   removeBg = false,
 }: DashboardLayoutProps) => {
+  const { auth, menus } = usePage().props
+
+  if (!auth || !menus) {
+    router.get('/login')
+  }
+
+  const groupedMenus = (menus as MenuType[]).reduce<Record<string, MenuType[]>>(
+    (acc, menu) => {
+      if (!acc[menu.group]) {
+        acc[menu.group] = []
+      }
+      acc[menu.group].push(menu)
+      return acc
+    },
+    {}
+  )
+
+  const keys = Object.keys(groupedMenus)
+
+  const items = keys.map((key) => {
+    const childrens = groupedMenus[key] as MenuType[]
+
+    return getItem(
+      key,
+      childrens[0].path,
+      null,
+      childrens.map((c) => {
+        const IconComponent = Icons[c.icon as keyof typeof Icons]
+        return getItem(
+          c.name,
+          c.path,
+          IconComponent ? React.createElement(IconComponent as any) : null
+        )
+      })
+    )
+  })
+
   const [collapsed, setCollapsed] = useState(false)
   const {
     token: { colorBgContainer, borderRadiusLG },
@@ -55,7 +103,17 @@ const DashboardLayout = ({
     .replace('/create', '')
     .replace(/\/\d+\/edit$/, '')
 
-  console.log(currentPath)
+  const handleLogout = () => {
+    router.delete('/logout', {
+      onSuccess: () => {
+        message.success('Logout success')
+      },
+      onError: (error) => {
+        console.log(error)
+        message.error('Internal server error')
+      },
+    })
+  }
 
   return (
     <Layout style={{ minHeight: '100vh' }}>
@@ -65,7 +123,7 @@ const DashboardLayout = ({
         collapsed={collapsed}
         onCollapse={(value) => setCollapsed(value)}
       >
-        {/* <img src={Logo} className="mx-auto" /> */}
+        <img src={Logo} className="mx-auto p-5" />
         <Menu
           onClick={({ key }) => {
             router.get(key)
@@ -77,7 +135,34 @@ const DashboardLayout = ({
         />
       </Sider>
       <Layout>
-        <Header style={{ padding: 0, background: colorBgContainer }} />
+        <Header
+          className="!px-5 flex justify-center items-center"
+          style={{ background: colorBgContainer }}
+        >
+          <Popover
+            content={
+              <Space direction="vertical">
+                <Text>Admin</Text>
+                <Button
+                  onClick={handleLogout}
+                  type="link"
+                  danger
+                  icon={<UserOutlined />}
+                >
+                  Logout
+                </Button>
+              </Space>
+            }
+          >
+            <Avatar
+              size="large"
+              icon={<UserOutlined />}
+              style={{
+                marginLeft: 'auto',
+              }}
+            />
+          </Popover>
+        </Header>
         <Content style={{ margin: '0 16px' }}>
           <Breadcrumb style={{ margin: '16px 0' }}>
             {breadcrumbs.map((breadcrumb, index) => (

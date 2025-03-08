@@ -23,16 +23,16 @@ export function useFormHandler<T extends Record<string, any>>({
     }
   }, [initialValues, form])
 
-  const submit = (formData?: FormData) => {
+  const submit = (formData?: FormData | null, payload?: any) => {
     setIsLoading(true)
-    const formValues = form.getFieldsValue()
+    const formValues = payload ? payload : form.getFieldsValue()
 
     if (formData && method == 'put') {
       formData.append('_method', 'PUT')
     }
 
     router.visit(url, {
-      method: 'post',
+      method,
       data: formData ? formData : formValues,
       preserveScroll: true,
       preserveState: true,
