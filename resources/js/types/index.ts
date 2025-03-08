@@ -29,6 +29,10 @@ export interface Product {
   image_url: string
   is_credit: boolean
   collateral_name: string
+  keywords: string
+  meta_descriptions: string
+  content: string
+  slug: string
   created_at: Date
   updated_at: Date
 }

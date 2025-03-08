@@ -40,7 +40,13 @@ class ProductController extends Controller
             'collateral_name' => ['required', 'string'],
             'is_credit' => ['nullable', 'string'],
             'image_url' => 'mimes:jpeg,jpg,png,gif|max:1000',
+            'slug' => ['required', 'string'],
+            'keywords' => ['required', 'string'],
+            'meta_descriptions' => ['required', 'string'],
+            'content' => ['required', 'string']
         ]);
+
+        $validate['is_credit'] = $validate['is_credit'] == 'true' ? true : false;
 
         try {
             $imagePath = $request->file('image_url')->store('products', 'public');
@@ -96,7 +102,11 @@ class ProductController extends Controller
                     ['image', 'mimes:jpg,jpeg,png,gif', 'max:2048'],
                     ['string', 'url']
                 )
-            ]
+            ],
+            'slug' => ['required', 'string'],
+            'keywords' => ['required', 'string'],
+            'meta_descriptions' => ['required', 'string'],
+            'content' => ['required', 'string']
         ]);
 
         if ($request->hasFile('image_url')) {

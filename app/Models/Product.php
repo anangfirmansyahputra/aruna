@@ -14,6 +14,10 @@ class Product extends Model
         'collateral_name',
         'is_credit',
         'image_url',
+        'slug',
+        'keywords',
+        'meta_descriptions',
+        'content'
     ];
 
     public function category()

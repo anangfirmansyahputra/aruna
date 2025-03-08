@@ -18,6 +18,10 @@ return new class extends Migration
             $table->string('image_url');
             $table->boolean('is_credit')->default(false);
             $table->string('collateral_name');
+            $table->string('slug')->unique();
+            $table->string('keywords');
+            $table->text('meta_descriptions');
+            $table->longText('content');
             $table->timestamps();
         });
     }

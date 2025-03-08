@@ -32,7 +32,7 @@ export function useFormHandler<T extends Record<string, any>>({
     }
 
     router.visit(url, {
-      method,
+      method: formData ? 'post' : method,
       data: formData ? formData : formValues,
       preserveScroll: true,
       preserveState: true,

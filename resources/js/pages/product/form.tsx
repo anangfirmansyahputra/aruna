@@ -5,10 +5,12 @@ import { InboxOutlined, PlusOutlined, UploadOutlined } from '@ant-design/icons'
 import { Head, router } from '@inertiajs/react'
 import {
   Button,
+  Col,
   Divider,
   Form,
   Image,
   Input,
+  Row,
   Select,
   Space,
   Switch,
@@ -18,12 +20,21 @@ import {
 import { JSX, useEffect, useState } from 'react'
 import type { GetProp, UploadFile, UploadProps } from 'antd'
 import Dragger from 'antd/es/upload/Dragger'
+import Tiptap from '@/components/tiptap'
 
 const breadcrumbs = ['Dashboard', 'Category', 'Create']
 
 interface FormPageProps {
   product?: Product
   categories: Category[]
+}
+
+const generateSlug = (text: string) => {
+  return text
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, '-')
+    .replace(/[^\w-]+/g, '')
 }
 
 type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0]
@@ -41,6 +52,8 @@ export default function FormPage({ product, categories }: FormPageProps) {
   const [previewImage, setPreviewImage] = useState('')
   const [fileList, setFileList] = useState<UploadFile[]>([])
   const [isCredit, setIsCredit] = useState(product ? product.is_credit : false)
+  const [content, setContent] = useState(product ? product.content : '')
+  const [slug, setSlug] = useState('')
 
   useEffect(() => {
     if (product?.image_url) {
@@ -82,6 +95,11 @@ export default function FormPage({ product, categories }: FormPageProps) {
       formData.append(key, value as string)
     })
 
+    if (product) {
+      formData.delete('content')
+    }
+    formData.append('content', content)
+
     if (fileList.length > 0 && fileList[0].originFileObj) {
       formData.append('image_url', fileList[0].originFileObj)
     }
@@ -89,13 +107,6 @@ export default function FormPage({ product, categories }: FormPageProps) {
     // Kirim ke server
     submit(formData)
   }
-
-  const uploadButton = (
-    <button style={{ border: 0, background: 'none' }} type="button">
-      <PlusOutlined />
-      <div style={{ marginTop: 8 }}>Upload</div>
-    </button>
-  )
 
   const uploadProps: UploadProps = {
     name: 'image_url',
@@ -115,90 +126,152 @@ export default function FormPage({ product, categories }: FormPageProps) {
       <div className="p-6 bg-white h-full">
         <Typography.Title level={4}>Product Form</Typography.Title>
         <Divider />
-        <div className="grid grid-cols-2">
-          <Form form={form} disabled={isLoading} layout="vertical">
-            <Form.Item
-              name="name"
-              label="Product name"
-              rules={[{ required: true, message: 'Please enter product name' }]}
-            >
-              <Input placeholder="Enter product name" />
-            </Form.Item>
+        <Form
+          form={form}
+          disabled={isLoading}
+          layout="vertical"
+          onValuesChange={(changedValues) => {
+            if (changedValues.name) {
+              setSlug(generateSlug(changedValues.name))
+              form.setFieldsValue({ slug: generateSlug(changedValues.name) })
+            }
+          }}
+        >
+          <Row gutter={16}>
+            <Col span={12}>
+              <Form.Item
+                name="name"
+                label="Product name"
+                rules={[
+                  { required: true, message: 'Please enter product name' },
+                ]}
+              >
+                <Input placeholder="Enter product name" />
+              </Form.Item>
 
-            <Form.Item
-              name="category_id"
-              label="Category"
-              rules={[{ required: true, message: 'Please select category' }]}
-            >
-              <Select
-                options={categories.map((category) => ({
-                  label: category.name,
-                  value: category.id,
-                }))}
-                placeholder="Select a category"
-              />
-            </Form.Item>
-
-            <Form.Item
-              name="collateral_name"
-              label="Calculator name"
-              rules={[
-                { required: true, message: 'Please enter calculator name' },
-              ]}
-            >
-              <Input placeholder="Enter calculator name" />
-            </Form.Item>
-
-            <Form.Item name="is_credit" label="Credit">
-              <Switch value={isCredit} onChange={(e) => setIsCredit(e)} />
-            </Form.Item>
-
-            <Form.Item
-              label="Image"
-              name="image_url"
-              rules={[
-                {
-                  required: true,
-                  message: 'Please insert 1 image',
-                },
-              ]}
-            >
-              <Dragger {...uploadProps}>
-                <p className="ant-upload-drag-icon">
-                  <InboxOutlined />
-                </p>
-                <p className="ant-upload-text">
-                  Click or drag file to this area to upload
-                </p>
-                <p className="ant-upload-hint">
-                  Support for a single or bulk upload. Strictly prohibited from
-                  uploading company data or other banned files.
-                </p>
-              </Dragger>
-              {previewImage && (
-                <Image
-                  wrapperStyle={{ display: 'none' }}
-                  preview={{
-                    visible: previewOpen,
-                    onVisibleChange: (visible) => setPreviewOpen(visible),
-                    afterOpenChange: (visible) =>
-                      !visible && setPreviewImage(''),
-                  }}
-                  src={previewImage}
+              <Form.Item
+                name="category_id"
+                label="Category"
+                rules={[{ required: true, message: 'Please select category' }]}
+              >
+                <Select
+                  options={categories.map((category) => ({
+                    label: category.name,
+                    value: category.id,
+                  }))}
+                  placeholder="Select a category"
                 />
-              )}
-            </Form.Item>
+              </Form.Item>
 
-            <Space className="flex justify-end mt-4">
-              <Button onClick={() => router.visit('/dashboard/products')}>
-                Cancel
-              </Button>
-              <Button type="primary" onClick={handleSubmit} loading={isLoading}>
-                {isLoading ? 'Saving...' : 'Submit'}
-              </Button>
-            </Space>
-          </Form>
-        </div>
+              <Form.Item
+                name="collateral_name"
+                label="Calculator name"
+                rules={[
+                  { required: true, message: 'Please enter calculator name' },
+                ]}
+              >
+                <Input placeholder="Enter calculator name" />
+              </Form.Item>
+
+              <Form.Item name="is_credit" label="Credit">
+                <Switch value={isCredit} onChange={(e) => setIsCredit(e)} />
+              </Form.Item>
+            </Col>
+
+            <Col span={12}>
+              <Form.Item
+                name="slug"
+                label="Slug"
+                rules={[{ required: true, message: 'Please insert slug' }]}
+              >
+                <Input placeholder="Enter slug" value={slug} />
+              </Form.Item>
+
+              <Form.Item
+                name="keywords"
+                label="Keywords"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please enter keyword',
+                  },
+                ]}
+              >
+                <Select placeholder="Enter keywords" mode="tags" />
+              </Form.Item>
+
+              <Form.Item
+                name="meta_descriptions"
+                label="Meta descriptions"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please enter meta description',
+                  },
+                ]}
+              >
+                <Input.TextArea rows={5} />
+              </Form.Item>
+            </Col>
+          </Row>
+
+          <Form.Item
+            label="Image"
+            name="image_url"
+            rules={[
+              {
+                required: true,
+                message: 'Please insert 1 image',
+              },
+            ]}
+          >
+            <Dragger {...uploadProps}>
+              <p className="ant-upload-drag-icon">
+                <InboxOutlined />
+              </p>
+              <p className="ant-upload-text">
+                Click or drag file to this area to upload
+              </p>
+              <p className="ant-upload-hint">
+                Support for a single or bulk upload. Strictly prohibited from
+                uploading company data or other banned files.
+              </p>
+            </Dragger>
+            {previewImage && (
+              <Image
+                wrapperStyle={{ display: 'none' }}
+                preview={{
+                  visible: previewOpen,
+                  onVisibleChange: (visible) => setPreviewOpen(visible),
+                  afterOpenChange: (visible) => !visible && setPreviewImage(''),
+                }}
+                src={previewImage}
+              />
+            )}
+          </Form.Item>
+
+          <Form.Item
+            name="content"
+            label="Content"
+            rules={[
+              {
+                required: true,
+                message: 'Content is required',
+              },
+            ]}
+          >
+            <Tiptap content={content} setContent={setContent} />
+          </Form.Item>
+
+          <Space className="flex justify-end mt-4">
+            <Button onClick={() => router.visit('/dashboard/products')}>
+              Cancel
+            </Button>
+            <Button type="primary" onClick={handleSubmit} loading={isLoading}>
+              {isLoading ? 'Saving...' : 'Submit'}
+            </Button>
+          </Space>
+        </Form>
       </div>
     </>
   )
