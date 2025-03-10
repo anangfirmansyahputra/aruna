@@ -1,8 +1,9 @@
 import { useFormHandler } from '@/hooks/use-form-handler'
 import DashboardLayout from '@/layouts/dashboard-layout'
+import { checkPermission } from '@/lib/permission'
 import { Menu } from '@/types'
 import * as Icons from '@ant-design/icons' // Import semua ikon dari Ant Design
-import { Head, router } from '@inertiajs/react'
+import { Head, router, usePage } from '@inertiajs/react'
 import { Button, Divider, Form, Input, Select, Space, Typography } from 'antd'
 import { JSX, useState } from 'react'
 
@@ -19,6 +20,8 @@ const iconNames = Object.keys(iconsMap).filter((key) =>
 )
 
 export default function MenuFormPage({ menu }: MenuFormPageProps) {
+  const { permissions } = usePage().props
+
   const { form, isLoading, submit } = useFormHandler({
     url: menu ? `/dashboard/menus/${menu.id}` : '/dashboard/menus',
     initialValues: menu,
@@ -101,9 +104,11 @@ export default function MenuFormPage({ menu }: MenuFormPageProps) {
               >
                 Cancel
               </Button>
-              <Button type="primary" onClick={() => submit()}>
-                Submit
-              </Button>
+              {checkPermission(permissions as string[], 'menus.update') && (
+                <Button type="primary" onClick={() => submit()}>
+                  Submit
+                </Button>
+              )}
             </Space>
           </Form>
         </div>

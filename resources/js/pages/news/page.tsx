@@ -1,7 +1,8 @@
 import DashboardLayout from '@/layouts/dashboard-layout'
+import { checkPermission } from '@/lib/permission'
 import { News, Product } from '@/types'
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
-import { Head, router } from '@inertiajs/react'
+import { Head, router, usePage } from '@inertiajs/react'
 import {
   Button,
   Divider,
@@ -23,6 +24,8 @@ interface NewsPage {
 const breadcrumbs = ['Dashboard', 'News']
 
 export default function NewsPage({ data }: NewsPage) {
+  const { permissions } = usePage().props
+
   const confirm = (id: number) => {
     try {
       router.delete(`/dashboard/news/${id}`)
@@ -90,20 +93,24 @@ export default function NewsPage({ data }: NewsPage) {
       width: 200,
       render: (_, record) => (
         <Space>
-          <Button
-            icon={<EditOutlined />}
-            onClick={() => router.visit(`/dashboard/news/${record.id}/edit`)}
-          />
+          {checkPermission(permissions as string[], 'news.edit') && (
+            <Button
+              icon={<EditOutlined />}
+              onClick={() => router.visit(`/dashboard/news/${record.id}/edit`)}
+            />
+          )}
 
-          <Popconfirm
-            title="Delete data"
-            description="Are yoy sure to delete this data?"
-            onConfirm={() => confirm(record.id)}
-            okText="Yes"
-            cancelText="No"
-          >
-            <Button danger type="primary" icon={<DeleteOutlined />} />
-          </Popconfirm>
+          {checkPermission(permissions as string[], 'news.destroy') && (
+            <Popconfirm
+              title="Delete data"
+              description="Are yoy sure to delete this data?"
+              onConfirm={() => confirm(record.id)}
+              okText="Yes"
+              cancelText="No"
+            >
+              <Button danger type="primary" icon={<DeleteOutlined />} />
+            </Popconfirm>
+          )}
         </Space>
       ),
     },
@@ -115,16 +122,18 @@ export default function NewsPage({ data }: NewsPage) {
       <>
         <div className="flex items-center justify-between">
           <Typography.Title level={4}>News</Typography.Title>
-          <Button
-            onClick={() =>
-              router.visit('/dashboard/news/create', {
-                preserveState: true,
-              })
-            }
-            type="primary"
-          >
-            Add news
-          </Button>
+          {checkPermission(permissions as string[], 'news.create') && (
+            <Button
+              onClick={() =>
+                router.visit('/dashboard/news/create', {
+                  preserveState: true,
+                })
+              }
+              type="primary"
+            >
+              Add news
+            </Button>
+          )}
         </div>
         <Divider />
         <Table columns={columns} dataSource={data} className="mt-5" />

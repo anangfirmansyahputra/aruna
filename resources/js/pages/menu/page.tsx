@@ -1,7 +1,7 @@
 import DashboardLayout from '@/layouts/dashboard-layout'
 import { Menu } from '@/types'
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
-import { Head, router } from '@inertiajs/react'
+import { Head, router, usePage } from '@inertiajs/react'
 import {
   Button,
   Divider,
@@ -13,6 +13,7 @@ import {
 } from 'antd'
 import { JSX } from 'react'
 import * as Icons from '@ant-design/icons'
+import { checkPermission } from '@/lib/permission'
 
 const iconsMap: any = Icons
 
@@ -23,6 +24,8 @@ interface MenuPageProps {
 }
 
 export default function MenuPage({ data }: MenuPageProps) {
+  const { permissions } = usePage().props
+
   const columns: TableProps<Menu>['columns'] = [
     {
       title: 'Name',
@@ -63,10 +66,12 @@ export default function MenuPage({ data }: MenuPageProps) {
       width: 200,
       render: (_, record) => (
         <Space>
-          <Button
-            icon={<EditOutlined />}
-            onClick={() => router.visit(`/dashboard/menus/${record.id}/edit`)}
-          />
+          {checkPermission(permissions as string[], 'menus.edit') && (
+            <Button
+              icon={<EditOutlined />}
+              onClick={() => router.visit(`/dashboard/menus/${record.id}/edit`)}
+            />
+          )}
         </Space>
       ),
     },

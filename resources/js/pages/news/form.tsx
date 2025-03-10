@@ -1,9 +1,10 @@
 import Tiptap from '@/components/tiptap'
 import { useFormHandler } from '@/hooks/use-form-handler'
 import DashboardLayout from '@/layouts/dashboard-layout'
+import { checkPermission } from '@/lib/permission'
 import { Category, News } from '@/types'
 import { InboxOutlined, PlusOutlined } from '@ant-design/icons'
-import { Head, router } from '@inertiajs/react'
+import { Head, router, usePage } from '@inertiajs/react'
 import type { GetProp, UploadFile, UploadProps } from 'antd'
 import {
   Button,
@@ -47,6 +48,7 @@ const generateSlug = (text: string) => {
 }
 
 export default function FormPage({ news }: FormPageProps) {
+  const { permissions } = usePage().props
   const [previewOpen, setPreviewOpen] = useState(false)
   const [previewImage, setPreviewImage] = useState('')
   const [fileList, setFileList] = useState<UploadFile[]>([])
@@ -252,9 +254,18 @@ export default function FormPage({ news }: FormPageProps) {
               <Button onClick={() => router.visit('/dashboard/news')}>
                 Cancel
               </Button>
-              <Button type="primary" onClick={handleSubmit} loading={isLoading}>
-                {isLoading ? 'Saving...' : 'Submit'}
-              </Button>
+              {checkPermission(
+                permissions as string[],
+                news ? 'news.update' : 'news.store'
+              ) && (
+                <Button
+                  type="primary"
+                  onClick={handleSubmit}
+                  loading={isLoading}
+                >
+                  {isLoading ? 'Saving...' : 'Submit'}
+                </Button>
+              )}
             </Space>
           </Form>
         </div>
