@@ -14,7 +14,7 @@ Route::get('/', function () {
     return redirect()->route('dashboard.index');
 });
 
-Route::prefix('dashboard')->middleware('auth')->group(function () {
+Route::prefix('dashboard')->middleware(['auth', 'checkPermission'])->group(function () {
     Route::get('/', DashboardController::class)->name('dashboard.index');
 
     Route::resource('categories', CategoryController::class);

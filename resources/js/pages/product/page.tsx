@@ -1,7 +1,8 @@
 import DashboardLayout from '@/layouts/dashboard-layout'
+import { checkPermission } from '@/lib/permission'
 import { Product } from '@/types'
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
-import { Head, router } from '@inertiajs/react'
+import { Head, router, usePage } from '@inertiajs/react'
 import {
   Button,
   Divider,
@@ -23,6 +24,8 @@ interface ProductPage {
 const breadcrumbs = ['Dashboard', 'Product']
 
 export default function ProductPage({ data }: ProductPage) {
+  const { permissions } = usePage().props
+
   const confirm = (id: number) => {
     try {
       router.delete(`/dashboard/products/${id}`)
@@ -107,16 +110,18 @@ export default function ProductPage({ data }: ProductPage) {
       <>
         <div className="flex items-center justify-between">
           <Typography.Title level={4}>Product</Typography.Title>
-          <Button
-            onClick={() =>
-              router.visit('/dashboard/products/create', {
-                preserveState: true,
-              })
-            }
-            type="primary"
-          >
-            Add product
-          </Button>
+          {checkPermission(permissions as string[], 'products.create') && (
+            <Button
+              onClick={() =>
+                router.visit('/dashboard/products/create', {
+                  preserveState: true,
+                })
+              }
+              type="primary"
+            >
+              Add product
+            </Button>
+          )}
         </div>
         <Divider />
         <Table columns={columns} dataSource={data} className="mt-5" />

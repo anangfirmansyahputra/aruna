@@ -13,7 +13,7 @@ class CheckPermission
     {
         $user = Auth::user();
 
-        if (!$user || !$user->role) {
+        if (!$user) {
             session()->flash('error', 'You do not have permission to access this page.');
             return redirect()->route('dashboard');
         }
@@ -25,14 +25,13 @@ class CheckPermission
             return redirect()->route('dashboard');
         }
 
-        $userPermissions = $user->role->permissions->pluck('codes')->toArray();
-
-        if (!in_array($routeName, $userPermissions)) {
-
-            $firstAccessibleRoute = reset($userPermissions);
+        if (!$user->hasPermissionTo($routeName)) {
             session()->flash('error', 'You are not authorized to view this page.');
 
-            return redirect()->route($firstAccessibleRoute ?? 'dashboard');
+            $firstAccessiblePermission = $user->getAllPermissions()->first();
+            $firstRoute = $firstAccessiblePermission ? $firstAccessiblePermission->name : 'dashboard';
+
+            return redirect()->route($firstRoute);
         }
 
         return $next($request);
