@@ -44,7 +44,9 @@ export default function UserPage({ data }: UserPageProps) {
       title: 'Role',
       dataIndex: 'role',
       key: 'role',
-      render: (_, record) => <div>{record.role.name}</div>,
+      render: (_, record) => (
+        <div>{record.roles.map((item) => item.name).join(',')}</div>
+      ),
     },
     {
       title: 'Created Date',

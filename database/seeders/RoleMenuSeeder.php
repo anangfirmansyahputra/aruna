@@ -17,7 +17,7 @@ class RoleMenuSeeder extends Seeder
         $adminRole = Role::where('name', 'Admin')->first();
 
         if ($adminRole) {
-            $menus = Menu::pluck('id');
+            $menus = Menu::pluck('id')->toArray();
 
             $adminRole->menus()->sync($menus);
         }

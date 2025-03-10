@@ -3,7 +3,7 @@ import DashboardLayout from '@/layouts/dashboard-layout'
 import { Role, User } from '@/types'
 import { Head, router } from '@inertiajs/react'
 import { Button, Divider, Form, Input, Select, Space, Typography } from 'antd'
-import { JSX } from 'react'
+import { JSX, useState } from 'react'
 
 const breadcrumbs = ['Dashboard', 'user', 'Create']
 
@@ -18,6 +18,10 @@ export default function FormPage({ user, roles }: FormPageProps) {
     url: user ? `/dashboard/users/${user.id}` : `/dashboard/users`,
     method: user ? 'put' : 'post',
   })
+
+  const [roleIds, setRoleIds] = useState<number[]>(
+    user ? user.roles?.map((role) => role.id) : []
+  )
 
   return (
     <>
@@ -59,6 +63,9 @@ export default function FormPage({ user, roles }: FormPageProps) {
               rules={[{ required: true, message: 'Please select role' }]}
             >
               <Select
+                defaultValue={roleIds}
+                onChange={setRoleIds}
+                mode="multiple"
                 options={roles.map((role) => ({
                   label: role.name,
                   value: role.id,

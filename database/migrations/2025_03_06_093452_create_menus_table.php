@@ -20,21 +20,6 @@ return new class extends Migration
             $table->integer('order')->default(0);
             $table->timestamps();
         });
-
-        Schema::create('role_permissions', function (Blueprint $table) {
-            $table->foreignId('role_id')->constrained()->onDelete('cascade');
-            $table->foreignId('permission_id')->constrained()->onDelete('cascade');
-        });
-
-        Schema::create('user_roles', function (Blueprint $table) {
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('role_id')->constrained()->onDelete('cascade');
-        });
-
-        Schema::create('role_menus', function (Blueprint $table) {
-            $table->foreignId('role_id')->constrained()->onDelete('cascade');
-            $table->foreignId('menu_id')->constrained()->onDelete('cascade');
-        });
     }
 
     /**
@@ -43,8 +28,5 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('menus');
-        Schema::dropIfExists('role_permissions');
-        Schema::dropIfExists('user_roles');
-        Schema::dropIfExists('role_menus');
     }
 };

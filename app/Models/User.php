@@ -8,11 +8,13 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -23,7 +25,6 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'role_id'
     ];
 
     /**
@@ -54,30 +55,10 @@ class User extends Authenticatable
         return Attribute::get(fn($value) => \Carbon\Carbon::parse($value)->format('d M Y H:i'));
     }
 
-    // public function roles()
-    // {
-    //     return $this->belongsToMany(Role::class, 'user_roles');
-    // }
-
-    public function role()
+    public function menus()
     {
-        return $this->belongsTo(Role::class);
-    }
-
-    public function hasRole($role): bool
-    {
-        return $this->roles()->where('name', $role)->exists();
-    }
-
-    public function permissions()
-    {
-        return $this->role ? $this->role->permissions : collect([]);
-    }
-
-    public function hasPermission($permission): bool
-    {
-        return $this->roles()->whereHas('permissions', function ($query) use ($permission) {
-            $query->where('code', $permission);
-        })->exists();
+        return Menu::whereHas('roles', function ($query) {
+            $query->whereIn('roles.id', Auth::user()->roles->pluck('id'));
+        })->get();
     }
 }

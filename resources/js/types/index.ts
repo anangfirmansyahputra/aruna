@@ -70,7 +70,7 @@ export interface Role {
 export interface Permission {
   id: number
   name: string
-  codes: string
+  guard_name: string
   created_at: Date
   updated_at: Date
 }
@@ -79,5 +79,5 @@ export interface User {
   id: number
   name: string
   email: string
-  role: Role
+  roles: Role[]
 }

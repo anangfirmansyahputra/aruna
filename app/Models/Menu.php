@@ -19,8 +19,8 @@ class Menu extends Model
         return Attribute::get(fn($value) => \Carbon\Carbon::parse($value)->format('d M Y'));
     }
 
-    public function rolse()
+    public function roles()
     {
-        return $this->belongsToMany(Role::class, 'role_menus');
+        return $this->belongsToMany(Role::class, 'menu_role', 'menu_id', 'role_id');
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Illuminate\Http\Request;
+use Illuminate\Routing\Route;
 use Inertia\Middleware;
 
 class HandleInertiaRequests extends Middleware
@@ -35,7 +36,8 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
-        $menus = $request->user() ? $request->user()->role->menus()->get() : [];
+        $menus = $request->user() ? $request->user()->menus() : null;
+
 
         return array_merge(parent::share($request), [
             'auth' => $request->user(),

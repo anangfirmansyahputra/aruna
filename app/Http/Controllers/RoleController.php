@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Menu;
-use App\Models\Permission;
 use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
+use Spatie\Permission\Models\Permission;
 
 class RoleController extends Controller
 {
@@ -81,7 +81,7 @@ class RoleController extends Controller
             'menus' => $menus,
             'permissions' => $permissions,
             'role' => $role,
-            'selectedMenus' => $role->menus()->pluck('id'),
+            'selectedMenus' => $role->menus->pluck('id'),
             'selectedPermissions' => $role->permissions()->pluck('id'),
         ]);
     }

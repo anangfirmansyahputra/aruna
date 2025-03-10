@@ -12,6 +12,9 @@ class DashboardController extends Controller
      */
     public function __invoke(Request $request)
     {
+        // $user = $request->user();
+        // dd($user->getPermissionsViaRoles());
+
         return Inertia::render('dashboard/page');
     }
 }

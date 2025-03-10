@@ -51,7 +51,8 @@ const DashboardLayout = ({
   breadcrumbs,
   removeBg = false,
 }: DashboardLayoutProps) => {
-  const { auth, menus, flash } = usePage().props
+  const { auth, menus, flash, test } = usePage().props
+  console.log(test)
 
   if (!auth || !menus) {
     router.get('/login')

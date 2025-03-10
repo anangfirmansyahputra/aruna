@@ -2,10 +2,11 @@
 
 namespace Database\Seeders;
 
-use App\Models\Role;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 
 class AdminSeeder extends Seeder
 {
@@ -14,17 +15,17 @@ class AdminSeeder extends Seeder
      */
     public function run(): void
     {
+        $user = User::where('email', "admin@gmail.com")->first();
 
-        $role = Role::where('name', 'Admin')->first();
-        $user = User::where('email', 'admin@gmail.com')->first();
-
-        if ($role && !$user) {
-            User::updateOrCreate([
+        if (!$user) {
+            $user = User::create([
                 'email' => "admin@gmail.com",
                 'name' => 'admin',
                 'password' => "rahasia",
-                'role_id' => $role->id
             ]);
         }
+
+
+        $user->assignRole('admin');
     }
 }
