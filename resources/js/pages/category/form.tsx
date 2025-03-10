@@ -1,28 +1,29 @@
 import { useFormHandler } from '@/hooks/use-form-handler'
 import DashboardLayout from '@/layouts/dashboard-layout'
+import { checkPermission } from '@/lib/permission'
 import { Category } from '@/types'
-import { Head, router } from '@inertiajs/react'
+import { Head, router, usePage } from '@inertiajs/react'
 import { Button, Divider, Form, Input, Space, Typography } from 'antd'
-import { JSX } from 'react'
-
-const breadcrumbs = ['Dashboard', 'Category', 'Create']
 
 interface FormPageProps {
   category?: Category
 }
 
 export default function FormPage({ category }: FormPageProps) {
+  const { permissions } = usePage().props
+
+  const breadcrumbs = ['Dashboard', 'Category', category ? 'Update' : 'Create']
+
   const { form, submit, isLoading } = useFormHandler({
     initialValues: category,
     url: category
       ? `/dashboard/categories/${category.id}`
       : `/dashboard/categories`,
     method: category ? 'put' : 'post',
-    // name: 'category',
   })
 
   return (
-    <>
+    <DashboardLayout breadcrumbs={breadcrumbs}>
       <Head title="Create Category" />
 
       <div className="p-6 bg-white h-full">
@@ -52,19 +53,18 @@ export default function FormPage({ category }: FormPageProps) {
               >
                 Cancel
               </Button>
-              <Button type="primary" onClick={() => submit()}>
-                Submit
-              </Button>
+              {checkPermission(
+                permissions as string[],
+                category ? 'categories.update' : 'categories.store'
+              ) && (
+                <Button type="primary" onClick={() => submit()}>
+                  Submit
+                </Button>
+              )}
             </Space>
           </Form>
         </div>
       </div>
-    </>
+    </DashboardLayout>
   )
 }
-
-FormPage.layout = (page: JSX.Element) => (
-  <DashboardLayout removeBg={true} breadcrumbs={breadcrumbs}>
-    {page}
-  </DashboardLayout>
-)

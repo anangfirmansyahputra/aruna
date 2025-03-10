@@ -22,7 +22,7 @@ function formatPermissionName(permission: string) {
       action = ' Create'
       break
     case 'store':
-      action = 'Store'
+      action = ' Store'
       break
     case 'show':
       action = ' Show'
@@ -65,6 +65,10 @@ export default function PermissionForm({
     {} as Record<string, Permission[]>
   )
 
+  const sortedGroupedPermissions = Object.fromEntries(
+    Object.entries(groupedPermissions).sort((a, b) => b[1].length - a[1].length)
+  )
+
   const handleCheckboxChange = (category: string, checkedValues: number[]) => {
     const otherCategories = Object.entries(groupedPermissions)
       .filter(([key]) => key !== category)
@@ -105,7 +109,7 @@ export default function PermissionForm({
     >
       <Form layout="vertical">
         <Row gutter={[24, 24]}>
-          {Object.entries(groupedPermissions).map(([category, perms]) => (
+          {Object.entries(sortedGroupedPermissions).map(([category, perms]) => (
             <Col span={8} key={category}>
               <Card
                 size="small"

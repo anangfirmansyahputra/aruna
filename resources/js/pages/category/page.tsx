@@ -1,7 +1,8 @@
 import DashboardLayout from '@/layouts/dashboard-layout'
+import { checkPermission } from '@/lib/permission'
 import { Category } from '@/types'
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
-import { Head, router } from '@inertiajs/react'
+import { Head, router, usePage } from '@inertiajs/react'
 import {
   Button,
   Divider,
@@ -21,6 +22,8 @@ interface CategoryPageProps {
 const breadcrumbs = ['Dashboard', 'Category']
 
 export default function CategoryPage({ data }: CategoryPageProps) {
+  const { permissions } = usePage().props
+
   const confirm = (id: number) => {
     try {
       router.delete(`/dashboard/categories/${id}`)
@@ -48,22 +51,26 @@ export default function CategoryPage({ data }: CategoryPageProps) {
       width: 200,
       render: (_, record) => (
         <Space>
-          <Button
-            icon={<EditOutlined />}
-            onClick={() =>
-              router.visit(`/dashboard/categories/${record.id}/edit`)
-            }
-          />
+          {checkPermission(permissions as string[], 'categories.edit') && (
+            <Button
+              icon={<EditOutlined />}
+              onClick={() =>
+                router.visit(`/dashboard/categories/${record.id}/edit`)
+              }
+            />
+          )}
 
-          <Popconfirm
-            title="Delete the category"
-            description="Are yoy sure to delete this data?"
-            onConfirm={() => confirm(record.id)}
-            okText="Yes"
-            cancelText="No"
-          >
-            <Button danger type="primary" icon={<DeleteOutlined />} />
-          </Popconfirm>
+          {checkPermission(permissions as string[], 'categories.destroy') && (
+            <Popconfirm
+              title="Delete the category"
+              description="Are yoy sure to delete this data?"
+              onConfirm={() => confirm(record.id)}
+              okText="Yes"
+              cancelText="No"
+            >
+              <Button danger type="primary" icon={<DeleteOutlined />} />
+            </Popconfirm>
+          )}
         </Space>
       ),
     },

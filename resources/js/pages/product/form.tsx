@@ -2,7 +2,7 @@ import { useFormHandler } from '@/hooks/use-form-handler'
 import DashboardLayout from '@/layouts/dashboard-layout'
 import { Category, Product } from '@/types'
 import { InboxOutlined, PlusOutlined, UploadOutlined } from '@ant-design/icons'
-import { Head, router } from '@inertiajs/react'
+import { Head, router, usePage } from '@inertiajs/react'
 import {
   Button,
   Col,
@@ -21,6 +21,7 @@ import { JSX, useEffect, useState } from 'react'
 import type { GetProp, UploadFile, UploadProps } from 'antd'
 import Dragger from 'antd/es/upload/Dragger'
 import Tiptap from '@/components/tiptap'
+import { checkPermission } from '@/lib/permission'
 
 const breadcrumbs = ['Dashboard', 'Category', 'Create']
 
@@ -48,6 +49,7 @@ const getBase64 = (file: FileType): Promise<string> =>
   })
 
 export default function FormPage({ product, categories }: FormPageProps) {
+  const { permissions } = usePage().props
   const [previewOpen, setPreviewOpen] = useState(false)
   const [previewImage, setPreviewImage] = useState('')
   const [fileList, setFileList] = useState<UploadFile[]>([])
@@ -267,9 +269,14 @@ export default function FormPage({ product, categories }: FormPageProps) {
             <Button onClick={() => router.visit('/dashboard/products')}>
               Cancel
             </Button>
-            <Button type="primary" onClick={handleSubmit} loading={isLoading}>
-              {isLoading ? 'Saving...' : 'Submit'}
-            </Button>
+            {checkPermission(
+              permissions as string[],
+              product ? 'products.update' : 'products.store'
+            ) && (
+              <Button type="primary" onClick={handleSubmit} loading={isLoading}>
+                {isLoading ? 'Saving...' : 'Submit'}
+              </Button>
+            )}
           </Space>
         </Form>
       </div>

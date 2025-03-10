@@ -15,7 +15,6 @@ import {
   Tag,
   Typography,
 } from 'antd'
-import { JSX } from 'react'
 
 interface ProductPage {
   data: Product[]
@@ -83,29 +82,33 @@ export default function ProductPage({ data }: ProductPage) {
       width: 200,
       render: (_, record) => (
         <Space>
-          <Button
-            icon={<EditOutlined />}
-            onClick={() =>
-              router.visit(`/dashboard/products/${record.id}/edit`)
-            }
-          />
+          {checkPermission(permissions as string[], 'products.edit') && (
+            <Button
+              icon={<EditOutlined />}
+              onClick={() =>
+                router.visit(`/dashboard/products/${record.id}/edit`)
+              }
+            />
+          )}
 
-          <Popconfirm
-            title="Delete data"
-            description="Are yoy sure to delete this data?"
-            onConfirm={() => confirm(record.id)}
-            okText="Yes"
-            cancelText="No"
-          >
-            <Button danger type="primary" icon={<DeleteOutlined />} />
-          </Popconfirm>
+          {checkPermission(permissions as string[], 'products.destroy') && (
+            <Popconfirm
+              title="Delete data"
+              description="Are yoy sure to delete this data?"
+              onConfirm={() => confirm(record.id)}
+              okText="Yes"
+              cancelText="No"
+            >
+              <Button danger type="primary" icon={<DeleteOutlined />} />
+            </Popconfirm>
+          )}
         </Space>
       ),
     },
   ]
 
   return (
-    <>
+    <DashboardLayout breadcrumbs={breadcrumbs}>
       <Head title="Product" />
       <>
         <div className="flex items-center justify-between">
@@ -126,10 +129,6 @@ export default function ProductPage({ data }: ProductPage) {
         <Divider />
         <Table columns={columns} dataSource={data} className="mt-5" />
       </>
-    </>
+    </DashboardLayout>
   )
 }
-
-ProductPage.layout = (page: JSX.Element) => (
-  <DashboardLayout breadcrumbs={breadcrumbs}>{page}</DashboardLayout>
-)
