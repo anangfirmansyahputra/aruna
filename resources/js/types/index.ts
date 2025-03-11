@@ -102,3 +102,13 @@ export interface Report {
   created_at: Date
   updated_at: Date
 }
+
+export interface InterestRate {
+  id: number
+  product_id: number
+  product: Product
+  tenor: number
+  interest: number
+  created_at: Date
+  updated_at: Date
+}
