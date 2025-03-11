@@ -35,12 +35,13 @@ export default function RolePage({ data }: RolePageProps) {
       title: 'Name',
       dataIndex: 'name',
       key: 'name',
-      width: '60%',
+      width: 200,
     },
     {
       title: 'Created Date',
       dataIndex: 'created_at',
       key: 'created_at',
+      width: 200,
     },
     {
       title: 'Action',
@@ -82,7 +83,14 @@ export default function RolePage({ data }: RolePageProps) {
           </Button>
         </div>
         <Divider />
-        <Table columns={columns} dataSource={data} className="mt-5" />
+        <Table
+          scroll={{
+            x: 'max-content',
+          }}
+          columns={columns}
+          dataSource={data}
+          className="mt-5"
+        />
       </>
     </>
   )

@@ -3,9 +3,7 @@ import DashboardLayout from '@/layouts/dashboard-layout'
 import { Role, User } from '@/types'
 import { Head, router } from '@inertiajs/react'
 import { Button, Divider, Form, Input, Select, Space, Typography } from 'antd'
-import { JSX, useState } from 'react'
-
-const breadcrumbs = ['Dashboard', 'user', 'Create']
+import { useState } from 'react'
 
 interface FormPageProps {
   user?: User
@@ -13,6 +11,8 @@ interface FormPageProps {
 }
 
 export default function FormPage({ user, roles }: FormPageProps) {
+  const breadcrumbs = ['Dashboard', 'user', user ? 'Update' : 'Create']
+
   const { form, submit, isLoading } = useFormHandler({
     initialValues: user,
     url: user ? `/dashboard/users/${user.id}` : `/dashboard/users`,
@@ -24,14 +24,14 @@ export default function FormPage({ user, roles }: FormPageProps) {
   )
 
   return (
-    <>
+    <DashboardLayout breadcrumbs={breadcrumbs}>
       <Head title="Create User" />
 
       <div className="p-6 bg-white h-full">
         <Typography.Title level={4}>User Form</Typography.Title>
         <Divider />
 
-        <div className="grid grid-cols-2">
+        <div className="grid lg:grid-cols-2">
           <Form disabled={isLoading} form={form} layout="vertical">
             <Form.Item
               name="name"
@@ -87,12 +87,6 @@ export default function FormPage({ user, roles }: FormPageProps) {
           </Form>
         </div>
       </div>
-    </>
+    </DashboardLayout>
   )
 }
-
-FormPage.layout = (page: JSX.Element) => (
-  <DashboardLayout removeBg={true} breadcrumbs={breadcrumbs}>
-    {page}
-  </DashboardLayout>
-)

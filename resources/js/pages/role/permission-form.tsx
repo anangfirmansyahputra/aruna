@@ -110,7 +110,14 @@ export default function PermissionForm({
       <Form layout="vertical">
         <Row gutter={[24, 24]}>
           {Object.entries(sortedGroupedPermissions).map(([category, perms]) => (
-            <Col span={8} key={category}>
+            <Col
+              style={{
+                width: '100%',
+              }}
+              sm={24}
+              xl={8}
+              key={category}
+            >
               <Card
                 size="small"
                 title={
@@ -122,22 +129,24 @@ export default function PermissionForm({
                     >
                       {category}
                     </Typography.Title>
-                    <Space>
-                      <Button
-                        size="small"
-                        type="text"
-                        onClick={() => handleSelectAll(category)}
-                      >
-                        Select All
-                      </Button>
-                      <Button
-                        size="small"
-                        type="text"
-                        onClick={() => handleUnselectAll(category)}
-                      >
-                        Unselect All
-                      </Button>
-                    </Space>
+                    <div className="lg:block hidden">
+                      <Space>
+                        <Button
+                          size="small"
+                          type="text"
+                          onClick={() => handleSelectAll(category)}
+                        >
+                          Select All
+                        </Button>
+                        <Button
+                          size="small"
+                          type="text"
+                          onClick={() => handleUnselectAll(category)}
+                        >
+                          Unselect All
+                        </Button>
+                      </Space>
+                    </div>
                   </div>
                 }
                 className="bg-gray-50"

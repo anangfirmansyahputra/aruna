@@ -42,11 +42,13 @@ export default function ProductPage({ data }: ProductPage) {
       render: (_, record) => {
         return <Image width={150} src={record.image_url} />
       },
+      width: 200,
     },
     {
       title: 'Name',
       dataIndex: 'name',
       key: 'name',
+      width: 250,
     },
     {
       title: 'Category',
@@ -54,6 +56,7 @@ export default function ProductPage({ data }: ProductPage) {
       render: (_, record) => {
         return <div>{record.category?.name}</div>
       },
+      width: 200,
     },
     {
       title: 'Credit',
@@ -65,16 +68,19 @@ export default function ProductPage({ data }: ProductPage) {
           </Tag>
         )
       },
+      width: 200,
     },
     {
       title: 'Calculator name',
       dataIndex: 'collateral_name',
       key: 'collateral_name',
+      width: 250,
     },
     {
       title: 'Created date',
       dataIndex: 'created_at',
       key: 'created_at',
+      width: 200,
     },
     {
       title: 'Action',
@@ -127,7 +133,14 @@ export default function ProductPage({ data }: ProductPage) {
           )}
         </div>
         <Divider />
-        <Table columns={columns} dataSource={data} className="mt-5" />
+        <Table
+          scroll={{
+            x: 'max-content',
+          }}
+          columns={columns}
+          dataSource={data}
+          className="mt-5"
+        />
       </>
     </DashboardLayout>
   )

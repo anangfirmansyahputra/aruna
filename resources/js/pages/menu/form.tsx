@@ -33,11 +33,11 @@ export default function MenuFormPage({ menu }: MenuFormPageProps) {
   return (
     <>
       <Head title="Menu" />
-      <div className="p-6 bg-white h-full">
+      <div className="lg:p-6 bg-white h-full">
         <Typography.Title level={4}>Menu Form</Typography.Title>
         <Divider />
 
-        <div className="grid grid-cols-2">
+        <div className="grid lg:grid-cols-2">
           <Form disabled={isLoading} form={form} layout="vertical">
             <Form.Item
               name="name"

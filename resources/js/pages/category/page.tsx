@@ -38,17 +38,19 @@ export default function CategoryPage({ data }: CategoryPageProps) {
       title: 'Name',
       dataIndex: 'name',
       key: 'name',
-      width: '60%',
+      width: 200,
     },
     {
       title: 'Created Date',
       dataIndex: 'created_at',
       key: 'created_at',
+      width: 200,
     },
     {
       title: 'Action',
       key: 'action',
       width: 200,
+
       render: (_, record) => (
         <Space>
           {checkPermission(permissions as string[], 'categories.edit') && (
@@ -91,7 +93,14 @@ export default function CategoryPage({ data }: CategoryPageProps) {
           </Button>
         </div>
         <Divider />
-        <Table columns={columns} dataSource={data} className="mt-5" />
+        <Table
+          scroll={{
+            x: 'max-content',
+          }}
+          columns={columns}
+          dataSource={data}
+          className="mt-5"
+        />
       </>
     </>
   )

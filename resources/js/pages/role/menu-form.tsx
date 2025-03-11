@@ -68,7 +68,14 @@ export default function MenuForm({
       <Form layout="vertical">
         <Row gutter={[24, 24]}>
           {Object.entries(groupedMenus).map(([group, items]) => (
-            <Col span={8} key={group}>
+            <Col
+              style={{
+                width: '100%',
+              }}
+              sm={24}
+              xl={8}
+              key={group}
+            >
               <Card
                 size="small"
                 title={
@@ -76,22 +83,24 @@ export default function MenuForm({
                     <Typography.Title level={5} style={{ margin: 0 }}>
                       {group}
                     </Typography.Title>
-                    <Space>
-                      <Button
-                        size="small"
-                        type="text"
-                        onClick={() => handleSelectAll(group)}
-                      >
-                        Select All
-                      </Button>
-                      <Button
-                        size="small"
-                        type="text"
-                        onClick={() => handleUnselectAll(group)}
-                      >
-                        Unselect All
-                      </Button>
-                    </Space>
+                    <div className="lg:block hidden">
+                      <Space>
+                        <Button
+                          size="small"
+                          type="text"
+                          onClick={() => handleSelectAll(group)}
+                        >
+                          Select All
+                        </Button>
+                        <Button
+                          size="small"
+                          type="text"
+                          onClick={() => handleUnselectAll(group)}
+                        >
+                          Unselect All
+                        </Button>
+                      </Space>
+                    </div>
                   </div>
                 }
                 className="bg-gray-50"

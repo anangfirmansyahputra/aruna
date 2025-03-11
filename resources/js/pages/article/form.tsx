@@ -22,8 +22,6 @@ import {
 import Dragger from 'antd/es/upload/Dragger'
 import { JSX, useEffect, useState } from 'react'
 
-const breadcrumbs = ['Dashboard', 'Category', 'Create']
-
 interface FormPageProps {
   article?: Article
   categories: Category[]
@@ -48,6 +46,8 @@ const generateSlug = (text: string) => {
 }
 
 export default function FormPage({ article }: FormPageProps) {
+  const breadcrumbs = ['Dashboard', 'Article', article ? 'Update' : 'Create']
+
   const { permissions } = usePage().props
   const [previewOpen, setPreviewOpen] = useState(false)
   const [previewImage, setPreviewImage] = useState('')
@@ -122,7 +122,7 @@ export default function FormPage({ article }: FormPageProps) {
   }
 
   return (
-    <>
+    <DashboardLayout breadcrumbs={breadcrumbs}>
       <Head title={article ? 'Edit Article' : 'Create Article'} />
       <div className="p-6 bg-white h-full">
         <Typography.Title level={4}>Article Form</Typography.Title>
@@ -265,12 +265,6 @@ export default function FormPage({ article }: FormPageProps) {
           </Space>
         </Form>
       </div>
-    </>
+    </DashboardLayout>
   )
 }
-
-FormPage.layout = (page: JSX.Element) => (
-  <DashboardLayout removeBg={true} breadcrumbs={breadcrumbs}>
-    {page}
-  </DashboardLayout>
-)

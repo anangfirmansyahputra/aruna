@@ -1,8 +1,11 @@
+import Tiptap from '@/components/tiptap'
 import { useFormHandler } from '@/hooks/use-form-handler'
 import DashboardLayout from '@/layouts/dashboard-layout'
+import { checkPermission } from '@/lib/permission'
 import { Category, Product } from '@/types'
-import { InboxOutlined, PlusOutlined, UploadOutlined } from '@ant-design/icons'
+import { InboxOutlined } from '@ant-design/icons'
 import { Head, router, usePage } from '@inertiajs/react'
+import type { GetProp, UploadFile, UploadProps } from 'antd'
 import {
   Button,
   Col,
@@ -15,13 +18,9 @@ import {
   Space,
   Switch,
   Typography,
-  Upload,
 } from 'antd'
-import { JSX, useEffect, useState } from 'react'
-import type { GetProp, UploadFile, UploadProps } from 'antd'
 import Dragger from 'antd/es/upload/Dragger'
-import Tiptap from '@/components/tiptap'
-import { checkPermission } from '@/lib/permission'
+import { JSX, useEffect, useState } from 'react'
 
 const breadcrumbs = ['Dashboard', 'Category', 'Create']
 
@@ -139,8 +138,8 @@ export default function FormPage({ product, categories }: FormPageProps) {
             }
           }}
         >
-          <Row gutter={16}>
-            <Col span={12}>
+          <Row gutter={[16, 16]}>
+            <Col xs={24} sm={12}>
               <Form.Item
                 name="name"
                 label="Product name"
@@ -176,11 +175,11 @@ export default function FormPage({ product, categories }: FormPageProps) {
               </Form.Item>
 
               <Form.Item name="is_credit" label="Credit">
-                <Switch value={isCredit} onChange={(e) => setIsCredit(e)} />
+                <Switch checked={isCredit} onChange={setIsCredit} />
               </Form.Item>
             </Col>
 
-            <Col span={12}>
+            <Col xs={24} sm={12}>
               <Form.Item
                 name="slug"
                 label="Slug"
@@ -192,12 +191,7 @@ export default function FormPage({ product, categories }: FormPageProps) {
               <Form.Item
                 name="keywords"
                 label="Keywords"
-                rules={[
-                  {
-                    required: true,
-                    message: 'Please enter keyword',
-                  },
-                ]}
+                rules={[{ required: true, message: 'Please enter keywords' }]}
               >
                 <Select placeholder="Enter keywords" mode="tags" />
               </Form.Item>
@@ -206,13 +200,10 @@ export default function FormPage({ product, categories }: FormPageProps) {
                 name="meta_descriptions"
                 label="Meta descriptions"
                 rules={[
-                  {
-                    required: true,
-                    message: 'Please enter meta description',
-                  },
+                  { required: true, message: 'Please enter meta description' },
                 ]}
               >
-                <Input.TextArea rows={5} />
+                <Input.TextArea rows={4} />
               </Form.Item>
             </Col>
           </Row>
@@ -220,23 +211,16 @@ export default function FormPage({ product, categories }: FormPageProps) {
           <Form.Item
             label="Image"
             name="image_url"
-            rules={[
-              {
-                required: true,
-                message: 'Please insert 1 image',
-              },
-            ]}
+            rules={[{ required: true, message: 'Please insert 1 image' }]}
           >
             <Dragger {...uploadProps}>
               <p className="ant-upload-drag-icon">
                 <InboxOutlined />
               </p>
-              <p className="ant-upload-text">
-                Click or drag file to this area to upload
-              </p>
+              <p className="ant-upload-text">Click or drag file to upload</p>
               <p className="ant-upload-hint">
-                Support for a single or bulk upload. Strictly prohibited from
-                uploading company data or other banned files.
+                Support for single or bulk upload. Do not upload prohibited
+                files.
               </p>
             </Dragger>
             {previewImage && (
@@ -255,17 +239,12 @@ export default function FormPage({ product, categories }: FormPageProps) {
           <Form.Item
             name="content"
             label="Content"
-            rules={[
-              {
-                required: true,
-                message: 'Content is required',
-              },
-            ]}
+            rules={[{ required: true, message: 'Content is required' }]}
           >
             <Tiptap content={content} setContent={setContent} />
           </Form.Item>
 
-          <Space className="flex justify-end mt-4">
+          <Space className="flex flex-wrap justify-end gap-4 mt-4">
             <Button onClick={() => router.visit('/dashboard/products')}>
               Cancel
             </Button>

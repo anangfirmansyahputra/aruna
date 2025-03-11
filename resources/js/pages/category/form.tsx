@@ -30,7 +30,7 @@ export default function FormPage({ category }: FormPageProps) {
         <Typography.Title level={4}>Category Form</Typography.Title>
         <Divider />
 
-        <div className="grid grid-cols-2">
+        <div className="grid lg:grid-cols-2">
           <Form disabled={isLoading} form={form} layout="vertical">
             <Form.Item
               name="name"

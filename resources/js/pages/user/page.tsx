@@ -93,7 +93,14 @@ export default function UserPage({ data }: UserPageProps) {
           </Button>
         </div>
         <Divider />
-        <Table columns={columns} dataSource={data} className="mt-5" />
+        <Table
+          scroll={{
+            x: 'max-content',
+          }}
+          columns={columns}
+          dataSource={data}
+          className="mt-5"
+        />
       </>
     </DashboardLayout>
   )
