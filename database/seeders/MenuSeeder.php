@@ -35,10 +35,10 @@ class MenuSeeder extends Seeder
                 'order' => 3,
             ],
             [
-                'name' => 'News',
+                'name' => 'Article',
                 'group' => 'News',
                 'icon' => 'ReadOutlined',
-                'path' => '/dashboard/news',
+                'path' => '/dashboard/articles',
                 'order' => 4,
             ],
             [

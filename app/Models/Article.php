@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 
-class News extends Model
+class Article extends Model
 {
     protected $fillable = [
         'title',
@@ -16,6 +16,8 @@ class News extends Model
         'meta_description',
         'content',
         'image_url',
+        'category',
+        'detail_information'
     ];
 
     protected function createdAt(): Attribute
@@ -32,15 +34,15 @@ class News extends Model
     {
         parent::boot();
 
-        static::deleting(function (News $news) {
-            if ($news->image_url) {
-                Storage::disk('public')->delete(str_replace(env('APP_URL') . '/storage/', '', $news->image_url));
+        static::deleting(function (Article $article) {
+            if ($article->image_url) {
+                Storage::disk('public')->delete(str_replace(env('APP_URL') . '/storage/', '', $article->image_url));
             }
         });
 
-        static::updating(function ($news) {
-            if ($news->isDirty('image_url')) {
-                $oldImage = $news->getOriginal('image_url');
+        static::updating(function ($article) {
+            if ($article->isDirty('image_url')) {
+                $oldImage = $article->getOriginal('image_url');
 
                 if ($oldImage) {
                     Storage::disk('public')->delete(str_replace(env('APP_URL') . '/storage/', '', $oldImage));

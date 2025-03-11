@@ -2,21 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\News;
+use App\Models\Article;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 
-class NewsController extends Controller
+class ArticleController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $news = News::all();
-        return Inertia::render('news/page', [
-            'data' => $news
+        $article = Article::all();
+        return Inertia::render('article/page', [
+            'data' => $article
         ]);
     }
 
@@ -25,7 +25,7 @@ class NewsController extends Controller
      */
     public function create()
     {
-        return Inertia::render('news/form');
+        return Inertia::render('article/form');
     }
 
     /**
@@ -34,20 +34,21 @@ class NewsController extends Controller
     public function store(Request $request)
     {
         $validate = $request->validate([
-            'title' => 'required|string|unique:news,title',
-            'slug' => 'required|string|unique:news,title',
+            'title' => 'required|string|unique:articles,title',
+            'slug' => 'required|string|unique:articles,title',
             'keywords' => 'required|string',
             'tags' => 'required|string',
             'meta_description' => 'required|string',
             'content' => 'required|string',
             'image_url' => 'mimes:jpeg,jpg,png,gif|max:1000',
+            'category' => 'required|string'
         ]);
 
-        $validate['image_url'] = $request->file('image_url')->store('news', 'public');
+        $validate['image_url'] = $request->file('image_url')->store('articles', 'public');
 
         try {
-            News::create($validate);
-            return to_route('news.index');
+            Article::create($validate);
+            return to_route('articles.index');
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage());
         }
@@ -56,35 +57,36 @@ class NewsController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(News $news)
+    public function show(Article $article)
     {
-        return Inertia::render('news/form', [
-            'news' => $news
+        return Inertia::render('article/form', [
+            'article' => $article
         ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(News $news)
+    public function edit(Article $article)
     {
-        return Inertia::render('news/form', [
-            'news' => $news
+        return Inertia::render('article/form', [
+            'article' => $article
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, News $news)
+    public function update(Request $request, Article $article)
     {
         $validate = $request->validate([
-            'title' => "required|string|unique:news,title,{$news->id}",
-            'slug' => "required|string|unique:news,title,{$news->id}",
+            'title' => "required|string|unique:articles,title,{$article->id}",
+            'slug' => "required|string|unique:articles,title,{$article->id}",
             'keywords' => 'required|string',
             'tags' => 'required|string',
             'meta_description' => 'required|string',
             'content' => 'required|string',
+            'category' => 'required|string',
             'image_url' => [
                 'nullable',
                 Rule::when(
@@ -97,13 +99,13 @@ class NewsController extends Controller
 
 
         if ($request->hasFile('image_url')) {
-            $validate['image_url'] = $request->file('image_url')->store('news', 'public');
+            $validate['image_url'] = $request->file('image_url')->store('articles', 'public');
         } else {
             unset($validate['image_url']);
         }
         try {
-            $news->update($validate);
-            return to_route('news.index');
+            $article->update($validate);
+            return to_route('articles.index');
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage());
         }
@@ -112,9 +114,9 @@ class NewsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(News $news)
+    public function destroy(Article $article)
     {
-        $news->delete();
-        return to_route('news.index');
+        $article->delete();
+        return to_route('articles.index');
     }
 }

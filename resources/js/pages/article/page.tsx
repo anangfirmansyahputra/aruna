@@ -1,6 +1,6 @@
 import DashboardLayout from '@/layouts/dashboard-layout'
 import { checkPermission } from '@/lib/permission'
-import { News, Product } from '@/types'
+import { Article, Product } from '@/types'
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 import { Head, router, usePage } from '@inertiajs/react'
 import {
@@ -17,25 +17,25 @@ import {
 } from 'antd'
 import { JSX } from 'react'
 
-interface NewsPage {
-  data: News[]
+interface ArticlePage {
+  data: Article[]
 }
 
-const breadcrumbs = ['Dashboard', 'News']
+const breadcrumbs = ['Dashboard', 'Article']
 
-export default function NewsPage({ data }: NewsPage) {
+export default function ArticlePage({ data }: ArticlePage) {
   const { permissions } = usePage().props
 
   const confirm = (id: number) => {
     try {
-      router.delete(`/dashboard/news/${id}`)
+      router.delete(`/dashboard/articles/${id}`)
       message.success('Action success')
     } catch (err: any) {
       message.error('Internal server error')
     }
   }
 
-  const columns: TableProps<News>['columns'] = [
+  const columns: TableProps<Article>['columns'] = [
     {
       title: 'Image',
       key: 'image_url',
@@ -53,6 +53,11 @@ export default function NewsPage({ data }: NewsPage) {
       title: 'Slug',
       dataIndex: 'slug',
       key: 'slug',
+    },
+    {
+      title: 'Category',
+      dataIndex: 'category',
+      key: 'category',
     },
     {
       title: 'Keywords',
@@ -93,14 +98,16 @@ export default function NewsPage({ data }: NewsPage) {
       width: 200,
       render: (_, record) => (
         <Space>
-          {checkPermission(permissions as string[], 'news.edit') && (
+          {checkPermission(permissions as string[], 'articles.edit') && (
             <Button
               icon={<EditOutlined />}
-              onClick={() => router.visit(`/dashboard/news/${record.id}/edit`)}
+              onClick={() =>
+                router.visit(`/dashboard/articles/${record.id}/edit`)
+              }
             />
           )}
 
-          {checkPermission(permissions as string[], 'news.destroy') && (
+          {checkPermission(permissions as string[], 'articles.destroy') && (
             <Popconfirm
               title="Delete data"
               description="Are yoy sure to delete this data?"
@@ -118,20 +125,20 @@ export default function NewsPage({ data }: NewsPage) {
 
   return (
     <>
-      <Head title="News" />
+      <Head title="Article" />
       <>
         <div className="flex items-center justify-between">
-          <Typography.Title level={4}>News</Typography.Title>
-          {checkPermission(permissions as string[], 'news.create') && (
+          <Typography.Title level={4}>Article</Typography.Title>
+          {checkPermission(permissions as string[], 'articles.create') && (
             <Button
               onClick={() =>
-                router.visit('/dashboard/news/create', {
+                router.visit('/dashboard/articles/create', {
                   preserveState: true,
                 })
               }
               type="primary"
             >
-              Add news
+              Add articles
             </Button>
           )}
         </div>
@@ -142,6 +149,6 @@ export default function NewsPage({ data }: NewsPage) {
   )
 }
 
-NewsPage.layout = (page: JSX.Element) => (
+ArticlePage.layout = (page: JSX.Element) => (
   <DashboardLayout breadcrumbs={breadcrumbs}>{page}</DashboardLayout>
 )

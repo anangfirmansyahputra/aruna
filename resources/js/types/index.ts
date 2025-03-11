@@ -37,7 +37,7 @@ export interface Product {
   updated_at: Date
 }
 
-export interface News {
+export interface Article {
   id: number
   title: string
   image_url: string
@@ -48,6 +48,8 @@ export interface News {
   tags: string
   created_at: Date
   updated_at: Date
+  category: string
+  detail_information?: string
 }
 
 export interface Menu {

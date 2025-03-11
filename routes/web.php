@@ -1,10 +1,10 @@
 <?php
 
+use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MenuController;
-use App\Http\Controllers\NewsController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
@@ -19,7 +19,7 @@ Route::prefix('dashboard')->middleware(['auth', 'checkPermission'])->group(funct
 
     Route::resource('categories', CategoryController::class);
     Route::resource('products', ProductController::class);
-    Route::resource('news', NewsController::class);
+    Route::resource('articles', ArticleController::class);
     Route::resource('roles', RoleController::class);
     Route::resource('users', UserController::class);
 
