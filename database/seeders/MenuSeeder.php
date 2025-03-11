@@ -18,64 +18,71 @@ class MenuSeeder extends Seeder
                 'group' => 'Dashboard',
                 'icon' => 'DashboardOutlined',
                 'path' => '/dashboard',
-                'order' => 1,
             ],
             [
                 'name' => 'Category',
                 'group' => 'Products',
                 'icon' => 'DatabaseOutlined',
                 'path' => '/dashboard/categories',
-                'order' => 2,
             ],
             [
                 'name' => 'Product',
                 'group' => 'Products',
                 'icon' => 'ShoppingOutlined',
                 'path' => '/dashboard/products',
-                'order' => 3,
             ],
             [
                 'name' => 'FAQ',
                 'group' => 'Products',
                 'icon' => 'QuestionCircleOutlined',
                 'path' => '/dashboard/faqs',
-                'order' => 4,
             ],
             [
                 'name' => 'Article',
                 'group' => 'News',
                 'icon' => 'ReadOutlined',
                 'path' => '/dashboard/articles',
-                'order' => 5,
+            ],
+            [
+                'name' => 'Report',
+                'group' => "Financing",
+                'icon' => "DollarOutlined",
+                "path" => "/dashboard/reports",
             ],
             [
                 'name' => 'Menu',
                 'group' => 'Security',
                 'icon' => 'MenuUnfoldOutlined',
                 'path' => '/dashboard/menus',
-                'order' => 6
             ],
             [
                 'name' => 'Role',
                 'group' => 'Security',
                 'icon' => 'SecurityScanOutlined',
                 'path' => '/dashboard/roles',
-                'order' => 7
             ],
             [
                 'name' => 'User',
                 'group' => 'Security',
                 'icon' => 'UserOutlined',
                 'path' => '/dashboard/users',
-                'order' => 8
             ],
         ];
 
+        $count = 1;
         foreach ($menus as $menu) {
             Menu::updateOrCreate(
                 ['name' => $menu['name']],
-                $menu
+                [
+                    'name' => $menu['name'],
+                    "group" => $menu["group"],
+                    "icon" => $menu["icon"],
+                    "path" => $menu["path"],
+                    "order" => $count
+                ]
             );
+
+            $count++;
         }
     }
 }

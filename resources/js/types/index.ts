@@ -93,3 +93,12 @@ export interface ProductFAQ {
   created_at: Date
   updated_at: Date
 }
+
+export interface Report {
+  id: number
+  title: string
+  file: string
+  year: Date
+  created_at: Date
+  updated_at: Date
+}
