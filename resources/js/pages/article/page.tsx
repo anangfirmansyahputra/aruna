@@ -1,6 +1,6 @@
 import DashboardLayout from '@/layouts/dashboard-layout'
 import { checkPermission } from '@/lib/permission'
-import { Article, Product } from '@/types'
+import { Article } from '@/types'
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 import { Head, router, usePage } from '@inertiajs/react'
 import {
@@ -43,21 +43,25 @@ export default function ArticlePage({ data }: ArticlePage) {
       render: (_, record) => {
         return <Image width={150} src={record.image_url} />
       },
+      width: 200,
     },
     {
       title: 'Title',
       dataIndex: 'title',
       key: 'title',
+      width: 200,
     },
     {
       title: 'Slug',
       dataIndex: 'slug',
       key: 'slug',
+      width: 200,
     },
     {
       title: 'Category',
       dataIndex: 'category',
       key: 'category',
+      width: 200,
     },
     {
       title: 'Keywords',
@@ -72,6 +76,7 @@ export default function ArticlePage({ data }: ArticlePage) {
           </div>
         )
       },
+      width: 200,
     },
     {
       title: 'Tags',
@@ -86,11 +91,13 @@ export default function ArticlePage({ data }: ArticlePage) {
           </div>
         )
       },
+      width: 200,
     },
     {
       title: 'Created date',
       dataIndex: 'created_at',
       key: 'created_at',
+      width: 200,
     },
     {
       title: 'Action',
@@ -143,7 +150,14 @@ export default function ArticlePage({ data }: ArticlePage) {
           )}
         </div>
         <Divider />
-        <Table columns={columns} dataSource={data} className="mt-5" />
+        <Table
+          columns={columns}
+          dataSource={data}
+          className="mt-5"
+          scroll={{
+            x: 'max-content',
+          }}
+        />
       </>
     </>
   )

@@ -127,173 +127,143 @@ export default function FormPage({ article }: FormPageProps) {
       <div className="p-6 bg-white h-full">
         <Typography.Title level={4}>Article Form</Typography.Title>
         <Divider />
-        <div className="grid">
-          <Form
-            form={form}
-            disabled={isLoading}
-            layout="vertical"
-            onValuesChange={(changedValues) => {
-              if (changedValues.title) {
-                setSlug(generateSlug(changedValues.title))
-                form.setFieldsValue({ slug: generateSlug(changedValues.title) })
-              }
-            }}
+
+        <Form
+          form={form}
+          disabled={isLoading}
+          layout="vertical"
+          onValuesChange={(changedValues) => {
+            if (changedValues.title) {
+              setSlug(generateSlug(changedValues.title))
+              form.setFieldsValue({ slug: generateSlug(changedValues.title) })
+            }
+          }}
+        >
+          <Row gutter={[16, 16]}>
+            <Col xs={24} md={12}>
+              <Form.Item
+                name="title"
+                label="Title"
+                rules={[{ required: true, message: 'Please enter title' }]}
+              >
+                <Input placeholder="Enter title" />
+              </Form.Item>
+            </Col>
+
+            <Col xs={24} md={12}>
+              <Form.Item
+                name="slug"
+                label="Slug"
+                rules={[{ required: true, message: 'Please insert slug' }]}
+              >
+                <Input placeholder="Enter slug" value={slug} />
+              </Form.Item>
+            </Col>
+          </Row>
+
+          <Row gutter={[16, 16]}>
+            <Col xs={24} md={12}>
+              <Form.Item
+                name="keywords"
+                label="Keywords"
+                rules={[{ required: true, message: 'Please enter keyword' }]}
+              >
+                <Select placeholder="Enter keywords" mode="tags" />
+              </Form.Item>
+            </Col>
+
+            <Col xs={24} md={12}>
+              <Form.Item
+                name="tags"
+                label="Tags"
+                rules={[{ required: true, message: 'Please enter tags' }]}
+              >
+                <Select placeholder="Enter tags" mode="tags" />
+              </Form.Item>
+            </Col>
+          </Row>
+
+          <Row gutter={[16, 16]}>
+            <Col xs={24} md={12}>
+              <Form.Item
+                name="category"
+                label="Category"
+                rules={[{ required: true, message: 'Please insert category' }]}
+              >
+                <Input placeholder="Enter category" />
+              </Form.Item>
+            </Col>
+          </Row>
+
+          <Form.Item
+            name="meta_description"
+            label="Meta description"
+            rules={[
+              { required: true, message: 'Please enter meta description' },
+            ]}
           >
-            <Row gutter={16}>
-              <Col span={12}>
-                <Form.Item
-                  name="title"
-                  label="Title"
-                  rules={[{ required: true, message: 'Please enter title' }]}
-                >
-                  <Input placeholder="Enter title" />
-                </Form.Item>
-              </Col>
+            <Input.TextArea rows={5} />
+          </Form.Item>
 
-              <Col span={12}>
-                <Form.Item
-                  name="slug"
-                  label="Slug"
-                  rules={[{ required: true, message: 'Please insert slug' }]}
-                >
-                  <Input placeholder="Enter slug" value={slug} />
-                </Form.Item>
-              </Col>
-            </Row>
-
-            <Row gutter={16}>
-              <Col span={12}>
-                <Form.Item
-                  name="keywords"
-                  label="Keywords"
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Please enter keyword',
-                    },
-                  ]}
-                >
-                  <Select placeholder="Enter keywords" mode="tags" />
-                </Form.Item>
-              </Col>
-              <Col span={12}>
-                <Form.Item
-                  name="tags"
-                  label="Tags"
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Please enter tags',
-                    },
-                  ]}
-                >
-                  <Select placeholder="Enter tags" mode="tags" />
-                </Form.Item>
-              </Col>
-            </Row>
-
-            <Row gutter={16}>
-              <Col span={12}>
-                <Form.Item
-                  name="category"
-                  label="Category"
-                  rules={[
-                    { required: true, message: 'Please insert category' },
-                  ]}
-                >
-                  <Input placeholder="Enter category" />
-                </Form.Item>
-              </Col>
-            </Row>
-
-            <Form.Item
-              name="meta_description"
-              label="Meta description"
-              rules={[
-                {
-                  required: true,
-                  message: 'Please enter meta description',
-                },
-              ]}
-            >
-              <Input.TextArea rows={5} />
-            </Form.Item>
-
-            <Form.Item
-              label="Image"
-              name="image_url"
-              rules={[
-                {
-                  required: true,
-                  message: 'Please insert 1 image',
-                },
-              ]}
-            >
-              <Dragger {...uploadProps}>
-                <p className="ant-upload-drag-icon">
-                  <InboxOutlined />
-                </p>
-                <p className="ant-upload-text">
-                  Click or drag file to this area to upload
-                </p>
-                <p className="ant-upload-hint">
-                  Support for a single or bulk upload. Strictly prohibited from
-                  uploading company data or other banned files.
-                </p>
-              </Dragger>
-              {previewImage && (
-                <Image
-                  wrapperStyle={{ display: 'none' }}
-                  preview={{
-                    visible: previewOpen,
-                    onVisibleChange: (visible) => setPreviewOpen(visible),
-                    afterOpenChange: (visible) =>
-                      !visible && setPreviewImage(''),
-                  }}
-                  src={previewImage}
-                />
-              )}
-            </Form.Item>
-
-            <Form.Item
-              name="content"
-              label="Content"
-              rules={[
-                {
-                  required: true,
-                  message: 'Content is required',
-                },
-              ]}
-            >
-              <Tiptap content={content} setContent={setContent} />
-            </Form.Item>
-
-            <Form.Item name="detail_information" label="Detail Information">
-              <Tiptap
-                content={detailInformation}
-                setContent={setDetailInformation}
+          <Form.Item
+            label="Image"
+            name="image_url"
+            rules={[{ required: true, message: 'Please insert 1 image' }]}
+          >
+            <Dragger {...uploadProps}>
+              <p className="ant-upload-drag-icon">
+                <InboxOutlined />
+              </p>
+              <p className="ant-upload-text">
+                Click or drag file to this area to upload
+              </p>
+              <p className="ant-upload-hint">
+                Support for a single or bulk upload. Strictly prohibited from
+                uploading company data or other banned files.
+              </p>
+            </Dragger>
+            {previewImage && (
+              <Image
+                wrapperStyle={{ display: 'none' }}
+                preview={{
+                  visible: previewOpen,
+                  onVisibleChange: (visible) => setPreviewOpen(visible),
+                  afterOpenChange: (visible) => !visible && setPreviewImage(''),
+                }}
+                src={previewImage}
               />
-            </Form.Item>
+            )}
+          </Form.Item>
 
-            <Space className="flex justify-end mt-4">
-              <Button onClick={() => router.visit('/dashboard/articles')}>
-                Cancel
+          <Form.Item
+            name="content"
+            label="Content"
+            rules={[{ required: true, message: 'Content is required' }]}
+          >
+            <Tiptap content={content} setContent={setContent} />
+          </Form.Item>
+
+          <Form.Item name="detail_information" label="Detail Information">
+            <Tiptap
+              content={detailInformation}
+              setContent={setDetailInformation}
+            />
+          </Form.Item>
+
+          <Space className="flex justify-end mt-4">
+            <Button onClick={() => router.visit('/dashboard/articles')}>
+              Cancel
+            </Button>
+            {checkPermission(
+              permissions as string[],
+              article ? 'articles.update' : 'articles.store'
+            ) && (
+              <Button type="primary" onClick={handleSubmit} loading={isLoading}>
+                {isLoading ? 'Saving...' : 'Submit'}
               </Button>
-              {checkPermission(
-                permissions as string[],
-                article ? 'articles.update' : 'articles.store'
-              ) && (
-                <Button
-                  type="primary"
-                  onClick={handleSubmit}
-                  loading={isLoading}
-                >
-                  {isLoading ? 'Saving...' : 'Submit'}
-                </Button>
-              )}
-            </Space>
-          </Form>
-        </div>
+            )}
+          </Space>
+        </Form>
       </div>
     </>
   )

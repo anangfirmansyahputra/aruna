@@ -18,8 +18,6 @@ import {
 import React, { ReactNode, useEffect, useState } from 'react'
 import Logo from '../../../public/assets/logo.png'
 
-const iconsMap: any = Icons
-
 const { Text } = Typography
 
 interface DashboardLayoutProps {
@@ -137,12 +135,26 @@ const DashboardLayout = ({
     setOpenKeys(keys)
   }
 
+  const siderStyle: React.CSSProperties = {
+    overflow: 'auto',
+    height: '100vh',
+    position: 'sticky',
+    insetInlineStart: 0,
+    top: 0,
+    bottom: 0,
+    scrollbarWidth: 'thin',
+    scrollbarGutter: 'stable',
+  }
+
   return (
     <Layout style={{ minHeight: '100vh' }}>
       <Sider
+        style={siderStyle}
+        breakpoint="lg"
         theme="dark"
-        collapsible
-        collapsed={collapsed}
+        collapsedWidth="0"
+        // collapsible
+        // collapsed={collapsed}
         onCollapse={(value) => setCollapsed(value)}
       >
         <img src={Logo} className="mx-auto p-5" />
@@ -159,7 +171,15 @@ const DashboardLayout = ({
       <Layout>
         <Header
           className="!px-5 flex justify-center items-center"
-          style={{ background: colorBgContainer }}
+          style={{
+            background: colorBgContainer,
+            position: 'sticky',
+            top: 0,
+            zIndex: 1,
+            width: '100%',
+            display: 'flex',
+            alignItems: 'center',
+          }}
         >
           <Popover
             content={

@@ -125,7 +125,7 @@ export default function ToolbarEditor({
   return (
     <>
       <div className="flex gap-2">
-        <div className="flex gap-1">
+        <div className="flex gap-1 flex-wrap">
           {tools.map((item, i) => (
             <Button
               key={i}
@@ -144,7 +144,7 @@ export default function ToolbarEditor({
             value={selectedHeading}
             onChange={handleChange}
             placeholder="Heading"
-            style={{ minWidth: 150 }}
+            style={{ minWidth: 150, width: 150 }}
             disabled={editor?.isActive('codeBlock')}
             options={[
               { label: 'Heading 1', value: 'heading-1' },

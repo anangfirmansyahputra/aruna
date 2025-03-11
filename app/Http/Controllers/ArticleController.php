@@ -41,7 +41,8 @@ class ArticleController extends Controller
             'meta_description' => 'required|string',
             'content' => 'required|string',
             'image_url' => 'mimes:jpeg,jpg,png,gif|max:1000',
-            'category' => 'required|string'
+            'category' => 'required|string',
+            'detail_information' => 'string'
         ]);
 
         $validate['image_url'] = $request->file('image_url')->store('articles', 'public');
@@ -87,6 +88,7 @@ class ArticleController extends Controller
             'meta_description' => 'required|string',
             'content' => 'required|string',
             'category' => 'required|string',
+            'detail_information' => 'string',
             'image_url' => [
                 'nullable',
                 Rule::when(
