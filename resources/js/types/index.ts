@@ -83,3 +83,13 @@ export interface User {
   email: string
   roles: Role[]
 }
+
+export interface ProductFAQ {
+  id: number
+  product_id: number
+  question: string
+  answer: string
+  product: Product
+  created_at: Date
+  updated_at: Date
+}

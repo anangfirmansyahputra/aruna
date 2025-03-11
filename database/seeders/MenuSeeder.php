@@ -35,32 +35,39 @@ class MenuSeeder extends Seeder
                 'order' => 3,
             ],
             [
+                'name' => 'FAQ',
+                'group' => 'Products',
+                'icon' => 'QuestionCircleOutlined',
+                'path' => '/dashboard/faqs',
+                'order' => 4,
+            ],
+            [
                 'name' => 'Article',
                 'group' => 'News',
                 'icon' => 'ReadOutlined',
                 'path' => '/dashboard/articles',
-                'order' => 4,
+                'order' => 5,
             ],
             [
                 'name' => 'Menu',
                 'group' => 'Security',
                 'icon' => 'MenuUnfoldOutlined',
                 'path' => '/dashboard/menus',
-                'order' => 5
+                'order' => 6
             ],
             [
                 'name' => 'Role',
                 'group' => 'Security',
                 'icon' => 'SecurityScanOutlined',
                 'path' => '/dashboard/roles',
-                'order' => 6
+                'order' => 7
             ],
             [
                 'name' => 'User',
                 'group' => 'Security',
                 'icon' => 'UserOutlined',
                 'path' => '/dashboard/users',
-                'order' => 7
+                'order' => 8
             ],
         ];
 
