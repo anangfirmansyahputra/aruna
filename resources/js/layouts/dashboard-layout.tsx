@@ -7,6 +7,7 @@ import {
   Avatar,
   Breadcrumb,
   Button,
+  Drawer,
   Layout,
   Menu,
   message,
@@ -96,8 +97,6 @@ const DashboardLayout = ({
     )
   })
 
-  console.log(items)
-
   const [collapsed, setCollapsed] = useState(false)
   const {
     token: { colorBgContainer, borderRadiusLG },
@@ -140,6 +139,7 @@ const DashboardLayout = ({
   }, [openKeys])
 
   const handleMenuClick = ({ key }: { key: string }) => {
+    setOpen(false)
     router.get(key)
   }
 
@@ -158,15 +158,19 @@ const DashboardLayout = ({
     scrollbarGutter: 'stable',
   }
 
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 992
+  const [open, setOpen] = useState(false)
+
   return (
     <Layout style={{ minHeight: '100vh' }}>
       <Sider
+        className="lg:block hidden"
         style={siderStyle}
         breakpoint="lg"
         theme="dark"
-        collapsedWidth="0"
-        // collapsible
-        // collapsed={collapsed}
+        collapsedWidth="80"
+        collapsible
+        collapsed={collapsed}
         onCollapse={(value) => setCollapsed(value)}
       >
         <img src={Logo} className="mx-auto p-5" />
@@ -174,12 +178,29 @@ const DashboardLayout = ({
           onClick={handleMenuClick}
           theme="dark"
           selectedKeys={[currentPath]}
-          openKeys={openKeys}
-          onOpenChange={handleOpenChange}
           mode="inline"
           items={items}
         />
       </Sider>
+
+      {collapsed && (
+        <Drawer
+          title="Menu"
+          placement="left"
+          closable
+          onClose={() => setOpen(false)}
+          open={open}
+          bodyStyle={{ padding: 0 }}
+        >
+          <Menu
+            onClick={handleMenuClick}
+            selectedKeys={[currentPath]}
+            mode="inline"
+            items={items}
+          />
+        </Drawer>
+      )}
+
       <Layout>
         <Header
           className="!px-5 flex justify-center items-center"
@@ -193,6 +214,14 @@ const DashboardLayout = ({
             alignItems: 'center',
           }}
         >
+          {collapsed && (
+            <Button
+              type="text"
+              icon={<Icons.MenuOutlined />}
+              onClick={() => setOpen(true)}
+              className="p-3"
+            />
+          )}
           <Popover
             content={
               <Space direction="vertical">
