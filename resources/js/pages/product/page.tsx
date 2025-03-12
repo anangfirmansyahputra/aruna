@@ -140,6 +140,7 @@ export default function ProductPage({ data }: ProductPage) {
           columns={columns}
           dataSource={data}
           className="mt-5"
+          rowKey={'id'}
         />
       </>
     </DashboardLayout>

@@ -90,6 +90,7 @@ export default function RolePage({ data }: RolePageProps) {
           columns={columns}
           dataSource={data}
           className="mt-5"
+          rowKey={'id'}
         />
       </>
     </>

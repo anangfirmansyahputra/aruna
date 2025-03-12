@@ -157,6 +157,7 @@ export default function ArticlePage({ data }: ArticlePage) {
           scroll={{
             x: 'max-content',
           }}
+          rowKey={'id'}
         />
       </>
     </>

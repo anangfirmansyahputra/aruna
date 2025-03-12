@@ -113,6 +113,7 @@ export default function FAQPage({ data, products }: FAQPageProps) {
           columns={columns}
           dataSource={data}
           className="mt-5"
+          rowKey={'id'}
         />
       </>
     </>

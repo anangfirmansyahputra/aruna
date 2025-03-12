@@ -90,6 +90,7 @@ export default function MenuPage({ data }: MenuPageProps) {
         columns={columns}
         dataSource={data}
         className="mt-5"
+        rowKey={'id'}
       />
     </>
   )

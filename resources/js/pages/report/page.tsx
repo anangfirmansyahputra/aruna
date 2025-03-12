@@ -106,6 +106,7 @@ export default function ReportPage({ data }: ReportPageProps) {
           columns={columns}
           dataSource={data}
           className="mt-5"
+          rowKey={'id'}
         />
       </>
     </>

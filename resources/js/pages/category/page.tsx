@@ -97,6 +97,7 @@ export default function CategoryPage({ data }: CategoryPageProps) {
           scroll={{
             x: 'max-content',
           }}
+          rowKey={'id'}
           columns={columns}
           dataSource={data}
           className="mt-5"

@@ -100,6 +100,7 @@ export default function UserPage({ data }: UserPageProps) {
           columns={columns}
           dataSource={data}
           className="mt-5"
+          rowKey={'id'}
         />
       </>
     </DashboardLayout>

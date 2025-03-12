@@ -69,7 +69,7 @@ const DashboardLayout = ({
 
   const keys = Object.keys(groupedMenus)
 
-  const items = keys.map((key) => {
+  const items = keys.map((key, index) => {
     const childrens = groupedMenus[key] as MenuType[]
     const IconComponent = Icons[childrens[0].icon as keyof typeof Icons]
 
@@ -84,7 +84,7 @@ const DashboardLayout = ({
 
     return getItem(
       key,
-      childrens[0].path,
+      `${childrens[0].path}-${index}`,
       null,
       childrens.map((c) => {
         const IconComponent = Icons[c.icon as keyof typeof Icons]
@@ -158,7 +158,6 @@ const DashboardLayout = ({
     scrollbarGutter: 'stable',
   }
 
-  const isMobile = typeof window !== 'undefined' && window.innerWidth < 992
   const [open, setOpen] = useState(false)
 
   return (
@@ -190,7 +189,11 @@ const DashboardLayout = ({
           closable
           onClose={() => setOpen(false)}
           open={open}
-          bodyStyle={{ padding: 0 }}
+          styles={{
+            body: {
+              padding: 0,
+            },
+          }}
         >
           <Menu
             onClick={handleMenuClick}
@@ -247,11 +250,12 @@ const DashboardLayout = ({
           </Popover>
         </Header>
         <Content style={{ margin: '0 16px' }}>
-          <Breadcrumb style={{ margin: '16px 0' }}>
-            {breadcrumbs.map((breadcrumb, index) => (
-              <Breadcrumb.Item key={index}>{breadcrumb}</Breadcrumb.Item>
-            ))}
-          </Breadcrumb>
+          <Breadcrumb
+            style={{ margin: '16px 0' }}
+            items={breadcrumbs.map((breadcrumb) => ({
+              title: breadcrumb,
+            }))}
+          />
           <div
             style={{
               padding: removeBg ? 0 : 24,
