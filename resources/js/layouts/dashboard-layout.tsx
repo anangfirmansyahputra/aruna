@@ -70,6 +70,16 @@ const DashboardLayout = ({
 
   const items = keys.map((key) => {
     const childrens = groupedMenus[key] as MenuType[]
+    const IconComponent = Icons[childrens[0].icon as keyof typeof Icons]
+
+    // Jika tidak ada anak, maka langsung return tanpa children
+    if (childrens.length === 1) {
+      return getItem(
+        childrens[0].name,
+        childrens[0].path,
+        React.createElement(IconComponent as any)
+      )
+    }
 
     return getItem(
       key,
@@ -85,6 +95,8 @@ const DashboardLayout = ({
       })
     )
   })
+
+  console.log(items)
 
   const [collapsed, setCollapsed] = useState(false)
   const {
