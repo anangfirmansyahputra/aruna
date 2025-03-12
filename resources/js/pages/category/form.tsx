@@ -26,7 +26,7 @@ export default function FormPage({ category }: FormPageProps) {
     <DashboardLayout breadcrumbs={breadcrumbs}>
       <Head title="Create Category" />
 
-      <div className="p-6 bg-white h-full">
+      <div className="lg:p-6 bg-white h-full">
         <Typography.Title level={4}>Category Form</Typography.Title>
         <Divider />
 

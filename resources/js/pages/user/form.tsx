@@ -27,7 +27,7 @@ export default function FormPage({ user, roles }: FormPageProps) {
     <DashboardLayout breadcrumbs={breadcrumbs}>
       <Head title="Create User" />
 
-      <div className="p-6 bg-white h-full">
+      <div className="lg:p-6 bg-white h-full">
         <Typography.Title level={4}>User Form</Typography.Title>
         <Divider />
 

@@ -25,7 +25,7 @@ export default function FormPage({ faq, products }: FormPageProps) {
     <DashboardLayout breadcrumbs={breadcrumbs}>
       <Head title="Create FAQ" />
 
-      <div className="p-6 bg-white h-full">
+      <div className="lg:p-6 bg-white h-full">
         <Typography.Title level={4}>FAQ Form</Typography.Title>
         <Divider />
 

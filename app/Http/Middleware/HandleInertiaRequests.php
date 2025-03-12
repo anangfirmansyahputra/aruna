@@ -41,7 +41,7 @@ class HandleInertiaRequests extends Middleware
 
         return array_merge(parent::share($request), [
             'auth' => $request->user(),
-            'menus' => $user ? $user->menus() : null,
+            'menus' => $user ? $user->menus()->sortBy('order')->values() : null,
             'flash' => [
                 'error' => session('error')
             ],

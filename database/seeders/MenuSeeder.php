@@ -32,6 +32,12 @@ class MenuSeeder extends Seeder
                 'path' => '/dashboard/products',
             ],
             [
+                'name' => 'Interest Rate',
+                'group' => 'Products',
+                'icon' => 'PercentageOutlined',
+                'path' => '/dashboard/interest-rates',
+            ],
+            [
                 'name' => 'FAQ',
                 'group' => 'Products',
                 'icon' => 'QuestionCircleOutlined',

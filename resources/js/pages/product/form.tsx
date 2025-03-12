@@ -124,7 +124,7 @@ export default function FormPage({ product, categories }: FormPageProps) {
   return (
     <>
       <Head title={product ? 'Edit Product' : 'Create Product'} />
-      <div className="p-6 bg-white h-full">
+      <div className="lg:p-6 bg-white h-full">
         <Typography.Title level={4}>Product Form</Typography.Title>
         <Divider />
         <Form

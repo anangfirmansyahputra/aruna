@@ -103,7 +103,7 @@ export default function FormPage({ report }: FormPageProps) {
     <DashboardLayout breadcrumbs={breadcrumbs}>
       <Head title="Create Report" />
 
-      <div className="p-6 bg-white h-full">
+      <div className="lg:p-6 bg-white h-full">
         <Typography.Title level={4}>Report Form</Typography.Title>
         <Divider />
 

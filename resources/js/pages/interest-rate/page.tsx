@@ -109,16 +109,16 @@ export default function InterestRatePage({
 
   return (
     <>
-      <Head title="Category" />
+      <Head title="Interest Rate" />
 
       <>
         <div className="flex items-center justify-between">
-          <Typography.Title level={4}>Category</Typography.Title>
+          <Typography.Title level={4}>Interest Rate</Typography.Title>
           <Button
             onClick={() => router.visit('/dashboard/interest-rates/create')}
             type="primary"
           >
-            Add category
+            Add interest rate
           </Button>
         </div>
         <Divider />

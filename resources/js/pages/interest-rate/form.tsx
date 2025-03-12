@@ -31,7 +31,7 @@ export default function FormPage({ interestRate, products }: FormPageProps) {
     <DashboardLayout breadcrumbs={breadcrumbs}>
       <Head title="Create interestRate" />
 
-      <div className="p-6 bg-white h-full">
+      <div className="lg:p-6 bg-white h-full">
         <Typography.Title level={4}>Interest Rate Form</Typography.Title>
         <Divider />
 
@@ -60,7 +60,7 @@ export default function FormPage({ interestRate, products }: FormPageProps) {
               label="Tenor"
               rules={[{ required: true, message: 'Please enter tenor' }]}
             >
-              <Input suffix="Month" type="number" placeholder="0" />
+              <Input addonAfter="Month" type="number" placeholder="0" />
             </Form.Item>
 
             <Form.Item
@@ -68,7 +68,7 @@ export default function FormPage({ interestRate, products }: FormPageProps) {
               label="Interest"
               rules={[{ required: true, message: 'Please enter interest' }]}
             >
-              <Input suffix="%" placeholder="0" />
+              <Input addonAfter="%" placeholder="0" />
             </Form.Item>
 
             <Space>
