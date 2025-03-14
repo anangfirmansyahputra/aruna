@@ -112,3 +112,13 @@ export interface InterestRate {
   created_at: Date
   updated_at: Date
 }
+
+export interface Testimonial {
+  id: number
+  name: string
+  job: string
+  text: string
+  image_url: string
+  created_at: Date
+  updated_at: Date
+}

@@ -10,6 +10,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductFAQController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\TestimonialController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -28,6 +29,7 @@ Route::prefix('dashboard')->middleware(['auth', 'checkPermission'])->group(funct
     Route::resource('faqs', ProductFAQController::class);
     Route::resource('reports', ReportController::class);
     Route::resource("interest-rates", InterestRateController::class);
+    Route::resource("testimonials", TestimonialController::class);
 
     Route::get('/menus', [MenuController::class, 'index'])->name('menus.index');
     Route::get('/menus/{menu}/edit', [MenuController::class, 'edit'])->name('menus.edit');

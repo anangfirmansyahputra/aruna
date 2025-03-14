@@ -20,6 +20,12 @@ class MenuSeeder extends Seeder
                 'path' => '/dashboard',
             ],
             [
+                'name' => 'Testimonial',
+                'group' => 'Dashboard',
+                'icon' => 'UserSwitchOutlined',
+                'path' => '/dashboard/testimonials',
+            ],
+            [
                 'name' => 'Category',
                 'group' => 'Products',
                 'icon' => 'DatabaseOutlined',
