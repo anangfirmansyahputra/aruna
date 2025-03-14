@@ -70,8 +70,10 @@ export default function ArticlePage({ data }: ArticlePage) {
       render: (_, record) => {
         return (
           <div className="flex flex-wrap gap-y-1">
-            {record.keywords.split(',').map((keyword) => (
-              <Tag color="green">{keyword}</Tag>
+            {record.keywords.split(',').map((keyword, index) => (
+              <Tag color="green" key={index}>
+                {keyword}
+              </Tag>
             ))}
           </div>
         )
@@ -85,8 +87,10 @@ export default function ArticlePage({ data }: ArticlePage) {
       render: (_, record) => {
         return (
           <div className="flex flex-wrap gap-y-1">
-            {record.tags.split(',').map((tag) => (
-              <Tag color="green">{tag}</Tag>
+            {record.tags.split(',').map((tag, index) => (
+              <Tag color="green" key={index}>
+                {tag}
+              </Tag>
             ))}
           </div>
         )

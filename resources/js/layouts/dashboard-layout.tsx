@@ -52,6 +52,28 @@ const DashboardLayout = ({
 }: DashboardLayoutProps) => {
   const { auth, menus, flash } = usePage().props
 
+  const [openKeys, setOpenKeys] = useState<string>(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('openKeys') || ''
+    }
+    return ''
+  })
+
+  const [selectedKeys, setSelectedKeys] = useState<string[]>(() => {
+    if (typeof window !== 'undefined') {
+      return JSON.parse(localStorage.getItem('selectedKeys') || '[]')
+    }
+    return []
+  })
+
+  useEffect(() => {
+    localStorage.setItem('openKeys', openKeys)
+  }, [openKeys])
+
+  useEffect(() => {
+    localStorage.setItem('selectedKeys', JSON.stringify(selectedKeys))
+  }, [selectedKeys])
+
   if (!auth || !menus) {
     router.get('/login')
   }
@@ -84,7 +106,7 @@ const DashboardLayout = ({
 
     return getItem(
       key,
-      `${childrens[0].path}-${index}`,
+      `${childrens[0].name}`,
       null,
       childrens.map((c) => {
         const IconComponent = Icons[c.icon as keyof typeof Icons]
@@ -98,13 +120,10 @@ const DashboardLayout = ({
   })
 
   const [collapsed, setCollapsed] = useState(false)
+
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken()
-
-  const currentPath = window.location.pathname
-    .replace('/create', '')
-    .replace(/\/\d+\/edit$/, '')
 
   const handleLogout = () => {
     router.delete('/logout', {
@@ -125,26 +144,14 @@ const DashboardLayout = ({
     }
   }, [flash])
 
-  const [openKeys, setOpenKeys] = useState<string[]>(() => {
-    if (typeof window !== 'undefined') {
-      return JSON.parse(localStorage.getItem('openKeys') || '[]')
-    }
-    return []
-  })
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('openKeys', JSON.stringify(openKeys))
-    }
-  }, [openKeys])
-
-  const handleMenuClick = ({ key }: { key: string }) => {
+  const handleMenuClick: MenuProps['onClick'] = (e) => {
     setOpen(false)
-    router.get(key)
-  }
 
-  const handleOpenChange = (keys: string[]) => {
-    setOpenKeys(keys)
+    setOpenKeys(e.key)
+
+    localStorage.setItem('openKeys', e.key)
+
+    router.get(e.key, {}, { preserveState: true })
   }
 
   const siderStyle: React.CSSProperties = {
@@ -176,7 +183,11 @@ const DashboardLayout = ({
         <Menu
           onClick={handleMenuClick}
           theme="dark"
-          selectedKeys={[currentPath]}
+          defaultOpenKeys={selectedKeys}
+          defaultSelectedKeys={[openKeys]}
+          onOpenChange={(e) => {
+            setSelectedKeys(e)
+          }}
           mode="inline"
           items={items}
         />
@@ -197,7 +208,11 @@ const DashboardLayout = ({
         >
           <Menu
             onClick={handleMenuClick}
-            selectedKeys={[currentPath]}
+            defaultOpenKeys={selectedKeys}
+            defaultSelectedKeys={[openKeys]}
+            onOpenChange={(e) => {
+              setSelectedKeys(e)
+            }}
             mode="inline"
             items={items}
           />
