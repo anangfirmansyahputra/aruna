@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\CategoryTranslation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class CategoryController extends Controller
@@ -13,7 +15,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::all();
+        $categories = Category::with("translations")->get();
 
         return Inertia::render('category/page', [
             'data' => $categories
@@ -34,12 +36,15 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $validate = $request->validate([
-            'name' => ["required", "unique:categories,name", "string"],
-            'description' => ['string']
+            "translations" => "required|array",
+            "translations.*.name" => "required|string",
+            "translations.*.language_code" => "required|string",
         ]);
 
         try {
-            Category::create($validate);
+            $category = Category::create();
+            $category->translations()->createMany($validate["translations"]);
+
             return to_route('categories.index');
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage());
@@ -62,7 +67,7 @@ class CategoryController extends Controller
     public function edit(Category $category)
     {
         return Inertia::render('category/form', [
-            'category' => $category
+            'data' => $category->load("translations")
         ]);
     }
 
@@ -71,15 +76,28 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
+
         $validate = $request->validate([
-            'name' => ['required', 'string', "unique:categories,name,{$category->id}"],
-            'description' => ['string']
+            "translations" => "required|array",
         ]);
 
+        DB::beginTransaction();
+
         try {
-            $category->update($validate);
+            foreach ($validate["translations"] as $translation) {
+                $exist =  CategoryTranslation::where("category_id", $category->id)
+                    ->where("language_code", $translation["language_code"])
+                    ->first();
+
+                if ($exist) {
+                    $exist->update($translation);
+                }
+            }
+
+            DB::commit();
             return to_route('categories.index');
         } catch (\Exception $e) {
+            DB::rollBack();
             return back()->with('error', $e->getMessage());
         }
     }

@@ -11,7 +11,7 @@ interface FormPageProps {
 }
 
 export default function FormPage({ user, roles }: FormPageProps) {
-  const breadcrumbs = ['Dashboard', 'user', user ? 'Update' : 'Create']
+  const breadcrumbs = ['Dashboard', 'User', user ? 'Update' : 'Create']
 
   const { form, submit, isLoading } = useFormHandler({
     initialValues: user,

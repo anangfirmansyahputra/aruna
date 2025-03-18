@@ -39,6 +39,11 @@ export default function CategoryPage({ data }: CategoryPageProps) {
       dataIndex: 'name',
       key: 'name',
       width: 200,
+      render: (_, record) => (
+        <div>
+          {record.translations.find((t) => t.language_code === 'ID')?.name}
+        </div>
+      ),
     },
     {
       title: 'Created Date',

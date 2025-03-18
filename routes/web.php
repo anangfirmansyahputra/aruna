@@ -3,6 +3,7 @@
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CreditProposalController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InterestRateController;
 use App\Http\Controllers\MenuController;
@@ -30,6 +31,7 @@ Route::prefix('dashboard')->middleware(['auth', 'checkPermission'])->group(funct
     Route::resource('reports', ReportController::class);
     Route::resource("interest-rates", InterestRateController::class);
     Route::resource("testimonials", TestimonialController::class);
+    Route::resource("credit-proposals", CreditProposalController::class);
 
     Route::get('/menus', [MenuController::class, 'index'])->name('menus.index');
     Route::get('/menus/{menu}/edit', [MenuController::class, 'edit'])->name('menus.edit');

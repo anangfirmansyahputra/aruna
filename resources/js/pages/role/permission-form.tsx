@@ -127,7 +127,7 @@ export default function PermissionForm({
                       style={{ margin: 0 }}
                       className="capitalize"
                     >
-                      {category}
+                      {category.replaceAll('-', ' ')}
                     </Typography.Title>
                     <div className="lg:block hidden">
                       <Space>
@@ -166,7 +166,7 @@ export default function PermissionForm({
                     <Checkbox key={perm.id} value={perm.id}>
                       <Space>
                         <ShieldCheck size={16} className="text-gray-500" />
-                        {formatPermissionName(perm.name)}
+                        {formatPermissionName(perm.name).replaceAll('-', ' ')}
                         {/* {perm.name} */}
                       </Space>
                     </Checkbox>

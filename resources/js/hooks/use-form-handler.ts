@@ -20,6 +20,14 @@ export function useFormHandler<T extends Record<string, any>>({
   useEffect(() => {
     if (initialValues) {
       form.setFieldsValue(initialValues)
+
+      if (initialValues?.translations) {
+        initialValues.translations.forEach((t: any) => {
+          Object.keys(t).forEach((key) => {
+            form.setFieldValue(`${t.language_code}__${key}`, (t as any)[key])
+          })
+        })
+      }
     }
   }, [initialValues, form])
 

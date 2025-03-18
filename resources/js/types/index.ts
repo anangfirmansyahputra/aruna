@@ -16,7 +16,17 @@ export interface InputForm<T> {
 
 export interface Category {
   id: number
+  created_at: Date
+  updated_at: Date
+  translations: CategoryTranslation[]
+}
+
+export interface CategoryTranslation {
+  id: number
+  category_id: number
   name: string
+  description?: string
+  language_code: Locale
   created_at: Date
   updated_at: Date
 }
@@ -122,3 +132,5 @@ export interface Testimonial {
   created_at: Date
   updated_at: Date
 }
+
+type Locale = 'ID' | 'EN'

@@ -3,24 +3,101 @@ import DashboardLayout from '@/layouts/dashboard-layout'
 import { checkPermission } from '@/lib/permission'
 import { Category } from '@/types'
 import { Head, router, usePage } from '@inertiajs/react'
-import { Button, Divider, Form, Input, Space, Typography } from 'antd'
+import {
+  Button,
+  Divider,
+  Form,
+  Input,
+  message,
+  Space,
+  Tabs,
+  TabsProps,
+  Typography,
+} from 'antd'
+import { useEffect } from 'react'
 
 interface FormPageProps {
-  category?: Category
+  data?: Category
 }
 
-export default function FormPage({ category }: FormPageProps) {
+const generateForm = (locale: 'ID' | 'EN') => {
+  return (
+    <>
+      <Form.Item
+        name={`${locale}__name`}
+        label="Name"
+        rules={[{ required: true, message: 'Please enter a category name' }]}
+      >
+        <Input placeholder="Enter category name" />
+      </Form.Item>
+
+      <Form.Item name={`${locale}__description`} label="Description">
+        <Input.TextArea rows={5} />
+      </Form.Item>
+    </>
+  )
+}
+
+export default function FormPage({ data }: FormPageProps) {
   const { permissions } = usePage().props
 
-  const breadcrumbs = ['Dashboard', 'Category', category ? 'Update' : 'Create']
+  const breadcrumbs = ['Dashboard', 'Category', data ? 'Update' : 'Create']
 
   const { form, submit, isLoading } = useFormHandler({
-    initialValues: category,
-    url: category
-      ? `/dashboard/categories/${category.id}`
-      : `/dashboard/categories`,
-    method: category ? 'put' : 'post',
+    initialValues: data,
+    url: data ? `/dashboard/categories/${data.id}` : `/dashboard/categories`,
+    method: data ? 'put' : 'post',
   })
+
+  const tabs: TabsProps['items'] = [
+    {
+      key: 'ID',
+      label: 'ID',
+      children: generateForm('ID'),
+      forceRender: true,
+    },
+    {
+      key: 'EN',
+      label: 'EN',
+      children: generateForm('EN'),
+      forceRender: true,
+    },
+  ]
+
+  const handleSubmit = async () => {
+    try {
+      const values = await form.validateFields()
+
+      const locales = ['ID', 'EN']
+
+      const translations = locales.map((locale) => {
+        const translation: Record<string, any> = {
+          language_code: locale,
+        }
+
+        Object.keys(values).forEach((key) => {
+          if (key.startsWith(`${locale}__`)) {
+            const fieldName = key.replace(`${locale}__`, '')
+            translation[fieldName] = values[key]
+          }
+        })
+
+        return translation
+      })
+
+      const payload = {
+        translations,
+      }
+
+      submit(null, payload)
+    } catch (err: any) {
+      if (err?.errorFields) {
+        message.error(err.errorFields[0].errors[0])
+      } else {
+        message.error('An unexpected error occurred')
+      }
+    }
+  }
 
   return (
     <DashboardLayout breadcrumbs={breadcrumbs}>
@@ -32,19 +109,7 @@ export default function FormPage({ category }: FormPageProps) {
 
         <div className="grid lg:grid-cols-2">
           <Form disabled={isLoading} form={form} layout="vertical">
-            <Form.Item
-              name="name"
-              label="Name"
-              rules={[
-                { required: true, message: 'Please enter a category name' },
-              ]}
-            >
-              <Input placeholder="Enter category name" />
-            </Form.Item>
-
-            <Form.Item name="description" label="Description">
-              <Input.TextArea rows={5} />
-            </Form.Item>
+            <Tabs items={tabs} />
 
             <Space>
               <Button
@@ -55,9 +120,9 @@ export default function FormPage({ category }: FormPageProps) {
               </Button>
               {checkPermission(
                 permissions as string[],
-                category ? 'categories.update' : 'categories.store'
+                data ? 'categories.update' : 'categories.store'
               ) && (
-                <Button type="primary" onClick={() => submit()}>
+                <Button type="primary" onClick={handleSubmit}>
                   Submit
                 </Button>
               )}
