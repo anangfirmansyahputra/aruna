@@ -16,7 +16,7 @@ class ProductTranslation extends Model
         'slug',
         'keywords',
         'meta_descriptions',
-        'content'
+        'content',
     ];
 
     protected $casts = [

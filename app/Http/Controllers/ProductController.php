@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\ProductTranslation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
@@ -16,7 +17,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::with('category')->get();
+        $products = Product::with(['category.translations', 'translations'])->get();
         return Inertia::render("product/page", ['data' => $products]);
     }
 
@@ -42,7 +43,7 @@ class ProductController extends Controller
             'category_id' => ['required', 'exists:categories,id'],
             'is_credit' => ['nullable', 'string'],
             'image_url' => 'mimes:jpeg,jpg,png,gif|max:1000',
-            'translations' => "required|array",
+            "translations" => "required|array",
             "translations.*.name" => "required|string",
             "translations.*.language_code" => "required|string",
             "translations.*.collateral_name" => "required|string",
@@ -89,10 +90,10 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        $categories = Category::all();
+        $categories = Category::with("translations")->get();
 
         return Inertia::render('product/form', [
-            'product' => $product,
+            'product' => $product->load(["translations"]),
             'categories' => $categories
         ]);
     }
@@ -102,10 +103,13 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
+        $request->merge([
+            'translations' => json_decode($request->input('translations'), true)
+        ]);
+
         $validate = $request->validate([
-            'name' => ['required', "string"],
             'category_id' => ['required', 'exists:categories,id'],
-            'collateral_name' => ['required', 'string'],
+            "translations" => "required|array",
             'is_credit' => ['nullable', 'string'],
             'image_url' => [
                 'nullable',
@@ -115,11 +119,8 @@ class ProductController extends Controller
                     ['string', 'url']
                 )
             ],
-            'slug' => ['required', 'string'],
-            'keywords' => ['required', 'string'],
-            'meta_descriptions' => ['required', 'string'],
-            'content' => ['required', 'string']
         ]);
+
 
         if ($request->hasFile('image_url')) {
             $validate['image_url'] = $request->file('image_url')->store('products', 'public');
@@ -130,10 +131,24 @@ class ProductController extends Controller
         $validate['is_credit'] = $validate['is_credit'] == 'true' ? true : false;
 
         try {
+            DB::beginTransaction();
+
             $product->update($validate);
 
+            foreach ($validate["translations"] as $translation) {
+                $exist =  ProductTranslation::where("product_id", $product->id)
+                    ->where("language_code", $translation["language_code"])
+                    ->first();
+
+                if ($exist) {
+                    $exist->update($translation);
+                }
+            }
+
+            DB::commit();
             return to_route('products.index');
         } catch (\Exception $e) {
+            DB::rollBack();
             return back()->with('error', $e->getMessage());
         }
     }

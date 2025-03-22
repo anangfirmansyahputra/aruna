@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Route;
+use Illuminate\Support\Facades\Session;
 use Inertia\Middleware;
 
 class HandleInertiaRequests extends Middleware
@@ -37,6 +38,7 @@ class HandleInertiaRequests extends Middleware
     public function share(Request $request): array
     {
         $user = $request->user();
+        $locale = Session::get("locale", 'id');
 
 
         return array_merge(parent::share($request), [
@@ -46,6 +48,7 @@ class HandleInertiaRequests extends Middleware
                 'error' => session('error')
             ],
             'permissions' => $user ? $user->getAllPermissions()->pluck('name') : [],
+            'locale' => $locale
         ]);
     }
 }

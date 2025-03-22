@@ -1,42 +1,13 @@
 import MainLayout from '@/layouts/main-layout'
-import ProductImage from '../../../../public/assets/product.png'
+import { Product } from '@/types'
 import { Link } from '@inertiajs/react'
 import { ArrowRight } from 'lucide-react'
 
-const products = [
-  {
-    title: 'Deposito Aruna',
-    description:
-      'Simpanan berjangka waktu tertentu dengan tingkat suku bunga yang sangat kompetitif, dimana penarikannya hanya dapat dilakukan berdasarkan tanggal jatuh tempo.',
-    image_url: ProductImage,
-  },
-  {
-    title: 'Deposito Aruna',
-    description:
-      'Simpanan berjangka waktu tertentu dengan tingkat suku bunga yang sangat kompetitif, dimana penarikannya hanya dapat dilakukan berdasarkan tanggal jatuh tempo.',
-    image_url: ProductImage,
-  },
-  {
-    title: 'Deposito Aruna',
-    description:
-      'Simpanan berjangka waktu tertentu dengan tingkat suku bunga yang sangat kompetitif, dimana penarikannya hanya dapat dilakukan berdasarkan tanggal jatuh tempo.',
-    image_url: ProductImage,
-  },
-  {
-    title: 'Deposito Aruna',
-    description:
-      'Simpanan berjangka waktu tertentu dengan tingkat suku bunga yang sangat kompetitif, dimana penarikannya hanya dapat dilakukan berdasarkan tanggal jatuh tempo.',
-    image_url: ProductImage,
-  },
-  {
-    title: 'Deposito Aruna',
-    description:
-      'Simpanan berjangka waktu tertentu dengan tingkat suku bunga yang sangat kompetitif, dimana penarikannya hanya dapat dilakukan berdasarkan tanggal jatuh tempo.',
-    image_url: ProductImage,
-  },
-]
+interface ProductPageProps {
+  products: Product[]
+}
 
-export default function ProductPage() {
+export default function ProductPage({ products }: ProductPageProps) {
   return (
     <MainLayout>
       <div className="pt-10 pb-[84px]">
@@ -53,17 +24,17 @@ export default function ProductPage() {
               <img
                 src={product.image_url}
                 className="w-full rounded-lg"
-                alt={product.title}
+                alt={product.translations[0]?.name}
               />
               <h3 className="text-black text-xl font-semibold mt-4">
-                {product.title}
+                {product.translations[0]?.name}
               </h3>
               <p className="mt-1 text-[#777777] text-base">
-                {product.description}
+                {product.translations[0]?.meta_descriptions}
               </p>
 
               <Link
-                href=""
+                href={`/products/${product.translations[0].slug}`}
                 className="flex items-center mt-4 text-base text-[#777777] group hover:text-primary transition-colors"
               >
                 Selengkapnya

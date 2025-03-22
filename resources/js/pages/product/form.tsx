@@ -54,8 +54,6 @@ export default function FormPage({ product, categories }: FormPageProps) {
   const [previewImage, setPreviewImage] = useState('')
   const [fileList, setFileList] = useState<UploadFile[]>([])
   const [isCredit, setIsCredit] = useState(product ? product.is_credit : false)
-  const [content, setContent] = useState(product ? product.content : '')
-  const [slug, setSlug] = useState('')
 
   useEffect(() => {
     if (product?.image_url) {
@@ -121,8 +119,6 @@ export default function FormPage({ product, categories }: FormPageProps) {
       formData.append('image_url', fileList[0].originFileObj)
     }
 
-    console.log(form.getFieldValue('ID__keywords'))
-
     // Kirim ke server
     submit(formData)
   }
@@ -141,7 +137,6 @@ export default function FormPage({ product, categories }: FormPageProps) {
 
   const handleContent = (locale: Locale, content: string) => {
     form.setFieldValue(`${locale}__content`, content)
-    setContent(content)
   }
 
   return (
@@ -150,17 +145,7 @@ export default function FormPage({ product, categories }: FormPageProps) {
       <div className="lg:p-6 bg-white h-full">
         <Typography.Title level={4}>Product Form</Typography.Title>
         <Divider />
-        <Form
-          form={form}
-          disabled={isLoading}
-          layout="vertical"
-          onValuesChange={(changedValues) => {
-            if (changedValues.name) {
-              setSlug(generateSlug(changedValues.name))
-              form.setFieldsValue({ slug: generateSlug(changedValues.name) })
-            }
-          }}
-        >
+        <Form form={form} disabled={isLoading} layout="vertical">
           <Tabs>
             {['ID', 'EN'].map((locale) => (
               <Tabs.TabPane key={locale} tab={locale} forceRender>
@@ -294,10 +279,14 @@ export default function FormPage({ product, categories }: FormPageProps) {
                   rules={[{ required: true, message: 'Content is required' }]}
                 >
                   <Tiptap
-                    content={content}
+                    content={
+                      product?.translations.find(
+                        (t) => t.language_code === locale
+                      )?.content
+                    }
                     setContent={(content: string) => {
                       form.setFieldValue(`${locale}__content`, content)
-                      setContent(content)
+                      // setContent(content)
                     }}
                   />
                 </Form.Item>

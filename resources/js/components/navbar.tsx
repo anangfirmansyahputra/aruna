@@ -1,7 +1,9 @@
-import { Link } from '@inertiajs/react'
+import { Link, usePage } from '@inertiajs/react'
 import Logo from '../../../public/assets/logo.svg'
 
 export default function Navbar() {
+  const { locale } = usePage().props
+
   return (
     <div>
       <div className="flex container mx-auto justify-between py-2.5 font-medium text-base text-[#736E6E]">
@@ -20,8 +22,16 @@ export default function Navbar() {
           </Link>
         </div>
         <div className="space-x-[11px]">
-          <Link href="">EN</Link>
-          <Link href="" className="hover:text-primary transition-colors">
+          <Link
+            href="/lang/en"
+            className={`${locale === 'en' && 'text-primary'} hover:text-primary transition-colors`}
+          >
+            EN
+          </Link>
+          <Link
+            href="/lang/id"
+            className={`${locale === 'id' && 'text-primary'} hover:text-primary transition-colors`}
+          >
             ID
           </Link>
         </div>

@@ -49,6 +49,9 @@ export default function ProductPage({ data }: ProductPage) {
       dataIndex: 'name',
       key: 'name',
       width: 250,
+      render: (_, record) => {
+        return <div>{record.translations[0].name}</div>
+      },
     },
     {
       title: 'Category',
@@ -75,6 +78,9 @@ export default function ProductPage({ data }: ProductPage) {
       dataIndex: 'collateral_name',
       key: 'collateral_name',
       width: 250,
+      render: (_, record) => {
+        return <div>{record.translations[0].collateral_name}</div>
+      },
     },
     {
       title: 'Created date',

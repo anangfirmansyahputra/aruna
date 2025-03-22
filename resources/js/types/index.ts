@@ -33,16 +33,19 @@ export interface CategoryTranslation {
 
 export interface Product {
   id: number
-  name: string
   category_id: number
   category?: Category
   image_url: string
   is_credit: boolean
-  collateral_name: string
-  keywords: string
-  meta_descriptions: string
-  content: string
-  slug: string
+  translations: {
+    language_code: Locale
+    name: string
+    collateral_name: string
+    keywords: string
+    meta_descriptions: string
+    content: string
+    slug: string
+  }[]
   created_at: Date
   updated_at: Date
 }
