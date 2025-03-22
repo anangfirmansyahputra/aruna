@@ -17,11 +17,12 @@ import { JSX } from 'react'
 
 interface CategoryPageProps {
   data: Category[]
+  seo: any
 }
 
 const breadcrumbs = ['Dashboard', 'Category']
 
-export default function CategoryPage({ data }: CategoryPageProps) {
+export default function CategoryPage({ data, seo }: CategoryPageProps) {
   const { permissions } = usePage().props
 
   const confirm = (id: number) => {
@@ -86,28 +87,25 @@ export default function CategoryPage({ data }: CategoryPageProps) {
   return (
     <>
       <Head title="Category" />
-
-      <>
-        <div className="flex items-center justify-between">
-          <Typography.Title level={4}>Category</Typography.Title>
-          <Button
-            onClick={() => router.visit('/dashboard/categories/create')}
-            type="primary"
-          >
-            Add category
-          </Button>
-        </div>
-        <Divider />
-        <Table
-          scroll={{
-            x: 'max-content',
-          }}
-          rowKey={'id'}
-          columns={columns}
-          dataSource={data}
-          className="mt-5"
-        />
-      </>
+      <div className="flex items-center justify-between">
+        <Typography.Title level={4}>Category</Typography.Title>
+        <Button
+          onClick={() => router.visit('/dashboard/categories/create')}
+          type="primary"
+        >
+          Add category
+        </Button>
+      </div>
+      <Divider />
+      <Table
+        scroll={{
+          x: 'max-content',
+        }}
+        rowKey={'id'}
+        columns={columns}
+        dataSource={data}
+        className="mt-5"
+      />
     </>
   )
 }

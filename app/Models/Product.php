@@ -2,25 +2,22 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Storage;
 
 class Product extends Model
 {
     protected $fillable = [
-        'name',
         'category_id',
-        'collateral_name',
         'is_credit',
         'image_url',
-        'slug',
-        'keywords',
-        'meta_descriptions',
-        'content'
     ];
 
-    public function category()
+    public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
     }
@@ -33,6 +30,18 @@ class Product extends Model
     protected function imageUrl(): Attribute
     {
         return Attribute::get(fn($value) => env('APP_URL') . '/storage/' . $value);
+    }
+
+    public function translations(): HasMany
+    {
+        return $this->hasMany(ProductTranslation::class);
+    }
+
+    public function scopeTranslation(Builder $query, string $languageCode)
+    {
+        return $query->with(["translations" => function ($query) use ($languageCode) {
+            $query->where("language_code", $languageCode);
+        }]);
     }
 
     protected static function boot()

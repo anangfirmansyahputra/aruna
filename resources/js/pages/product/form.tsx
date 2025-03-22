@@ -2,7 +2,7 @@ import Tiptap from '@/components/tiptap'
 import { useFormHandler } from '@/hooks/use-form-handler'
 import DashboardLayout from '@/layouts/dashboard-layout'
 import { checkPermission } from '@/lib/permission'
-import { Category, Product } from '@/types'
+import { Category, Locale, Product } from '@/types'
 import { InboxOutlined } from '@ant-design/icons'
 import { Head, router, usePage } from '@inertiajs/react'
 import type { GetProp, UploadFile, UploadProps } from 'antd'
@@ -17,6 +17,7 @@ import {
   Select,
   Space,
   Switch,
+  Tabs,
   Typography,
 } from 'antd'
 import Dragger from 'antd/es/upload/Dragger'
@@ -92,18 +93,35 @@ export default function FormPage({ product, categories }: FormPageProps) {
     const formData = new FormData()
     const formValues = form.getFieldsValue()
 
+    const values = await form.validateFields()
+    const locales = ['ID', 'EN']
+
+    const translations = locales.map((locale) => {
+      const translation: Record<string, any> = {
+        language_code: locale,
+      }
+
+      Object.keys(values).forEach((key) => {
+        if (key.startsWith(`${locale}__`)) {
+          const fieldName = key.replace(`${locale}__`, '')
+          translation[fieldName] = values[key]
+        }
+      })
+
+      return translation
+    })
+
+    formData.append('translations', JSON.stringify(translations))
+
     Object.entries(formValues).forEach(([key, value]) => {
       formData.append(key, value as string)
     })
 
-    if (product) {
-      formData.delete('content')
-    }
-    formData.append('content', content)
-
     if (fileList.length > 0 && fileList[0].originFileObj) {
       formData.append('image_url', fileList[0].originFileObj)
     }
+
+    console.log(form.getFieldValue('ID__keywords'))
 
     // Kirim ke server
     submit(formData)
@@ -119,6 +137,11 @@ export default function FormPage({ product, categories }: FormPageProps) {
     onChange: handleChange,
     maxCount: 1,
     listType: 'picture',
+  }
+
+  const handleContent = (locale: Locale, content: string) => {
+    form.setFieldValue(`${locale}__content`, content)
+    setContent(content)
   }
 
   return (
@@ -138,111 +161,149 @@ export default function FormPage({ product, categories }: FormPageProps) {
             }
           }}
         >
-          <Row gutter={[16, 16]}>
-            <Col xs={24} sm={12}>
-              <Form.Item
-                name="name"
-                label="Product name"
-                rules={[
-                  { required: true, message: 'Please enter product name' },
-                ]}
-              >
-                <Input placeholder="Enter product name" />
-              </Form.Item>
+          <Tabs>
+            {['ID', 'EN'].map((locale) => (
+              <Tabs.TabPane key={locale} tab={locale} forceRender>
+                <Row gutter={[16, 16]}>
+                  <Col xs={24} sm={12}>
+                    <Form.Item
+                      name={`${locale}__name`}
+                      label="Product name"
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Please enter product name',
+                        },
+                      ]}
+                    >
+                      <Input
+                        placeholder="Enter product name"
+                        onChange={(e) =>
+                          form.setFieldValue(
+                            `${locale}__slug`,
+                            generateSlug(e.target.value)
+                          )
+                        }
+                      />
+                    </Form.Item>
 
-              <Form.Item
-                name="category_id"
-                label="Category"
-                rules={[{ required: true, message: 'Please select category' }]}
-              >
-                <Select
-                  options={categories.map((category) => ({
-                    label: category.name,
-                    value: category.id,
-                  }))}
-                  placeholder="Select a category"
-                />
-              </Form.Item>
+                    <Form.Item
+                      name="category_id"
+                      label="Category"
+                      rules={[
+                        { required: true, message: 'Please select category' },
+                      ]}
+                    >
+                      <Select
+                        options={categories.map((category) => ({
+                          label: category.translations[0].name,
+                          value: category.id,
+                        }))}
+                        placeholder="Select a category"
+                      />
+                    </Form.Item>
 
-              <Form.Item
-                name="collateral_name"
-                label="Calculator name"
-                rules={[
-                  { required: true, message: 'Please enter calculator name' },
-                ]}
-              >
-                <Input placeholder="Enter calculator name" />
-              </Form.Item>
+                    <Form.Item
+                      name={`${locale}__collateral_name`}
+                      label="Calculator name"
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Please enter calculator name',
+                        },
+                      ]}
+                    >
+                      <Input placeholder="Enter calculator name" />
+                    </Form.Item>
 
-              <Form.Item name="is_credit" label="Credit">
-                <Switch checked={isCredit} onChange={setIsCredit} />
-              </Form.Item>
-            </Col>
+                    <Form.Item name="is_credit" label="Credit">
+                      <Switch checked={isCredit} onChange={setIsCredit} />
+                    </Form.Item>
+                  </Col>
 
-            <Col xs={24} sm={12}>
-              <Form.Item
-                name="slug"
-                label="Slug"
-                rules={[{ required: true, message: 'Please insert slug' }]}
-              >
-                <Input placeholder="Enter slug" value={slug} />
-              </Form.Item>
+                  <Col xs={24} sm={12}>
+                    <Form.Item
+                      name={`${locale}__slug`}
+                      label="Slug"
+                      rules={[
+                        { required: true, message: 'Please insert slug' },
+                      ]}
+                    >
+                      <Input placeholder="Enter slug" />
+                    </Form.Item>
 
-              <Form.Item
-                name="keywords"
-                label="Keywords"
-                rules={[{ required: true, message: 'Please enter keywords' }]}
-              >
-                <Select placeholder="Enter keywords" mode="tags" />
-              </Form.Item>
+                    <Form.Item
+                      name={`${locale}__keywords`}
+                      label="Keywords"
+                      rules={[
+                        { required: true, message: 'Please enter keywords' },
+                      ]}
+                    >
+                      <Select placeholder="Enter keywords" mode="tags" />
+                    </Form.Item>
 
-              <Form.Item
-                name="meta_descriptions"
-                label="Meta descriptions"
-                rules={[
-                  { required: true, message: 'Please enter meta description' },
-                ]}
-              >
-                <Input.TextArea rows={4} />
-              </Form.Item>
-            </Col>
-          </Row>
+                    <Form.Item
+                      name={`${locale}__meta_descriptions`}
+                      label="Meta descriptions"
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Please enter meta description',
+                        },
+                      ]}
+                    >
+                      <Input.TextArea rows={4} />
+                    </Form.Item>
+                  </Col>
+                </Row>
 
-          <Form.Item
-            label="Image"
-            name="image_url"
-            rules={[{ required: true, message: 'Please insert 1 image' }]}
-          >
-            <Dragger {...uploadProps}>
-              <p className="ant-upload-drag-icon">
-                <InboxOutlined />
-              </p>
-              <p className="ant-upload-text">Click or drag file to upload</p>
-              <p className="ant-upload-hint">
-                Support for single or bulk upload. Do not upload prohibited
-                files.
-              </p>
-            </Dragger>
-            {previewImage && (
-              <Image
-                wrapperStyle={{ display: 'none' }}
-                preview={{
-                  visible: previewOpen,
-                  onVisibleChange: (visible) => setPreviewOpen(visible),
-                  afterOpenChange: (visible) => !visible && setPreviewImage(''),
-                }}
-                src={previewImage}
-              />
-            )}
-          </Form.Item>
+                <Form.Item
+                  label="Image"
+                  name="image_url"
+                  // rules={[{ required: true, message: 'Please insert 1 image' }]}
+                >
+                  <Dragger {...uploadProps}>
+                    <p className="ant-upload-drag-icon">
+                      <InboxOutlined />
+                    </p>
+                    <p className="ant-upload-text">
+                      Click or drag file to upload
+                    </p>
+                    <p className="ant-upload-hint">
+                      Support for single or bulk upload. Do not upload
+                      prohibited files.
+                    </p>
+                  </Dragger>
+                  {previewImage && (
+                    <Image
+                      wrapperStyle={{ display: 'none' }}
+                      preview={{
+                        visible: previewOpen,
+                        onVisibleChange: (visible) => setPreviewOpen(visible),
+                        afterOpenChange: (visible) =>
+                          !visible && setPreviewImage(''),
+                      }}
+                      src={previewImage}
+                    />
+                  )}
+                </Form.Item>
 
-          <Form.Item
-            name="content"
-            label="Content"
-            rules={[{ required: true, message: 'Content is required' }]}
-          >
-            <Tiptap content={content} setContent={setContent} />
-          </Form.Item>
+                <Form.Item
+                  name={`${locale}__content`}
+                  label="Content"
+                  rules={[{ required: true, message: 'Content is required' }]}
+                >
+                  <Tiptap
+                    content={content}
+                    setContent={(content: string) => {
+                      form.setFieldValue(`${locale}__content`, content)
+                      setContent(content)
+                    }}
+                  />
+                </Form.Item>
+              </Tabs.TabPane>
+            ))}
+          </Tabs>
 
           <Space className="flex flex-wrap justify-end gap-4 mt-4">
             <Button onClick={() => router.visit('/dashboard/products')}>

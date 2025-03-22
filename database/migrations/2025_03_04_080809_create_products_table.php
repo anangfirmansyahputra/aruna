@@ -13,15 +13,9 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
             $table->foreignId('category_id')->constrained();
             $table->string('image_url');
             $table->boolean('is_credit')->default(false);
-            $table->string('collateral_name');
-            $table->string('slug')->unique();
-            $table->string('keywords');
-            $table->text('meta_descriptions');
-            $table->longText('content');
             $table->timestamps();
         });
     }

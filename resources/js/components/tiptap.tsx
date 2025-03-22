@@ -24,15 +24,11 @@ import ImageResize from 'tiptap-extension-resize-image'
 import ToolbarEditor from './toolbar-editor'
 import ListItem from '@tiptap/extension-list-item'
 import OrderedList from '@tiptap/extension-ordered-list'
+import { Locale } from '@/types'
 
 interface TiptapProps {
   content?: string
-  setContent?: (
-    content: string
-  ) =>
-    | void
-    | Dispatch<SetStateAction<string>>
-    | Dispatch<SetStateAction<string | null>>
+  setContent?: (content: string) => void
   editable?: boolean
 }
 

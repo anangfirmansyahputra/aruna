@@ -54,7 +54,7 @@ export default function ProductPage({ data }: ProductPage) {
       title: 'Category',
       key: 'category_id',
       render: (_, record) => {
-        return <div>{record.category?.name}</div>
+        return <div>{record.category?.translations[0].name}</div>
       },
       width: 200,
     },

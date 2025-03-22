@@ -10,7 +10,7 @@ import { createRoot } from 'react-dom/client'
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel'
 
 createInertiaApp({
-  title: (title) => `${title} - ${appName}`,
+  // title: (title) => `${title} - ${appName}`,
   resolve: (name) =>
     resolvePageComponent(
       `./pages/${name}.tsx`,

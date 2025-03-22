@@ -133,4 +133,4 @@ export interface Testimonial {
   updated_at: Date
 }
 
-type Locale = 'ID' | 'EN'
+export type Locale = 'ID' | 'EN'

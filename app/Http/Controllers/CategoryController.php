@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\CategoryTranslation;
+use Artesaos\SEOTools\Facades\SEOTools;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
@@ -17,8 +18,12 @@ class CategoryController extends Controller
     {
         $categories = Category::with("translations")->get();
 
+        SEOTools::setTitle("anang ganteng");
+        SEOTools::setDescription("TOLE GANTENG");
+
         return Inertia::render('category/page', [
-            'data' => $categories
+            'data' => $categories,
+            "seo" => SEOTools::generate()
         ]);
     }
 

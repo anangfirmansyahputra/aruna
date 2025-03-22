@@ -11,10 +11,8 @@ import {
   message,
   Space,
   Tabs,
-  TabsProps,
   Typography,
 } from 'antd'
-import { useEffect } from 'react'
 
 interface FormPageProps {
   data?: Category
@@ -48,21 +46,6 @@ export default function FormPage({ data }: FormPageProps) {
     url: data ? `/dashboard/categories/${data.id}` : `/dashboard/categories`,
     method: data ? 'put' : 'post',
   })
-
-  const tabs: TabsProps['items'] = [
-    {
-      key: 'ID',
-      label: 'ID',
-      children: generateForm('ID'),
-      forceRender: true,
-    },
-    {
-      key: 'EN',
-      label: 'EN',
-      children: generateForm('EN'),
-      forceRender: true,
-    },
-  ]
 
   const handleSubmit = async () => {
     try {
@@ -109,7 +92,31 @@ export default function FormPage({ data }: FormPageProps) {
 
         <div className="grid lg:grid-cols-2">
           <Form disabled={isLoading} form={form} layout="vertical">
-            <Tabs items={tabs} />
+            <Tabs>
+              {['ID', 'EN'].map((locale) => (
+                <Tabs.TabPane key={locale} tab={locale}>
+                  <Form.Item
+                    name={`${locale}__name`}
+                    label="Name"
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Please enter a category name',
+                      },
+                    ]}
+                  >
+                    <Input placeholder="Enter category name" />
+                  </Form.Item>
+
+                  <Form.Item
+                    name={`${locale}__description`}
+                    label="Description"
+                  >
+                    <Input.TextArea rows={5} />
+                  </Form.Item>
+                </Tabs.TabPane>
+              ))}
+            </Tabs>
 
             <Space>
               <Button

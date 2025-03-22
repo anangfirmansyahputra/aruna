@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 
@@ -24,7 +25,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $categories = Category::all();
+        $categories = Category::translation("ID")->get();
         return Inertia::render('product/form', ['categories' => $categories]);
     }
 
@@ -33,28 +34,39 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+        $request->merge([
+            'translations' => json_decode($request->input('translations'), true)
+        ]);
 
         $validate = $request->validate([
-            'name' => ['required', "string"],
             'category_id' => ['required', 'exists:categories,id'],
-            'collateral_name' => ['required', 'string'],
             'is_credit' => ['nullable', 'string'],
             'image_url' => 'mimes:jpeg,jpg,png,gif|max:1000',
-            'slug' => ['required', 'string'],
-            'keywords' => ['required', 'string'],
-            'meta_descriptions' => ['required', 'string'],
-            'content' => ['required', 'string']
+            'translations' => "required|array",
+            "translations.*.name" => "required|string",
+            "translations.*.language_code" => "required|string",
+            "translations.*.collateral_name" => "required|string",
+            "translations.*.slug" => "required|string",
+            "translations.*.keywords" => "required|array",
+            "translations.*.meta_descriptions" => "required|string",
+            "translations.*.content" => "required|string",
         ]);
 
         $validate['is_credit'] = $validate['is_credit'] == 'true' ? true : false;
 
         try {
+            DB::beginTransaction();
+
             $imagePath = $request->file('image_url')->store('products', 'public');
             $validate['image_url'] = $imagePath;
 
-            Product::create($validate);
+            $product = Product::create($validate);
+            $product->translations()->createMany($validate["translations"]);
+
+            DB::commit();
             return to_route('products.index');
         } catch (\Exception $e) {
+            DB::rollBack();
             return back()->with('error', $e->getMessage());
         }
     }

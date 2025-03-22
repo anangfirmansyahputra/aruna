@@ -20,8 +20,8 @@ class Category extends Model
 
     public function scopeTranslation(Builder $query, string $languageCode)
     {
-        return $query->whereHas("translations", function (Builder $query) use ($languageCode) {
+        return $query->with(["translations" => function ($query) use ($languageCode) {
             $query->where("language_code", $languageCode);
-        });
+        }]);
     }
 }
