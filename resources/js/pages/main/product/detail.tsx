@@ -13,6 +13,7 @@ import Timer from '../../../../../public/assets/timer.svg'
 import Calculator from '../../../../../public/assets/calculator.svg'
 import CalendarIcon from '../../../../../public/assets/calendar.svg'
 import FaqProduct from '@/components/faq-product'
+import { Head, usePage } from '@inertiajs/react'
 
 interface DetailProductPageProps {
   product: ProductTranslation & {
@@ -39,14 +40,43 @@ const faqs = [
 ]
 
 export default function DetailProductPage({ product }: DetailProductPageProps) {
+  const appUrl = import.meta.env.APP_URL
+
   return (
-    <MainLayout>
-      <>
+    <>
+      <Head title={product.name}>
+        {/* Meta Standar */}
+        <meta name="description" content={product.meta_descriptions} />
+        <meta name="keywords" content={product.keywords} />
+        <meta name="author" content="Nama Brand atau Author" />
+
+        {/* Meta Open Graph (SEO + Social Media) */}
+        <meta property="og:type" content="product" />
+        <meta property="og:title" content={product.name} />
+        <meta property="og:description" content={product.meta_descriptions} />
+        <meta property="og:image" content={product.product.image_url} />
+        <meta
+          property="og:url"
+          content={`${appUrl}/products/${product.slug}`}
+        />
+        <meta property="og:site_name" content="Nama Website" />
+
+        {/* Meta Twitter Card */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={product.name} />
+        <meta name="twitter:description" content={product.meta_descriptions} />
+        <meta name="twitter:image" content={product.product.image_url} />
+
+        {/* Canonical URL */}
+        <link rel="canonical" href={`${appUrl}/products/${product.slug}`} />
+      </Head>
+
+      <MainLayout>
         <div className="container mx-auto py-[52px]">
           <div className="flex gap-[112px] items-center justify-center">
             <img
               src={product.product.image_url}
-              className="rounded-full w-[474px] h-[474px] border-[2px] border-[#1946B9] p-2 border-dashed"
+              className="rounded-full object-cover w-[474px] h-[474px] border-[2px] border-[#1946B9] p-2 border-dashed"
             />
 
             <div>
@@ -209,7 +239,7 @@ export default function DetailProductPage({ product }: DetailProductPageProps) {
             </div>
           </div>
         </div>
-      </>
-    </MainLayout>
+      </MainLayout>
+    </>
   )
 }

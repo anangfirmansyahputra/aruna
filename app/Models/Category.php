@@ -18,6 +18,11 @@ class Category extends Model
         return $this->hasMany(CategoryTranslation::class);
     }
 
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
+
     public function scopeTranslation(Builder $query, string $languageCode)
     {
         return $query->with(["translations" => function ($query) use ($languageCode) {

@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\Session;
@@ -39,7 +40,7 @@ class HandleInertiaRequests extends Middleware
     {
         $user = $request->user();
         $locale = Session::get("locale", 'id');
-
+        $categories = Category::with(['products.translations', 'translations'])->get();
 
         return array_merge(parent::share($request), [
             'auth' => $request->user(),
@@ -48,7 +49,8 @@ class HandleInertiaRequests extends Middleware
                 'error' => session('error')
             ],
             'permissions' => $user ? $user->getAllPermissions()->pluck('name') : [],
-            'locale' => $locale
+            'locale' => $locale,
+            'categories' => $categories
         ]);
     }
 }

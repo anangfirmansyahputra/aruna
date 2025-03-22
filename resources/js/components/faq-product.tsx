@@ -21,7 +21,7 @@ export default function FaqProduct({ items, title }: FaqProductProps) {
 
         {/* Button with animation */}
         <motion.button
-          className="p-3 rounded-full bg-[#3387EC] w-fit"
+          className="p-3 rounded-full bg-[#3387EC] w-fit cursor-pointer"
           animate={{ rotate: open ? 180 : 0 }}
           transition={{ duration: 0.3, ease: 'easeInOut' }}
         >
