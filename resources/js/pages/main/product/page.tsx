@@ -1,16 +1,18 @@
 import MainLayout from '@/layouts/main-layout'
-import { Product } from '@/types'
+import { Product, ProductTranslation } from '@/types'
 import { Link } from '@inertiajs/react'
 import { ArrowRight } from 'lucide-react'
 
 interface ProductPageProps {
-  products: Product[]
+  products: (Product & {
+    translations: ProductTranslation[]
+  })[]
 }
 
 export default function ProductPage({ products }: ProductPageProps) {
   return (
     <MainLayout>
-      <div className="pt-10 pb-[84px]">
+      <div className="pt-10 pb-[84px] container mx-auto">
         <h2 className="text-primary text-5xl font-semibold text-center">
           Produk Dari Kami
         </h2>

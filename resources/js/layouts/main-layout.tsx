@@ -10,7 +10,7 @@ export default function MainLayout({ children }: MainLayoutProps) {
   return (
     <>
       <Navbar />
-      <div className="container mx-auto">{children}</div>
+      <div>{children}</div>
       <Footer />
     </>
   )

@@ -31,21 +31,22 @@ export interface CategoryTranslation {
   updated_at: Date
 }
 
+export interface ProductTranslation {
+  language_code: Locale
+  name: string
+  collateral_name: string
+  keywords: string
+  meta_descriptions: string
+  content: string
+  slug: string
+}
+
 export interface Product {
   id: number
   category_id: number
   category?: Category
   image_url: string
   is_credit: boolean
-  translations: {
-    language_code: Locale
-    name: string
-    collateral_name: string
-    keywords: string
-    meta_descriptions: string
-    content: string
-    slug: string
-  }[]
   created_at: Date
   updated_at: Date
 }

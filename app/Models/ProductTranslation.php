@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Enums\LanguageCode;
-use App\Http\Controllers\ProductController;
 use Illuminate\Database\Eloquent\Model;
 
 class ProductTranslation extends Model
@@ -26,6 +25,6 @@ class ProductTranslation extends Model
 
     public function product()
     {
-        return $this->belongsTo(ProductController::class);
+        return $this->belongsTo(Product::class);
     }
 }
