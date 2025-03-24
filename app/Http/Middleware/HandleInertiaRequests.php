@@ -54,16 +54,6 @@ class HandleInertiaRequests extends Middleware
             'permissions' => $user ? $user->getAllPermissions()->pluck('name') : [],
             'locale' => $locale,
             'categories' => $categories,
-            'navbar' => [
-                "about_nav" => __("general.about_nav"),
-                "product_nav" => __("general.product_nav"),
-                "news_nav" => __("general.news_nav"),
-                "career_nav" => __("general.career_nav"),
-                "promo_nav" => __("general.promo_nav"),
-                "proposal_nav" => __("general.proposal_nav"),
-                'home_nav' => __("general.home_nav"),
-                'contact_nav' => __("general.contact_nav"),
-            ]
         ]);
     }
 }

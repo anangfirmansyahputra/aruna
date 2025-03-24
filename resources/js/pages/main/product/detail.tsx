@@ -14,6 +14,7 @@ import Calculator from '../../../../../public/assets/calculator.svg'
 import CalendarIcon from '../../../../../public/assets/calendar.svg'
 import FaqProduct from '@/components/faq-product'
 import { Head, usePage } from '@inertiajs/react'
+import { getTranslate } from '@/lib/lang'
 
 interface DetailProductPageProps {
   product: ProductTranslation & {
@@ -40,7 +41,9 @@ const faqs = [
 ]
 
 export default function DetailProductPage({ product }: DetailProductPageProps) {
-  const appUrl = import.meta.env.APP_URL
+  const appUrl = import.meta.env.APP_URL || 'http://127.0.0.1:8000'
+  const { locale } = usePage().props
+  const lang = locale as 'id' | 'en'
 
   return (
     <>
@@ -92,12 +95,12 @@ export default function DetailProductPage({ product }: DetailProductPageProps) {
 
               <div className="mt-[30px] flex gap-[25px]">
                 <button className="bg-primary text-white rounded-2xl font-semibold py-3.5 px-[34px] flex items-start cursor-pointer">
-                  Ajukan Sekarang
+                  {getTranslate(lang as 'id' | 'en', 'apply_now')}
                   <ArrowRight className="ml-2" />
                 </button>
 
                 <button className="text-primary border border-primary bg-white rounded-2xl font-semibold py-3.5 px-[34px] flex items-start cursor-pointer">
-                  Simulasi Kredit
+                  {getTranslate(lang, 'credit_simulation')}
                 </button>
               </div>
             </div>

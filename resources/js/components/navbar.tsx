@@ -3,44 +3,26 @@ import Logo from '../../../public/assets/logo.svg'
 import { Category, Product, ProductTranslation } from '@/types'
 import { motion, AnimatePresence } from 'framer-motion'
 import React from 'react'
+import { getTranslate } from '@/lib/lang'
 
 export default function Navbar() {
   const { locale, categories, navbar } = usePage().props
   const { url } = usePage()
   const [isHover, setIsHover] = React.useState(false)
-
-  const {
-    about_nav,
-    career_nav,
-    news_nav,
-    product_nav,
-    promo_nav,
-    proposal_nav,
-    contact_nav,
-    home_nav,
-  } = navbar as {
-    about_nav: string
-    product_nav: string
-    news_nav: string
-    career_nav: string
-    promo_nav: string
-    proposal_nav: string
-    home_nav: string
-    contact_nav: string
-  }
+  const lang = locale as 'id' | 'en'
 
   return (
     <div>
       <div className="flex container mx-auto justify-between py-2.5 font-medium text-base text-[#736E6E]">
         <Link href="/" className="hover:text-primary transition-colors">
-          {home_nav}
+          {getTranslate(lang, 'home_nav')}
         </Link>
         <div className="space-x-[25px]">
           <Link
             href="/contact"
             className="hover:text-primary transition-colors"
           >
-            {contact_nav}
+            {getTranslate(lang, 'contact_nav')}
           </Link>
           <Link href="/faq" className="hover:text-primary transition-colors">
             FAQ
@@ -69,7 +51,7 @@ export default function Navbar() {
 
           <div className="text-white font-semibold text-lg space-x-[84px] flex">
             <Link href="" className="hover:text-[#83AAFF] transition-colors">
-              {about_nav}
+              {getTranslate(lang, 'about_nav')}
             </Link>
 
             <div
@@ -79,7 +61,7 @@ export default function Navbar() {
               onMouseLeave={() => setIsHover(false)}
             >
               <span onClick={() => router.visit('/products')}>
-                {product_nav}
+                {getTranslate(lang, 'product_nav')}
               </span>
 
               {/* Dropdown */}
@@ -136,16 +118,16 @@ export default function Navbar() {
               </AnimatePresence>
             </div>
             <Link href="" className="hover:text-[#83AAFF] transition-colors">
-              {news_nav}
+              {getTranslate(lang, 'news_nav')}
             </Link>
             <Link href="" className="hover:text-[#83AAFF] transition-colors">
-              {career_nav}
+              {getTranslate(lang, 'career_nav')}
             </Link>
             <Link href="" className="hover:text-[#83AAFF] transition-colors">
-              {promo_nav}
+              {getTranslate(lang, 'promo_nav')}
             </Link>
             <Link href="" className="hover:text-[#83AAFF] transition-colors">
-              {proposal_nav}
+              {getTranslate(lang, 'proposal_nav')}
             </Link>
           </div>
         </div>
