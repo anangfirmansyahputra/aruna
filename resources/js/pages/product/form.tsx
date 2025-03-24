@@ -2,7 +2,7 @@ import Tiptap from '@/components/tiptap'
 import { useFormHandler } from '@/hooks/use-form-handler'
 import DashboardLayout from '@/layouts/dashboard-layout'
 import { checkPermission } from '@/lib/permission'
-import { Category, Locale, Product } from '@/types'
+import { Category, Locale, Product, ProductTranslation } from '@/types'
 import { InboxOutlined } from '@ant-design/icons'
 import { Head, router, usePage } from '@inertiajs/react'
 import type { GetProp, UploadFile, UploadProps } from 'antd'
@@ -26,7 +26,9 @@ import { JSX, useEffect, useState } from 'react'
 const breadcrumbs = ['Dashboard', 'Category', 'Create']
 
 interface FormPageProps {
-  product?: Product
+  product?: Product & {
+    translations: ProductTranslation[]
+  }
   categories: Category[]
 }
 
@@ -135,10 +137,6 @@ export default function FormPage({ product, categories }: FormPageProps) {
     listType: 'picture',
   }
 
-  const handleContent = (locale: Locale, content: string) => {
-    form.setFieldValue(`${locale}__content`, content)
-  }
-
   return (
     <>
       <Head title={product ? 'Edit Product' : 'Create Product'} />
@@ -238,6 +236,38 @@ export default function FormPage({ product, categories }: FormPageProps) {
                       ]}
                     >
                       <Input.TextArea rows={4} />
+                    </Form.Item>
+                  </Col>
+                </Row>
+
+                <Row gutter={[16, 16]}>
+                  <Col xs={24} sm={12}>
+                    <Form.Item
+                      label="Heading One"
+                      name={`${locale}__heading_one`}
+                      rules={[
+                        {
+                          message: 'Heading one required',
+                          required: true,
+                        },
+                      ]}
+                    >
+                      <Input />
+                    </Form.Item>
+                  </Col>
+
+                  <Col xs={24} sm={12}>
+                    <Form.Item
+                      label="Heading Two"
+                      name={`${locale}__heading_two`}
+                      rules={[
+                        {
+                          message: 'Heading two required',
+                          required: true,
+                        },
+                      ]}
+                    >
+                      <Input />
                     </Form.Item>
                   </Col>
                 </Row>

@@ -1,23 +1,46 @@
 import { Link, router, usePage } from '@inertiajs/react'
 import Logo from '../../../public/assets/logo.svg'
 import { Category, Product, ProductTranslation } from '@/types'
+import { motion, AnimatePresence } from 'framer-motion'
+import React from 'react'
 
 export default function Navbar() {
-  const { locale, categories } = usePage().props
+  const { locale, categories, navbar } = usePage().props
   const { url } = usePage()
+  const [isHover, setIsHover] = React.useState(false)
+
+  const {
+    about_nav,
+    career_nav,
+    news_nav,
+    product_nav,
+    promo_nav,
+    proposal_nav,
+    contact_nav,
+    home_nav,
+  } = navbar as {
+    about_nav: string
+    product_nav: string
+    news_nav: string
+    career_nav: string
+    promo_nav: string
+    proposal_nav: string
+    home_nav: string
+    contact_nav: string
+  }
 
   return (
     <div>
       <div className="flex container mx-auto justify-between py-2.5 font-medium text-base text-[#736E6E]">
         <Link href="/" className="hover:text-primary transition-colors">
-          Beranda
+          {home_nav}
         </Link>
         <div className="space-x-[25px]">
           <Link
             href="/contact"
             className="hover:text-primary transition-colors"
           >
-            Kontak
+            {contact_nav}
           </Link>
           <Link href="/faq" className="hover:text-primary transition-colors">
             FAQ
@@ -46,54 +69,83 @@ export default function Navbar() {
 
           <div className="text-white font-semibold text-lg space-x-[84px] flex">
             <Link href="" className="hover:text-[#83AAFF] transition-colors">
-              Tentang
+              {about_nav}
             </Link>
+
             <div
               role="link"
-              className={`${url.includes('/products') && 'text-[#83AAFF]'} relative group hover:text-[#83AAFF] transition-colors group cursor-pointer`}
+              className={`relative group hover:text-[#83AAFF] transition-colors cursor-pointer`}
+              onMouseEnter={() => setIsHover(true)}
+              onMouseLeave={() => setIsHover(false)}
             >
-              <span onClick={() => router.visit('/products')}>Produk</span>
-              <div className="absolute cursor-auto hidden left-1/2 -translate-x-1/2 group-hover:flex flex-col items-center">
-                <div className="mt-6 w-0 h-0 border-l-8 border-r-8 border-b-8 border-transparent border-b-white" />
+              <span onClick={() => router.visit('/products')}>
+                {product_nav}
+              </span>
 
-                <div className="bg-white py-[42px] px-[78px] shadow rounded-[10px] grid grid-cols-3 w-[928px] max-w-[928px] gap-5">
-                  {(
-                    categories as (Category & {
-                      products: (Product & {
-                        translations: ProductTranslation[]
-                      })[]
-                    })[]
-                  ).map((category) => (
-                    <div key={category.id} className="space-y-2.5">
-                      <p className="text-primary text-lg font-semibold">
-                        {category.translations[0].name}
-                      </p>
-                      {category.products.map((product) => (
-                        <Link
-                          href={`/products/${product.translations[0].slug}`}
-                          className={`${url === `/products/${product.translations[0].slug}` ? 'text-primary' : 'text-black'}  text-base font-normal hover:text-primary transition-colors`}
-                          key={product.id}
-                        >
-                          {product.translations[0].name}
-                        </Link>
+              {/* Dropdown */}
+              <AnimatePresence>
+                {isHover && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 10 }}
+                    transition={{ duration: 0.2 }}
+                    className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center"
+                  >
+                    {/* Triangle */}
+                    <motion.div
+                      initial={{ rotateX: 90 }}
+                      animate={{ rotateX: 0 }}
+                      exit={{ rotateX: 90 }}
+                      transition={{ duration: 0.2 }}
+                      className="mt-6 w-0 h-0 border-l-8 border-r-8 border-b-8 border-transparent border-b-white"
+                    />
+
+                    {/* Dropdown Content */}
+                    <motion.div className="bg-white py-[42px] px-[78px] shadow rounded-[10px] grid grid-cols-3 w-[928px] max-w-[928px] gap-5">
+                      {(
+                        categories as (Category & {
+                          products: (Product & {
+                            translations: ProductTranslation[]
+                          })[]
+                        })[]
+                      ).map((category) => (
+                        <div key={category.id} className="space-y-2.5">
+                          <p className="text-primary text-lg font-semibold">
+                            {category.translations[0].name}
+                          </p>
+                          {category.products.map((product) => (
+                            <a
+                              href={`/products/${product.translations[0].slug}`}
+                              className={`${
+                                url ===
+                                `/products/${product.translations[0].slug}`
+                                  ? 'text-primary'
+                                  : 'text-black'
+                              } text-base font-normal hover:text-primary transition-colors`}
+                              key={product.id}
+                            >
+                              {product.translations[0].name}
+                            </a>
+                          ))}
+                        </div>
                       ))}
-                    </div>
-                  ))}
-                </div>
-              </div>
+                    </motion.div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
-
             <Link href="" className="hover:text-[#83AAFF] transition-colors">
-              Berita
+              {news_nav}
             </Link>
             <Link href="" className="hover:text-[#83AAFF] transition-colors">
-              Karir
+              {career_nav}
             </Link>
             <Link href="" className="hover:text-[#83AAFF] transition-colors">
-              Promo
+              {promo_nav}
             </Link>
             <Link href="" className="hover:text-[#83AAFF] transition-colors">
-              Pengajuan
+              {proposal_nav}
             </Link>
           </div>
         </div>

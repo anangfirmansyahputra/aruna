@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Route;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Session;
 use Inertia\Middleware;
 
@@ -42,6 +43,8 @@ class HandleInertiaRequests extends Middleware
         $locale = Session::get("locale", 'id');
         $categories = Category::with(['products.translations', 'translations'])->get();
 
+        App::setLocale($locale);
+
         return array_merge(parent::share($request), [
             'auth' => $request->user(),
             'menus' => $user ? $user->menus()->sortBy('order')->values() : null,
@@ -50,7 +53,17 @@ class HandleInertiaRequests extends Middleware
             ],
             'permissions' => $user ? $user->getAllPermissions()->pluck('name') : [],
             'locale' => $locale,
-            'categories' => $categories
+            'categories' => $categories,
+            'navbar' => [
+                "about_nav" => __("general.about_nav"),
+                "product_nav" => __("general.product_nav"),
+                "news_nav" => __("general.news_nav"),
+                "career_nav" => __("general.career_nav"),
+                "promo_nav" => __("general.promo_nav"),
+                "proposal_nav" => __("general.proposal_nav"),
+                'home_nav' => __("general.home_nav"),
+                'contact_nav' => __("general.contact_nav"),
+            ]
         ]);
     }
 }

@@ -51,6 +51,8 @@ class ProductController extends Controller
             "translations.*.keywords" => "required|array",
             "translations.*.meta_descriptions" => "required|string",
             "translations.*.content" => "required|string",
+            "translations.*.heading_one" => "required|string",
+            "translations.*.heading_two" => "required|string",
         ]);
 
         $validate['is_credit'] = $validate['is_credit'] == 'true' ? true : false;

@@ -1,3 +1,4 @@
+import ProductCard from '@/components/product-card'
 import MainLayout from '@/layouts/main-layout'
 import { Product, ProductTranslation } from '@/types'
 import { Link } from '@inertiajs/react'
@@ -22,27 +23,7 @@ export default function ProductPage({ products }: ProductPageProps) {
 
         <div className="grid grid-cols-3 mt-10 gap-[50px]">
           {products.map((product, index) => (
-            <div key={index}>
-              <img
-                src={product.image_url}
-                className="w-full rounded-lg"
-                alt={product.translations[0]?.name}
-              />
-              <h3 className="text-black text-xl font-semibold mt-4">
-                {product.translations[0]?.name}
-              </h3>
-              <p className="mt-1 text-[#777777] text-base">
-                {product.translations[0]?.meta_descriptions}
-              </p>
-
-              <Link
-                href={`/products/${product.translations[0].slug}`}
-                className="flex items-center mt-4 text-base text-[#777777] group hover:text-primary transition-colors"
-              >
-                Selengkapnya
-                <ArrowRight className="w-5 h-5 ml-[10px] group-hover:ml-5 transition-all" />
-              </Link>
-            </div>
+            <ProductCard product={product} key={index} />
           ))}
         </div>
       </div>

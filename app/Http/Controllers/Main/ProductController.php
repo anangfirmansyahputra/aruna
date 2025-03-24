@@ -23,7 +23,9 @@ class ProductController extends Controller
 
     public function show(Request $request, String $slug)
     {
-        $product = ProductTranslation::where("slug", $slug)->with('product')->first();
+        $locale = Session::get("locale", "en");
+        $productTranslation = ProductTranslation::where("slug", $slug)->with('product')->first();
+        $product = ProductTranslation::where("product_id", $productTranslation->product_id)->where('language_code', $locale)->with('product')->first();
 
         return Inertia::render("main/product/detail", [
             'product' => $product

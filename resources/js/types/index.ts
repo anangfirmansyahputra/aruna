@@ -39,6 +39,8 @@ export interface ProductTranslation {
   meta_descriptions: string
   content: string
   slug: string
+  heading_one: string
+  heading_two: string
 }
 
 export interface Product {

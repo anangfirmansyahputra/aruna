@@ -84,11 +84,10 @@ export default function DetailProductPage({ product }: DetailProductPageProps) {
                 <h4>{product.name}</h4>
               </div>
               <h2 className="text-4xl font-semibold text-primary mt-3 max-w-[645px] leading-11">
-                Dapatkan kemudahan dan kenyamanan investasi!
+                {product.heading_one}
               </h2>
               <p className="text-lg text-[#3F4145] mt-[30px] max-w-[645px]">
-                Nikmati kredit dengan syarat mudah, dan manfaat optimal untuk
-                masa depan Anda!
+                {product.heading_two}
               </p>
 
               <div className="mt-[30px] flex gap-[25px]">
