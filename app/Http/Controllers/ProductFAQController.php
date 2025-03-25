@@ -14,8 +14,8 @@ class ProductFAQController extends Controller
      */
     public function index()
     {
-        $productFaqs = ProductFAQ::with('product')->get();
-        $products = Product::all();
+        $productFaqs = ProductFAQ::with('product.translations')->get();
+        $products = Product::with('translations')->get();
 
         return Inertia::render('faq/page', [
             'data' => $productFaqs,
@@ -28,10 +28,21 @@ class ProductFAQController extends Controller
      */
     public function create()
     {
-        $products = Product::all();
+        $products = Product::with("translations")->get();
 
         return Inertia::render('faq/form', [
             'products' => $products
+        ]);
+    }
+
+    public function validate(Request $request)
+    {
+        return $request->validate([
+            'product_id' => "required|exists:products,id",
+            "id_question" => "required|string",
+            "en_question" => "required|string",
+            "en_answer" => "required|string",
+            "id_answer" => "required|string"
         ]);
     }
 
@@ -40,12 +51,8 @@ class ProductFAQController extends Controller
      */
     public function store(Request $request)
     {
-        $validate = $request->validate([
-            'product_id' => "required|exists:products,id",
-            "question" => "required|string",
-            "answer" => "required|string"
-        ]);
 
+        $validate = $this->validate($request);
         ProductFAQ::create($validate);
 
         return to_route('faqs.index');
@@ -64,7 +71,7 @@ class ProductFAQController extends Controller
      */
     public function edit(ProductFAQ $faq)
     {
-        $products = Product::all();
+        $products = Product::with('translations')->get();
 
         return Inertia::render('faq/form', [
             'products' => $products,
@@ -77,12 +84,7 @@ class ProductFAQController extends Controller
      */
     public function update(Request $request, ProductFAQ $faq)
     {
-        $validate = $request->validate([
-            'product_id' => "required|exists:products,id",
-            "question" => "required|string",
-            "answer" => "required|string"
-        ]);
-
+        $validate = $this->validate($request);
         $faq->update($validate);
         return to_route('faqs.index');
     }

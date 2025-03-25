@@ -103,8 +103,10 @@ export interface User {
 export interface ProductFAQ {
   id: number
   product_id: number
-  question: string
-  answer: string
+  id_question: string
+  en_question: string
+  en_answer: string
+  id_answer: string
   product: Product
   created_at: Date
   updated_at: Date

@@ -1,5 +1,10 @@
 import MainLayout from '@/layouts/main-layout'
-import { Product, ProductFeature, ProductTranslation } from '@/types'
+import {
+  Product,
+  ProductFAQ,
+  ProductFeature,
+  ProductTranslation,
+} from '@/types'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   ArrowRight,
@@ -27,6 +32,7 @@ interface DetailProductPageProps {
   product: ProductTranslation & {
     product: Product & {
       features: ProductFeature[]
+      faqs: ProductFAQ[]
     }
   }
 }
@@ -122,26 +128,6 @@ const calculatorResults = [
   },
 ]
 
-const faqProducts = [
-  {
-    title: 'Apa itu Bank BPR Aruna',
-    description:
-      'Bank BPR Aruna merupakan sebuah BPR (Bank Perkreditan Rakyat) yang melayani penghimpunan dana simpanan dari masyarakat dan penyaluran kredit bagi para pengusaha, perusahaan dan individu. Dana simpanan dari masyarakat dalam bentuk deposito serta tabungan, dan penyaluran kredit berupa kredit untuk modal usaha maupun untuk kredit pribadi masyarakat.',
-  },
-  {
-    title: 'Berapa persen besar suku bunga tabungan BPR?',
-    description: '',
-  },
-  {
-    title: 'Berapa persen besar suku bunga tabungan BPR?',
-    description: '',
-  },
-  {
-    title: 'Berapa persen besar suku bunga tabungan BPR?',
-    description: '',
-  },
-]
-
 export default function DetailProductPage({ product }: DetailProductPageProps) {
   const appUrl = import.meta.env.APP_URL || 'http://127.0.0.1:8000'
   const { locale } = usePage().props
@@ -218,29 +204,31 @@ export default function DetailProductPage({ product }: DetailProductPageProps) {
             Beberapa fitur yang kami miliki pada produk kredit investasi
           </p>
 
-          <div className="grid grid-cols-3 gap-4 container mx-auto mt-10">
-            {product.product.features.map((feature) => {
-              // @ts-ignore
-              const IconComponent = LucideIcons[feature.icon]
+          {product.product.features.length > 0 && (
+            <div className="grid grid-cols-3 gap-4 container mx-auto mt-10">
+              {product.product.features.map((feature) => {
+                // @ts-ignore
+                const IconComponent = LucideIcons[feature.icon]
 
-              return (
-                <div
-                  key={feature.id}
-                  className="bg-white rounded-[10px] flex flex-col justify-between items-center px-[52px] py-10"
-                >
-                  <div className="p-[22px] bg-[#F8F9F9] rounded-full">
-                    <IconComponent size={16} className="text-[#3387EC]" />
+                return (
+                  <div
+                    key={feature.id}
+                    className="bg-white rounded-[10px] flex flex-col justify-between items-center px-[52px] py-10"
+                  >
+                    <div className="p-[22px] bg-[#F8F9F9] rounded-full">
+                      <IconComponent size={16} className="text-[#3387EC]" />
+                    </div>
+                    <p className="text-[#141515] font-medium text-xl mt-3.5 text-center">
+                      {feature[`${lang}_title`]}
+                    </p>
+                    <p className="text-[#8F9090] mt-3.5 text-center">
+                      {feature[`${lang}_description`]}
+                    </p>
                   </div>
-                  <p className="text-[#141515] font-medium text-xl mt-3.5 text-center">
-                    {feature[`${lang}_title`]}
-                  </p>
-                  <p className="text-[#8F9090] mt-3.5 text-center">
-                    {feature[`${lang}_description`]}
-                  </p>
-                </div>
-              )
-            })}
-          </div>
+                )
+              })}
+            </div>
+          )}
         </div>
 
         <div className="bg-white py-[50px]">
@@ -437,11 +425,17 @@ export default function DetailProductPage({ product }: DetailProductPageProps) {
             diajukan.
           </p>
 
-          <div className="space-y-5">
-            {faqProducts.map((faq, i) => (
-              <Faq {...faq} key={i} />
-            ))}
-          </div>
+          {product.product.faqs.length > 0 && (
+            <div className="space-y-5">
+              {product.product.faqs.map((faq, i) => (
+                <Faq
+                  question={faq[`${lang}_question`]}
+                  answer={faq[`${lang}_answer`]}
+                  key={i}
+                />
+              ))}
+            </div>
+          )}
         </div>
       </MainLayout>
     </>

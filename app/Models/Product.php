@@ -37,6 +37,11 @@ class Product extends Model
         return $this->hasMany(ProductTranslation::class);
     }
 
+    public function faqs()
+    {
+        return $this->hasMany(ProductFAQ::class);
+    }
+
     public function scopeTranslation(Builder $query, string $languageCode)
     {
         return $query->with(["translations" => function ($query) use ($languageCode) {

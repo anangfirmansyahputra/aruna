@@ -11,8 +11,10 @@ class ProductFAQ extends Model
 
     protected $fillable = [
         'product_id',
-        'question',
-        'answer'
+        'id_question',
+        'en_question',
+        'id_answer',
+        'en_answer',
     ];
 
     public function product()

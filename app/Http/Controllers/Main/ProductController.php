@@ -25,7 +25,7 @@ class ProductController extends Controller
     {
         $locale = Session::get("locale", "en");
         $productTranslation = ProductTranslation::where("slug", $slug)->with('product')->first();
-        $product = ProductTranslation::where("product_id", $productTranslation->product_id)->where('language_code', $locale)->with(['product.features'])->first();
+        $product = ProductTranslation::where("product_id", $productTranslation->product_id)->where('language_code', $locale)->with(['product.features', 'product.faqs'])->first();
 
         return Inertia::render("main/product/detail", [
             'product' => $product

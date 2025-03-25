@@ -1,13 +1,26 @@
 import { useFormHandler } from '@/hooks/use-form-handler'
 import DashboardLayout from '@/layouts/dashboard-layout'
 import { checkPermission } from '@/lib/permission'
-import { Product, ProductFAQ } from '@/types'
+import { Product, ProductFAQ, ProductTranslation } from '@/types'
 import { Head, router, usePage } from '@inertiajs/react'
-import { Button, Divider, Form, Input, Select, Space, Typography } from 'antd'
+import {
+  Button,
+  Divider,
+  Form,
+  Input,
+  message,
+  Select,
+  Space,
+  Tabs,
+  Typography,
+} from 'antd'
+import TabPane from 'antd/es/tabs/TabPane'
 
 interface FormPageProps {
   faq?: ProductFAQ
-  products: Product[]
+  products: (Product & {
+    translations: ProductTranslation[]
+  })[]
 }
 
 export default function FormPage({ faq, products }: FormPageProps) {
@@ -21,6 +34,21 @@ export default function FormPage({ faq, products }: FormPageProps) {
     method: faq ? 'put' : 'post',
   })
 
+  const handleSubmit = async () => {
+    try {
+      await form.validateFields()
+      submit()
+    } catch (err: any) {
+      console.log(err)
+
+      if (err?.errorFields) {
+        message.error(err.errorFields[0].errors[0])
+      } else {
+        message.error('An unexpected error occurred')
+      }
+    }
+  }
+
   return (
     <DashboardLayout breadcrumbs={breadcrumbs}>
       <Head title="Create FAQ" />
@@ -31,36 +59,42 @@ export default function FormPage({ faq, products }: FormPageProps) {
 
         <div className="grid lg:grid-cols-2">
           <Form disabled={isLoading} form={form} layout="vertical">
-            <Form.Item
-              name="product_id"
-              label="Product"
-              rules={[{ required: true, message: 'Select product' }]}
-            >
-              <Select
-                showSearch
-                options={products.map((product) => ({
-                  label: product.name,
-                  value: product.id,
-                }))}
-                filterOption={(input, option) =>
-                  (option?.label ?? '')
-                    .toLowerCase()
-                    .includes(input.toLowerCase())
-                }
-              />
-            </Form.Item>
+            <Tabs>
+              {['id', 'en'].map((locale) => (
+                <TabPane key={locale} tab={locale.toUpperCase()} forceRender>
+                  <Form.Item
+                    name="product_id"
+                    label="Product"
+                    rules={[{ required: true, message: 'Select product' }]}
+                  >
+                    <Select
+                      showSearch
+                      options={products.map((product) => ({
+                        label: product.translations[0].name,
+                        value: product.id,
+                      }))}
+                      filterOption={(input, option) =>
+                        (option?.label ?? '')
+                          .toLowerCase()
+                          .includes(input.toLowerCase())
+                      }
+                    />
+                  </Form.Item>
 
-            <Form.Item
-              name="question"
-              label="Question"
-              rules={[{ required: true, message: 'Enter question' }]}
-            >
-              <Input placeholder="Enter question" />
-            </Form.Item>
+                  <Form.Item
+                    name={`${locale}_question`}
+                    label="Question"
+                    rules={[{ required: true, message: 'Enter question' }]}
+                  >
+                    <Input placeholder="Enter question" />
+                  </Form.Item>
 
-            <Form.Item name="answer" label="Answer">
-              <Input.TextArea rows={5} />
-            </Form.Item>
+                  <Form.Item name={`${locale}_answer`} label="Answer">
+                    <Input.TextArea rows={5} />
+                  </Form.Item>
+                </TabPane>
+              ))}
+            </Tabs>
 
             <Space>
               <Button
@@ -73,7 +107,7 @@ export default function FormPage({ faq, products }: FormPageProps) {
                 permissions as string[],
                 faq ? 'faqs.update' : 'faqs.store'
               ) && (
-                <Button type="primary" onClick={() => submit()}>
+                <Button type="primary" onClick={handleSubmit}>
                   Submit
                 </Button>
               )}

@@ -1,6 +1,6 @@
 import DashboardLayout from '@/layouts/dashboard-layout'
 import { checkPermission } from '@/lib/permission'
-import { Product, ProductFAQ } from '@/types'
+import { Product, ProductFAQ, ProductTranslation } from '@/types'
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 import { Head, router, usePage } from '@inertiajs/react'
 import {
@@ -16,8 +16,14 @@ import {
 import { JSX } from 'react'
 
 interface FAQPageProps {
-  data: ProductFAQ[]
-  products: Product[]
+  data: (ProductFAQ & {
+    product: Product & {
+      translations: ProductTranslation[]
+    }
+  })[]
+  products: (Product & {
+    translations: ProductTranslation[]
+  })[]
 }
 
 const breadcrumbs = ['Dashboard', 'FAQ']
@@ -34,14 +40,20 @@ export default function FAQPage({ data, products }: FAQPageProps) {
     }
   }
 
-  const columns: TableProps<ProductFAQ>['columns'] = [
+  const columns: TableProps<
+    ProductFAQ & {
+      product: Product & {
+        translations: ProductTranslation[]
+      }
+    }
+  >['columns'] = [
     {
       title: 'Question',
-      dataIndex: 'question',
-      key: 'question',
+      dataIndex: 'id_question',
+      key: 'id_question',
       width: 200,
       filters: products.map((product) => ({
-        text: product.name,
+        text: product.translations[0].name,
         value: product.id,
       })),
       filterMode: 'tree',
@@ -53,7 +65,7 @@ export default function FAQPage({ data, products }: FAQPageProps) {
       dataIndex: 'product',
       key: 'product',
       width: 200,
-      render: (_, record) => <div>{record.product.name}</div>,
+      render: (_, record) => <div>{record.product.translations[0].name}</div>,
     },
     {
       title: 'Created Date',
