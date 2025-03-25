@@ -141,4 +141,13 @@ export interface Testimonial {
 
 export type Locale = 'ID' | 'EN'
 
-// export interface
+export interface ProductFeature {
+  id: number
+  icon: string
+  en_title: string
+  id_title: string
+  en_description: string
+  id_description: string
+  created_at: Date
+  updated_at: Date
+}

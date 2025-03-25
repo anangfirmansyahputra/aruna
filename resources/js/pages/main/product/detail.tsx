@@ -1,5 +1,5 @@
 import MainLayout from '@/layouts/main-layout'
-import { Product, ProductTranslation } from '@/types'
+import { Product, ProductFeature, ProductTranslation } from '@/types'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   ArrowRight,
@@ -21,10 +21,13 @@ import { getTranslate } from '@/lib/lang'
 import WhiteCurrency from '../../../../../public/assets/white-currency.svg'
 import React from 'react'
 import Faq from '@/components/faq'
+import * as LucideIcons from 'lucide-react'
 
 interface DetailProductPageProps {
   product: ProductTranslation & {
-    product: Product
+    product: Product & {
+      features: ProductFeature[]
+    }
   }
 }
 
@@ -216,43 +219,27 @@ export default function DetailProductPage({ product }: DetailProductPageProps) {
           </p>
 
           <div className="grid grid-cols-3 gap-4 container mx-auto mt-10">
-            <div className="bg-white rounded-[10px] flex flex-col justify-between items-center px-[52px] py-10">
-              <div className="p-[22px] bg-[#F8F9F9] rounded-full">
-                <DollarSign className="text-[#3387EC]" />
-              </div>
-              <p className="text-[#141515] font-medium text-xl mt-3.5 text-center">
-                Plafond
-              </p>
-              <p className="text-[#8F9090] mt-3.5 text-center">
-                Pinjaman tersedia mulai dari Rp100 juta hingga maksimal Rp2,5
-                miliar.
-              </p>
-            </div>
+            {product.product.features.map((feature) => {
+              // @ts-ignore
+              const IconComponent = LucideIcons[feature.icon]
 
-            <div className="bg-white rounded-[10px] flex flex-col justify-between items-center px-[52px] py-10">
-              <div className="p-[22px] bg-[#F8F9F9] rounded-full">
-                <Calendar className="text-[#3387EC]" />
-              </div>
-              <p className="text-[#141515] font-medium text-xl mt-3.5 text-center">
-                Jangka Waktu Panjang
-              </p>
-              <p className="text-[#8F9090] mt-3.5 text-center">
-                Nikmati jangka waktu pinjaman yang fleksibel hingga 7 tahun
-              </p>
-            </div>
-
-            <div className="bg-white rounded-[10px] flex flex-col justify-between items-center px-[52px] py-10">
-              <div className="p-[22px] bg-[#F8F9F9] rounded-full">
-                <Percent className="text-[#3387EC]" />
-              </div>
-              <p className="text-[#141515] font-medium text-xl mt-3.5 text-center">
-                Suku bunga menarik
-              </p>
-              <p className="text-[#8F9090] mt-3.5 text-center">
-                Dapatkan suku bunga kompetitif untuk pembayaran lebih ringan dan
-                terjangkau.
-              </p>
-            </div>
+              return (
+                <div
+                  key={feature.id}
+                  className="bg-white rounded-[10px] flex flex-col justify-between items-center px-[52px] py-10"
+                >
+                  <div className="p-[22px] bg-[#F8F9F9] rounded-full">
+                    <IconComponent size={16} className="text-[#3387EC]" />
+                  </div>
+                  <p className="text-[#141515] font-medium text-xl mt-3.5 text-center">
+                    {feature[`${lang}_title`]}
+                  </p>
+                  <p className="text-[#8F9090] mt-3.5 text-center">
+                    {feature[`${lang}_description`]}
+                  </p>
+                </div>
+              )
+            })}
           </div>
         </div>
 

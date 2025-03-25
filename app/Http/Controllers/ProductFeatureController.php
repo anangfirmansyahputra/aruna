@@ -12,14 +12,15 @@ class ProductFeatureController extends Controller
     public function index()
     {
         return Inertia::render("product-feature/page", [
-            'data' => ProductFeature::with('product')->get()
+            'data' => ProductFeature::with('product.translations')->get(),
+            'products' => Product::with("translations")->get()
         ]);
     }
 
     public function create()
     {
         return Inertia::render("product-feature/form", [
-            'products' => Product::all()
+            'products' => Product::with('translations')->get()
         ]);
     }
 
@@ -31,6 +32,7 @@ class ProductFeatureController extends Controller
             'id_title' => "required|string",
             'en_description' => "required|string",
             'id_description' => "required|string",
+            'icon' => "required|string"
         ]);
     }
 
@@ -44,8 +46,8 @@ class ProductFeatureController extends Controller
     public function edit(ProductFeature $productFeature)
     {
         return Inertia::render("product-feature/form", [
-            'products' => Product::all(),
-            'data' => $productFeature->load("product")
+            'products' => Product::with("translations")->get(),
+            'data' => $productFeature->load("product.translations")
         ]);
     }
 

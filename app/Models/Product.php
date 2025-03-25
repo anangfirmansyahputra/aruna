@@ -44,6 +44,11 @@ class Product extends Model
         }]);
     }
 
+    public function features()
+    {
+        return $this->hasMany(ProductFeature::class);
+    }
+
     protected static function boot()
     {
         parent::boot();

@@ -14,7 +14,7 @@ class ProductController extends Controller
     public function index()
     {
         $locale = Session::get("locale", "id");
-        $products = Product::translation(ucwords($locale))->get();
+        $products = Product::translation(ucwords($locale))->with("features")->get();
 
         return Inertia::render("main/product/page", [
             'products' => $products
@@ -25,7 +25,7 @@ class ProductController extends Controller
     {
         $locale = Session::get("locale", "en");
         $productTranslation = ProductTranslation::where("slug", $slug)->with('product')->first();
-        $product = ProductTranslation::where("product_id", $productTranslation->product_id)->where('language_code', $locale)->with('product')->first();
+        $product = ProductTranslation::where("product_id", $productTranslation->product_id)->where('language_code', $locale)->with(['product.features'])->first();
 
         return Inertia::render("main/product/detail", [
             'product' => $product
