@@ -7,6 +7,7 @@ import {
   ChevronRight,
   DollarSign,
   Percent,
+  Plus,
   X,
 } from 'lucide-react'
 import Currency from '../../../../../public/assets/currency.svg'
@@ -19,6 +20,7 @@ import { Head, usePage } from '@inertiajs/react'
 import { getTranslate } from '@/lib/lang'
 import WhiteCurrency from '../../../../../public/assets/white-currency.svg'
 import React from 'react'
+import Faq from '@/components/faq'
 
 interface DetailProductPageProps {
   product: ProductTranslation & {
@@ -114,6 +116,26 @@ const calculatorResults = [
     interest_rate_pokok: '0,00',
     total_angsuran: '0,00',
     sisa_pinjaman: '100.000.000,00',
+  },
+]
+
+const faqProducts = [
+  {
+    title: 'Apa itu Bank BPR Aruna',
+    description:
+      'Bank BPR Aruna merupakan sebuah BPR (Bank Perkreditan Rakyat) yang melayani penghimpunan dana simpanan dari masyarakat dan penyaluran kredit bagi para pengusaha, perusahaan dan individu. Dana simpanan dari masyarakat dalam bentuk deposito serta tabungan, dan penyaluran kredit berupa kredit untuk modal usaha maupun untuk kredit pribadi masyarakat.',
+  },
+  {
+    title: 'Berapa persen besar suku bunga tabungan BPR?',
+    description: '',
+  },
+  {
+    title: 'Berapa persen besar suku bunga tabungan BPR?',
+    description: '',
+  },
+  {
+    title: 'Berapa persen besar suku bunga tabungan BPR?',
+    description: '',
   },
 ]
 
@@ -416,6 +438,22 @@ export default function DetailProductPage({ product }: DetailProductPageProps) {
                 <FaqProduct {...faq} key={index} />
               ))}
             </div>
+          </div>
+        </div>
+
+        <div className="container mx-auto py-10">
+          <h2 className="text-[#1946B9] text-4xl font-semibold text-center">
+            Ada pertanyaan? Kami siap membantu Anda!
+          </h2>
+          <p className="text-center text-[#3F4145] text-lg mt-5">
+            Butuh penjelasan lebih lanjut? Berikut pertanyaan yang paling sering
+            diajukan.
+          </p>
+
+          <div className="space-y-5">
+            {faqProducts.map((faq, i) => (
+              <Faq {...faq} key={i} />
+            ))}
           </div>
         </div>
       </MainLayout>
