@@ -1,11 +1,13 @@
 import MainLayout from '@/layouts/main-layout'
 import { Product, ProductTranslation } from '@/types'
+import { motion, AnimatePresence } from 'framer-motion'
 import {
   ArrowRight,
   Calendar,
   ChevronRight,
   DollarSign,
   Percent,
+  X,
 } from 'lucide-react'
 import Currency from '../../../../../public/assets/currency.svg'
 import PercentIcon from '../../../../../public/assets/percent.svg'
@@ -15,6 +17,8 @@ import CalendarIcon from '../../../../../public/assets/calendar.svg'
 import FaqProduct from '@/components/faq-product'
 import { Head, usePage } from '@inertiajs/react'
 import { getTranslate } from '@/lib/lang'
+import WhiteCurrency from '../../../../../public/assets/white-currency.svg'
+import React from 'react'
 
 interface DetailProductPageProps {
   product: ProductTranslation & {
@@ -40,10 +44,84 @@ const faqs = [
   },
 ]
 
+const calculatorResults = [
+  {
+    periode: 'Jan 2025',
+    interest_rate: '0,00',
+    interest_rate_pokok: '0,00',
+    total_angsuran: '0,00',
+    sisa_pinjaman: '100.000.000,00',
+  },
+  {
+    periode: 'Jan 2025',
+    interest_rate: '0,00',
+    interest_rate_pokok: '0,00',
+    total_angsuran: '0,00',
+    sisa_pinjaman: '100.000.000,00',
+  },
+  {
+    periode: 'Jan 2025',
+    interest_rate: '0,00',
+    interest_rate_pokok: '0,00',
+    total_angsuran: '0,00',
+    sisa_pinjaman: '100.000.000,00',
+  },
+  {
+    periode: 'Jan 2025',
+    interest_rate: '0,00',
+    interest_rate_pokok: '0,00',
+    total_angsuran: '0,00',
+    sisa_pinjaman: '100.000.000,00',
+  },
+  {
+    periode: 'Jan 2025',
+    interest_rate: '0,00',
+    interest_rate_pokok: '0,00',
+    total_angsuran: '0,00',
+    sisa_pinjaman: '100.000.000,00',
+  },
+  {
+    periode: 'Jan 2025',
+    interest_rate: '0,00',
+    interest_rate_pokok: '0,00',
+    total_angsuran: '0,00',
+    sisa_pinjaman: '100.000.000,00',
+  },
+  {
+    periode: 'Jan 2025',
+    interest_rate: '0,00',
+    interest_rate_pokok: '0,00',
+    total_angsuran: '0,00',
+    sisa_pinjaman: '100.000.000,00',
+  },
+  {
+    periode: 'Jan 2025',
+    interest_rate: '0,00',
+    interest_rate_pokok: '0,00',
+    total_angsuran: '0,00',
+    sisa_pinjaman: '100.000.000,00',
+  },
+  {
+    periode: 'Jan 2025',
+    interest_rate: '0,00',
+    interest_rate_pokok: '0,00',
+    total_angsuran: '0,00',
+    sisa_pinjaman: '100.000.000,00',
+  },
+  {
+    periode: 'Jan 2025',
+    interest_rate: '0,00',
+    interest_rate_pokok: '0,00',
+    total_angsuran: '0,00',
+    sisa_pinjaman: '100.000.000,00',
+  },
+]
+
 export default function DetailProductPage({ product }: DetailProductPageProps) {
   const appUrl = import.meta.env.APP_URL || 'http://127.0.0.1:8000'
   const { locale } = usePage().props
   const lang = locale as 'id' | 'en'
+  const [showResultCalculator, setShowResultCalculator] = React.useState(false)
 
   return (
     <>
@@ -211,7 +289,10 @@ export default function DetailProductPage({ product }: DetailProductPageProps) {
                 </div>
               </div>
 
-              <button className="bg-[#3387EC] text-white flex items-center justify-center cursor-pointer rounded-[10px]">
+              <button
+                onClick={() => setShowResultCalculator(true)}
+                className="bg-[#3387EC] hover:bg-[#3387EC]/90 transition-colors text-white flex items-center justify-center cursor-pointer rounded-[10px]"
+              >
                 <span className="text-lg font-semibold">Hitung Simulasi</span>
                 <ChevronRight className="ml-2.5" />
               </button>
@@ -222,6 +303,102 @@ export default function DetailProductPage({ product }: DetailProductPageProps) {
               Untuk lebih lanjut silahkan hubungi bank pemberi pinjaman.
             </p>
           </div>
+
+          {showResultCalculator && (
+            <motion.div
+              className="mt-12 container mx-auto"
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 50 }}
+              transition={{ duration: 0.5, ease: 'easeInOut' }}
+            >
+              <div className="grid grid-cols-3">
+                <div className="bg-primary py-[124px] text-white flex flex-col items-center justify-center rounded-tl-2xl">
+                  <div className="flex gap-3.5 mb-3">
+                    <img src={WhiteCurrency} />
+                    <span className="font-semibold text-2xl">
+                      Angsuran Cicilan per Bulan
+                    </span>
+                  </div>
+                  <p className="font-semibold text-5xl">8.833.333,33</p>
+                </div>
+                <div className="col-span-2 bg-[#F0F4FF] py-[51px] px-[67px] rounded-tr-2xl relative">
+                  <h5 className="text-2xl font-semibold text-primary mb-[31px]">
+                    Total Angsuran Per Bulan
+                  </h5>
+                  <div className="space-y-6">
+                    <div className="grid grid-cols-3 text-xl text-[#736E6E] font-normal">
+                      <p className="col-span-2">Nominal (Rp)</p>
+                      <p className="">100.000.000,00</p>
+                    </div>
+                    <div className="grid grid-cols-3 text-xl text-[#736E6E] font-normal">
+                      <p className="col-span-2">Jangka Waktu (Bulan)</p>
+                      <p className="">12 Bulan</p>
+                    </div>
+                    <div className="grid grid-cols-3 text-xl text-[#736E6E] font-normal">
+                      <p className="col-span-2">Suku bunga per Tahun</p>
+                      <p className="">6.00%</p>
+                    </div>
+                    <div className="grid grid-cols-3 text-xl text-[#736E6E] font-normal">
+                      <p className="col-span-2">Tipe bunga yang digunakan</p>
+                      <p className="">Anuitas</p>
+                    </div>
+                  </div>
+
+                  <button
+                    onClick={() => setShowResultCalculator(false)}
+                    className="absolute top-5 right-5 cursor-pointer text-primary hover:text-primary/90 transition-colors"
+                  >
+                    <X />
+                  </button>
+                </div>
+              </div>
+
+              <motion.table
+                className="w-full shadow"
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.5, delay: 0.2, ease: 'easeOut' }}
+              >
+                <thead className="bg-[#64AAFF]">
+                  <tr className="text-white font-semibold text-lg">
+                    <th className="py-[23px]">Periode</th>
+                    <th className="py-[23px]">Angsuran Bunga</th>
+                    <th className="py-[23px]">Angsuran Pokok</th>
+                    <th className="py-[23px]">Total Angsuran</th>
+                    <th className="py-[23px]">Sisa Pinjaman</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {calculatorResults.map((item, i) => (
+                    <motion.tr
+                      key={i}
+                      className={`${
+                        i % 2 === 1 ? 'bg-[#1946B9]/10' : 'bg-white'
+                      } text-primary text-lg font-semibold`}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.3, delay: i * 0.1 }}
+                    >
+                      <td className="text-center py-[23px]">{item.periode}</td>
+                      <td className="text-center py-[23px]">
+                        {item.interest_rate}
+                      </td>
+                      <td className="text-center py-[23px]">
+                        {item.interest_rate_pokok}
+                      </td>
+                      <td className="text-center py-[23px]">
+                        {item.total_angsuran}
+                      </td>
+                      <td className="text-center py-[23px]">
+                        {item.sisa_pinjaman}
+                      </td>
+                    </motion.tr>
+                  ))}
+                </tbody>
+              </motion.table>
+            </motion.div>
+          )}
         </div>
 
         <div className="bg-[#F0F4FF]">

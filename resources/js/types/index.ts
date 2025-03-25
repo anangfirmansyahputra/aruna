@@ -140,3 +140,5 @@ export interface Testimonial {
 }
 
 export type Locale = 'ID' | 'EN'
+
+// export interface
