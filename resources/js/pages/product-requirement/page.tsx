@@ -1,6 +1,11 @@
 import DashboardLayout from '@/layouts/dashboard-layout'
 import { checkPermission } from '@/lib/permission'
-import { Product, ProductFAQ, ProductTranslation } from '@/types'
+import {
+  Product,
+  ProductFAQ,
+  ProductRequirement,
+  ProductTranslation,
+} from '@/types'
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 import { Head, router, usePage } from '@inertiajs/react'
 import {
@@ -16,11 +21,7 @@ import {
 import { JSX } from 'react'
 
 interface ProductRequirementProps {
-  data: (ProductFAQ & {
-    product: Product & {
-      translations: ProductTranslation[]
-    }
-  })[]
+  data: ProductRequirement[]
   products: (Product & {
     translations: ProductTranslation[]
   })[]
@@ -40,17 +41,11 @@ export default function FAQPage({ data, products }: ProductRequirementProps) {
     }
   }
 
-  const columns: TableProps<
-    ProductFAQ & {
-      product: Product & {
-        translations: ProductTranslation[]
-      }
-    }
-  >['columns'] = [
+  const columns: TableProps<ProductRequirement>['columns'] = [
     {
-      title: 'Question',
-      dataIndex: 'id_question',
-      key: 'id_question',
+      title: 'Title',
+      dataIndex: 'id_title',
+      key: 'id_title',
       width: 200,
       filters: products.map((product) => ({
         text: product.translations[0].name,
@@ -115,18 +110,18 @@ export default function FAQPage({ data, products }: ProductRequirementProps) {
 
   return (
     <>
-      <Head title="FAQ" />
+      <Head title="Product Requirement" />
 
       <>
         <div className="flex items-center justify-between">
-          <Typography.Title level={4}>FAQ</Typography.Title>
+          <Typography.Title level={4}>Product Requirement</Typography.Title>
           <Button
             onClick={() =>
               router.visit('/dashboard/product-requirements/create')
             }
             type="primary"
           >
-            Add FAQ
+            Add requirement
           </Button>
         </div>
         <Divider />

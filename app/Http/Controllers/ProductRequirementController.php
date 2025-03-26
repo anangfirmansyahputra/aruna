@@ -15,7 +15,7 @@ class ProductRequirementController extends Controller
     public function index()
     {
         return Inertia::render("product-requirement/page", [
-            'data' => ProductRequirement::with('product')->get(),
+            'data' => ProductRequirement::with('product.translations')->get(),
             'products' => Product::with("translations")->get()
         ]);
     }
@@ -35,7 +35,8 @@ class ProductRequirementController extends Controller
         return $request->validate([
             "id_title" => "required|string",
             "en_title" => "required|string",
-            "items" => "required|string"
+            "items" => "required|string",
+            'product_id' => "required|exists:products,id"
         ]);
     }
 

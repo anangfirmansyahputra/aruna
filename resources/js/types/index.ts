@@ -153,3 +153,14 @@ export interface ProductFeature {
   created_at: Date
   updated_at: Date
 }
+
+export interface ProductRequirement {
+  id: number
+  id_title: string
+  en_title: string
+  items: string
+  product_id: number
+  product: Product & {
+    translations: ProductTranslation[]
+  }
+}

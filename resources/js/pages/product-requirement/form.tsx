@@ -1,66 +1,119 @@
 import { useFormHandler } from '@/hooks/use-form-handler'
 import DashboardLayout from '@/layouts/dashboard-layout'
 import { checkPermission } from '@/lib/permission'
-import { Product, ProductFAQ, ProductTranslation } from '@/types'
+import {
+  Product,
+  ProductFAQ,
+  ProductRequirement,
+  ProductTranslation,
+} from '@/types'
 import { Head, router, usePage } from '@inertiajs/react'
 import {
   Button,
+  Card,
   Divider,
   Form,
   Input,
   List,
   message,
+  Modal,
   Select,
   Space,
   Tabs,
   Typography,
 } from 'antd'
 import TabPane from 'antd/es/tabs/TabPane'
-import React from 'react'
+import React, { useState } from 'react'
 
 interface FormPageProps {
-  faq?: ProductFAQ
+  data?: ProductRequirement
   products: (Product & {
     translations: ProductTranslation[]
   })[]
 }
 
-const data = [
-  'Racing car sprays burning fuel into crowd.',
-  'Japanese princess to wed commoner.',
-  'Australian walks 100km after outback crash.',
-  'Man charged over missing wedding girl.',
-  'Los Angeles battles huge wildfires.',
-]
-
-export default function FormPage({ faq, products }: FormPageProps) {
+export default function FormPage({ data, products }: FormPageProps) {
   const { permissions } = usePage().props
-  const [items, setItems] = React.useState({
-    en: [],
-    id: [],
-  })
+  const [lang, setLang] = useState<'id' | 'en'>('id')
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isEdit, setIsEdit] = useState<number | null>(null)
+  const [items, setItems] = useState<{
+    en: string[]
+    id: string[]
+  }>(
+    data
+      ? JSON.parse(data.items)
+      : {
+          en: [],
+          id: [],
+        }
+  )
 
-  const breadcrumbs = ['Dashboard', 'FAQ', faq ? 'Update' : 'Create']
+  const [newItem, setNewItem] = useState('')
+
+  const breadcrumbs = ['Dashboard', 'Requirement', data ? 'Update' : 'Create']
 
   const { form, submit, isLoading } = useFormHandler({
-    initialValues: faq,
-    url: faq ? `/dashboard/faqs/${faq.id}` : `/dashboard/faqs`,
-    method: faq ? 'put' : 'post',
+    initialValues: data,
+    url: data
+      ? `/dashboard/product-requirements/${data.id}`
+      : `/dashboard/product-requirements`,
+    method: data ? 'put' : 'post',
   })
 
   const handleSubmit = async () => {
     try {
       await form.validateFields()
-      submit()
-    } catch (err: any) {
-      console.log(err)
 
+      if (items.en.length === 0 || items.id.length === 0) {
+        return message.error('Please add at least 1 item for each language')
+      }
+
+      submit(null, {
+        product_id: form.getFieldValue('product_id'),
+        id_title: form.getFieldValue('id_title'),
+        en_title: form.getFieldValue('en_title'),
+        items: JSON.stringify(items),
+      })
+    } catch (err: any) {
       if (err?.errorFields) {
         message.error(err.errorFields[0].errors[0])
       } else {
         message.error('An unexpected error occurred')
       }
     }
+  }
+
+  const showModal = () => {
+    setIsModalOpen(true)
+    setIsEdit(null)
+    setNewItem('')
+  }
+
+  const handleOk = () => {
+    setIsModalOpen(false)
+    if (isEdit) {
+      setItems((prev) => ({
+        ...prev,
+        [lang]: prev[lang].map((item, index) => {
+          return index === isEdit ? newItem : item
+        }),
+      }))
+    } else {
+      setItems((prev) => ({
+        ...prev,
+        [lang]: [...prev[lang], newItem],
+      }))
+    }
+
+    setNewItem('')
+    setIsEdit(null)
+  }
+
+  const handleCancel = () => {
+    setIsEdit(null)
+    setIsModalOpen(false)
+    setNewItem('')
   }
 
   return (
@@ -73,7 +126,7 @@ export default function FormPage({ faq, products }: FormPageProps) {
 
         <div className="grid lg:grid-cols-2 gap-5">
           <Form disabled={isLoading} form={form} layout="vertical">
-            <Tabs>
+            <Tabs onChange={(e) => setLang(e as 'id' | 'en')}>
               {['id', 'en'].map((locale) => (
                 <TabPane key={locale} tab={locale.toUpperCase()} forceRender>
                   <Form.Item
@@ -108,14 +161,16 @@ export default function FormPage({ faq, products }: FormPageProps) {
 
             <Space>
               <Button
-                onClick={() => router.visit('/dashboard/faqs')}
+                onClick={() => router.visit('/dashboard/product-requirements')}
                 type="default"
               >
                 Cancel
               </Button>
               {checkPermission(
                 permissions as string[],
-                faq ? 'faqs.update' : 'faqs.store'
+                data
+                  ? 'product-requirements.update'
+                  : 'product-requirements.store'
               ) && (
                 <Button type="primary" onClick={handleSubmit}>
                   Submit
@@ -124,20 +179,65 @@ export default function FormPage({ faq, products }: FormPageProps) {
             </Space>
           </Form>
 
-          <List
-            header={
+          <Card
+            title="Requirement items"
+            extra={
               <div className="flex items-center justify-end">
-                <Button type="primary">Add item</Button>
+                <Button type="primary" onClick={showModal}>
+                  Add item
+                </Button>
               </div>
             }
-            bordered
-            dataSource={data}
-            renderItem={(item) => (
-              <List.Item>
-                <Typography.Text mark>[ITEM]</Typography.Text> {item}
-              </List.Item>
-            )}
-          />
+          >
+            <List
+              dataSource={items[lang as 'id' | 'en']}
+              renderItem={(item, index) => (
+                <List.Item
+                  actions={[
+                    <a
+                      key="list-loadmore-edit"
+                      onClick={() => {
+                        setIsEdit(index)
+                        setIsModalOpen(true)
+                        setNewItem(item)
+                      }}
+                    >
+                      edit
+                    </a>,
+                    <a
+                      key="list-loadmore-more"
+                      onClick={() => {
+                        setItems((prev) => ({
+                          ...prev,
+                          [lang]: prev[lang].filter((_, i) => i !== index),
+                        }))
+                      }}
+                    >
+                      delete
+                    </a>,
+                  ]}
+                >
+                  {item}
+                </List.Item>
+              )}
+            />
+          </Card>
+          <Modal
+            title="Basic Modal"
+            open={isModalOpen}
+            onOk={handleOk}
+            onCancel={handleCancel}
+          >
+            <Form layout="vertical">
+              <Form.Item label="Text">
+                <Input
+                  value={newItem}
+                  onChange={(e) => setNewItem(e.target.value)}
+                  placeholder="New item"
+                />
+              </Form.Item>
+            </Form>
+          </Modal>
         </div>
       </div>
     </DashboardLayout>
