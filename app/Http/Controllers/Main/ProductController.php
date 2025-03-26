@@ -34,7 +34,15 @@ class ProductController extends Controller
         }
 
         return Inertia::render("main/product/detail", [
-            'product' => $localizedProduct->load(['product.features', 'product.faqs', 'product.requirements'])
+            'product' => $localizedProduct
+                ->load([
+                    'product.features',
+                    'product.faqs',
+                    'product.requirements',
+                    'product.interestRates' => function ($query) {
+                        $query->orderBy('tenor', 'asc');
+                    }
+                ])
         ]);
     }
 }

@@ -44,6 +44,12 @@ class MenuSeeder extends Seeder
                 'path' => '/dashboard/product-features',
             ],
             [
+                'name' => 'Requirement',
+                'group' => 'Products',
+                'icon' => 'ShoppingOutlined',
+                'path' => '/dashboard/product-requirements',
+            ],
+            [
                 'name' => 'Interest Rate',
                 'group' => 'Products',
                 'icon' => 'PercentageOutlined',

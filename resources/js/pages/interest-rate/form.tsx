@@ -1,13 +1,15 @@
 import { useFormHandler } from '@/hooks/use-form-handler'
 import DashboardLayout from '@/layouts/dashboard-layout'
 import { checkPermission } from '@/lib/permission'
-import { InterestRate, Product } from '@/types'
+import { InterestRate, Product, ProductTranslation } from '@/types'
 import { Head, router, usePage } from '@inertiajs/react'
 import { Button, Divider, Form, Input, Select, Space, Typography } from 'antd'
 
 interface FormPageProps {
   interestRate?: InterestRate
-  products: Product[]
+  products: (Product & {
+    translations: ProductTranslation[]
+  })[]
 }
 
 export default function FormPage({ interestRate, products }: FormPageProps) {
@@ -45,7 +47,7 @@ export default function FormPage({ interestRate, products }: FormPageProps) {
               <Select
                 showSearch
                 options={products.map((product) => ({
-                  label: product.name,
+                  label: product.translations[0].name,
                   value: product.id,
                 }))}
                 filterOption={(input, option) =>

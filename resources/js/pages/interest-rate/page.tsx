@@ -1,6 +1,6 @@
 import DashboardLayout from '@/layouts/dashboard-layout'
 import { checkPermission } from '@/lib/permission'
-import { InterestRate, Product } from '@/types'
+import { InterestRate, Product, ProductTranslation } from '@/types'
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 import { Head, router, usePage } from '@inertiajs/react'
 import {
@@ -16,8 +16,14 @@ import {
 import { JSX } from 'react'
 
 interface InterestRatePageProps {
-  data: InterestRate[]
-  products: Product[]
+  data: (InterestRate & {
+    product: Product & {
+      translations: ProductTranslation[]
+    }
+  })[]
+  products: (Product & {
+    translations: ProductTranslation[]
+  })[]
 }
 
 const breadcrumbs = ['Dashboard', 'Interest Rate']
@@ -37,15 +43,21 @@ export default function InterestRatePage({
     }
   }
 
-  const columns: TableProps<InterestRate>['columns'] = [
+  const columns: TableProps<
+    InterestRate & {
+      product: Product & {
+        translations: ProductTranslation[]
+      }
+    }
+  >['columns'] = [
     {
       title: 'Product',
       dataIndex: 'product',
       key: 'product',
       width: 200,
-      render: (_, record) => <div>{record.product.name}</div>,
+      render: (_, record) => <div>{record.product.translations[0].name}</div>,
       filters: products.map((product) => ({
-        text: product.name,
+        text: product.translations[0].name,
         value: product.id,
       })),
       filterMode: 'tree',

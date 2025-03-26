@@ -54,6 +54,11 @@ class Product extends Model
         return $this->hasMany(ProductFeature::class);
     }
 
+    public function interestRates()
+    {
+        return $this->hasMany(InterestRate::class);
+    }
+
     public function requirements()
     {
         return $this->hasMany(ProductRequirement::class);

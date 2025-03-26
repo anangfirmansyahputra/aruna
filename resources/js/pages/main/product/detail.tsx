@@ -3,6 +3,7 @@ import FaqProduct from '@/components/faq-product'
 import MainLayout from '@/layouts/main-layout'
 import { getTranslate } from '@/lib/lang'
 import {
+  InterestRate,
   Product,
   ProductFAQ,
   ProductFeature,
@@ -10,10 +11,10 @@ import {
   ProductTranslation,
 } from '@/types'
 import { Head, usePage } from '@inertiajs/react'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import * as LucideIcons from 'lucide-react'
 import { ArrowRight, ChevronRight, X } from 'lucide-react'
-import React from 'react'
+import React, { useState } from 'react'
 import Calculator from '../../../../../public/assets/calculator.svg'
 import CalendarIcon from '../../../../../public/assets/calendar.svg'
 import Currency from '../../../../../public/assets/currency.svg'
@@ -27,6 +28,7 @@ interface DetailProductPageProps {
       features: ProductFeature[]
       faqs: ProductFAQ[]
       requirements: ProductRequirement[]
+      interest_rates: InterestRate[]
     }
   }
 }
@@ -105,13 +107,29 @@ const calculatorResults = [
 ]
 
 export default function DetailProductPage({ product }: DetailProductPageProps) {
+  console.log(product)
+
   const appUrl = import.meta.env.APP_URL || 'http://127.0.0.1:8000'
   const { locale } = usePage().props
   const lang = locale as 'id' | 'en'
   const [showResultCalculator, setShowResultCalculator] = React.useState(false)
+  const [showInterest, setShowInterest] = useState(false)
+  const [tenor, setTenor] = useState<null | number>(null)
+
+  const findInterest = (id: number) => {
+    return product.product.interest_rates.find((interest) => interest.id === id)
+  }
+
+  const handleSelectTenor = (tenor: number) => {
+    setShowInterest(false)
+    setTenor(tenor)
+  }
 
   return (
     <>
+      {showInterest && (
+        <div className="fixed h-screen w-screen bg-black/50 z-20" />
+      )}
       <Head title={product.name}>
         {/* Meta Standar */}
         <meta name="description" content={product.meta_descriptions} />
@@ -224,21 +242,69 @@ export default function DetailProductPage({ product }: DetailProductPageProps) {
                 </div>
               </div>
 
-              <div className="bg-white p-3 flex gap-4 rounded-[10px]">
+              <div
+                className="bg-white p-3 flex gap-4 rounded-[10px] cursor-pointer relative"
+                onClick={() => setShowInterest(true)}
+              >
                 <img src={Timer} />
 
-                <div>
+                <div className="hover:text-primary transition-colors">
                   <p className="text-sm">Lama Pinjaman</p>
-                  <p className="text-lg">12 Bulan</p>
+                  <p className="text-lg">
+                    {tenor ? `${findInterest(tenor)?.tenor} Bulan` : '-'}
+                  </p>
                 </div>
+
+                {showInterest && (
+                  <AnimatePresence>
+                    <motion.div
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      transition={{ duration: 0.3, ease: 'easeInOut' }}
+                      className="absolute w-full bg-white left-0 mt-18 z-30 rounded-t cursor-auto shadow-lg"
+                    >
+                      <div className="border-b border-b-[#ddd] p-5">
+                        <p className="text-primary">
+                          Pilih masa pembiayaan yang diinginkan
+                        </p>
+                      </div>
+                      <div className="p-5 py-5 space-y-2">
+                        {product.product.interest_rates.map((interest) => (
+                          <div key={interest.id} className="space-x-3">
+                            <input
+                              checked={tenor === interest.id}
+                              onChange={() => handleSelectTenor(interest.id)}
+                              name="tenor"
+                              type="radio"
+                              className="cursor-pointer"
+                              id={`${interest.id.toString()}-${interest.product_id.toString()}`}
+                            />
+                            <label
+                              onClick={() => {
+                                setShowInterest(false)
+                              }}
+                              className="cursor-pointer"
+                              htmlFor={`${interest.id.toString()}-${interest.product_id.toString()}`}
+                            >
+                              {interest.tenor} Bulan
+                            </label>
+                          </div>
+                        ))}
+                      </div>
+                    </motion.div>
+                  </AnimatePresence>
+                )}
               </div>
 
               <div className="bg-white p-3 flex gap-4 rounded-[10px]">
                 <img src={PercentIcon} />
 
-                <div>
-                  <p className="text-sm">Suku Bunga per Tahun</p>
-                  <p className="text-lg">6 %</p>
+                <div className="">
+                  <p className="text-sm">Suku Bunga</p>
+                  <p className="text-lg">
+                    {tenor ? `${findInterest(tenor)?.interest} %` : '-'}
+                  </p>
                 </div>
               </div>
             </div>

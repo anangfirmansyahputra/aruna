@@ -15,8 +15,8 @@ class InterestRateController extends Controller
     public function index()
     {
         return Inertia::render("interest-rate/page", [
-            'data' => InterestRate::with('product')->get(),
-            'products' => Product::all()
+            'data' => InterestRate::with('product.translations')->get(),
+            'products' => Product::with("translations")->get()
         ]);
     }
 
@@ -26,7 +26,7 @@ class InterestRateController extends Controller
     public function create()
     {
         return Inertia::render("interest-rate/form", [
-            'products' => Product::all()
+            'products' => Product::with('translations')->get()
         ]);
     }
 
@@ -60,7 +60,7 @@ class InterestRateController extends Controller
     public function edit(InterestRate $interestRate)
     {
         return Inertia::render("interest-rate/form", [
-            "products" => Product::all(),
+            'products' => Product::with('translations')->get(),
             'interestRate' => $interestRate
         ]);
     }
