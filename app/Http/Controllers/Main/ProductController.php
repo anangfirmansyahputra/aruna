@@ -23,7 +23,7 @@ class ProductController extends Controller
 
     public function show(Request $request, String $slug)
     {
-        $locale = Session::get("locale", "en");
+        $locale = Session::get("locale", "id");
         $productTranslation = ProductTranslation::where("slug", $slug)->with('product')->first();
         $localizedProduct = ProductTranslation::where("product_id", $productTranslation->product_id)
             ->where("language_code", $locale)
