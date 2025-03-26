@@ -25,10 +25,16 @@ class ProductController extends Controller
     {
         $locale = Session::get("locale", "en");
         $productTranslation = ProductTranslation::where("slug", $slug)->with('product')->first();
-        $product = ProductTranslation::where("product_id", $productTranslation->product_id)->where('language_code', $locale)->with(['product.features', 'product.faqs'])->first();
+        $localizedProduct = ProductTranslation::where("product_id", $productTranslation->product_id)
+            ->where("language_code", $locale)
+            ->first();
+
+        if ($localizedProduct && $localizedProduct->slug !== $slug) {
+            return redirect("/products/{$localizedProduct->slug}");
+        }
 
         return Inertia::render("main/product/detail", [
-            'product' => $product
+            'product' => $localizedProduct->load(['product.features', 'product.faqs', 'product.requirements'])
         ]);
     }
 }

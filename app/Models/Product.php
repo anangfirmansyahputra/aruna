@@ -54,6 +54,11 @@ class Product extends Model
         return $this->hasMany(ProductFeature::class);
     }
 
+    public function requirements()
+    {
+        return $this->hasMany(ProductRequirement::class);
+    }
+
     protected static function boot()
     {
         parent::boot();

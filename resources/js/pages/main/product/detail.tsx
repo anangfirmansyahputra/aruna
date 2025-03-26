@@ -1,59 +1,35 @@
+import Faq from '@/components/faq'
+import FaqProduct from '@/components/faq-product'
 import MainLayout from '@/layouts/main-layout'
+import { getTranslate } from '@/lib/lang'
 import {
   Product,
   ProductFAQ,
   ProductFeature,
+  ProductRequirement,
   ProductTranslation,
 } from '@/types'
-import { motion, AnimatePresence } from 'framer-motion'
-import {
-  ArrowRight,
-  Calendar,
-  ChevronRight,
-  DollarSign,
-  Percent,
-  Plus,
-  X,
-} from 'lucide-react'
+import { Head, usePage } from '@inertiajs/react'
+import { motion } from 'framer-motion'
+import * as LucideIcons from 'lucide-react'
+import { ArrowRight, ChevronRight, X } from 'lucide-react'
+import React from 'react'
+import Calculator from '../../../../../public/assets/calculator.svg'
+import CalendarIcon from '../../../../../public/assets/calendar.svg'
 import Currency from '../../../../../public/assets/currency.svg'
 import PercentIcon from '../../../../../public/assets/percent.svg'
 import Timer from '../../../../../public/assets/timer.svg'
-import Calculator from '../../../../../public/assets/calculator.svg'
-import CalendarIcon from '../../../../../public/assets/calendar.svg'
-import FaqProduct from '@/components/faq-product'
-import { Head, usePage } from '@inertiajs/react'
-import { getTranslate } from '@/lib/lang'
 import WhiteCurrency from '../../../../../public/assets/white-currency.svg'
-import React from 'react'
-import Faq from '@/components/faq'
-import * as LucideIcons from 'lucide-react'
 
 interface DetailProductPageProps {
   product: ProductTranslation & {
     product: Product & {
       features: ProductFeature[]
       faqs: ProductFAQ[]
+      requirements: ProductRequirement[]
     }
   }
 }
-
-const faqs = [
-  {
-    title: 'Syarat utama calon debitur',
-    items: [
-      'Usaha Debitur masih berjalan dan telah berjalan selama minimal 1 tahun.',
-      'Bukan merupakan jenis usaha yang ilegal atau jenis usaha yang dilarang.',
-      'Usia minimal 21 tahun atau 18 tahun jika sudah menikah.',
-      'Umur maksimal 60 tahun pada saat fasilitas kredit berakhir.',
-      'Warga Negara Indonesia.',
-      'Memiliki riwayat pinjaman yang baik (bagi yang pernah/memiliki pinjaman).',
-    ],
-  },
-  {
-    title: 'Dokumen yang wajib dipenuhi',
-    items: ['Anang', 'Firmansyah'],
-  },
-]
 
 const calculatorResults = [
   {
@@ -199,10 +175,10 @@ export default function DetailProductPage({ product }: DetailProductPageProps) {
         {product.product.features.length > 0 && (
           <div className="bg-[#F0F4FF] mt-10 py-10">
             <h3 className="text-primary text-center text-4xl font-semibold">
-              Fitur Kredit Investasi
+              Fitur {product.name}
             </h3>
             <p className="text-lg text-[#141515] text-center mt-2">
-              Beberapa fitur yang kami miliki pada produk kredit investasi
+              Beberapa fitur yang kami miliki pada produk {product.name}
             </p>
 
             <div className="grid grid-cols-3 gap-4 container mx-auto mt-10">
@@ -234,9 +210,9 @@ export default function DetailProductPage({ product }: DetailProductPageProps) {
         <div className="bg-white py-[50px]">
           <div className="bg-primary container mx-auto py-8 px-11 rounded-4xl">
             <h4 className="text-white font-semibold text-3xl">
-              Kalkulator Pinjaman - Kredit Investasi
+              {product.collateral_name} - {product.name}
             </h4>
-            <p className="text-xl text-white">Simulasi Kredit</p>
+            <p className="text-xl text-white">Simulasi</p>
 
             <div className="grid grid-cols-3 mt-10 gap-3.5">
               <div className="bg-white p-3 flex gap-4 rounded-[10px]">
@@ -398,23 +374,35 @@ export default function DetailProductPage({ product }: DetailProductPageProps) {
           )}
         </div>
 
-        <div className="bg-[#F0F4FF]">
-          <div className="container mx-auto py-9">
-            <h4 className="text-4xl font-semibold text-primary text-center">
-              Persyaratan Yang Perlu Diketahui
-            </h4>
-            <p className="mt-5 text-center text-lg">
-              Calon Debitur wajib memenuhi persyaratan yang ada untuk dapat
-              diberikan fasilitas kredit, sebagai berikut
-            </p>
+        {product.product.requirements.length > 0 && (
+          <div className="bg-[#F0F4FF]">
+            <div className="container mx-auto py-9">
+              <h4 className="text-4xl font-semibold text-primary text-center">
+                Persyaratan Yang Perlu Diketahui
+              </h4>
+              <p className="mt-5 text-center text-lg">
+                Calon Debitur wajib memenuhi persyaratan yang ada untuk dapat
+                diberikan fasilitas kredit, sebagai berikut
+              </p>
 
-            <div className="space-y-[25px] mt-[25px]">
-              {faqs.map((faq, index) => (
-                <FaqProduct {...faq} key={index} />
-              ))}
+              <div className="space-y-[25px] mt-[25px]">
+                {product.product.requirements.map((requirement) => {
+                  const items = JSON.parse(requirement.items) as {
+                    en: string[]
+                    id: string[]
+                  }
+
+                  return (
+                    <FaqProduct
+                      title={requirement[`${lang}_title`]}
+                      items={items[lang]}
+                    />
+                  )
+                })}
+              </div>
             </div>
           </div>
-        </div>
+        )}
 
         {product.product.faqs.length > 0 && (
           <div className="container mx-auto py-10">
