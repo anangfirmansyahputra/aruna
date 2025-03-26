@@ -10,6 +10,7 @@ use App\Http\Controllers\MenuController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductFAQController;
 use App\Http\Controllers\ProductFeatureController;
+use App\Http\Controllers\ProductRequirementController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TestimonialController;
@@ -30,6 +31,7 @@ Route::prefix('dashboard')->middleware(['auth', 'checkPermission'])->group(funct
     Route::resource("testimonials", TestimonialController::class);
     Route::resource("credit-proposals", CreditProposalController::class);
     Route::resource("product-features", ProductFeatureController::class);
+    Route::resource("product-requirements", ProductRequirementController::class);
 
     Route::get('/menus', [MenuController::class, 'index'])->name('menus.index');
     Route::get('/menus/{menu}/edit', [MenuController::class, 'edit'])->name('menus.edit');

@@ -196,15 +196,15 @@ export default function DetailProductPage({ product }: DetailProductPageProps) {
           </div>
         </div>
 
-        <div className="bg-[#F0F4FF] mt-10 py-10">
-          <h3 className="text-primary text-center text-4xl font-semibold">
-            Fitur Kredit Investasi
-          </h3>
-          <p className="text-lg text-[#141515] text-center mt-2">
-            Beberapa fitur yang kami miliki pada produk kredit investasi
-          </p>
+        {product.product.features.length > 0 && (
+          <div className="bg-[#F0F4FF] mt-10 py-10">
+            <h3 className="text-primary text-center text-4xl font-semibold">
+              Fitur Kredit Investasi
+            </h3>
+            <p className="text-lg text-[#141515] text-center mt-2">
+              Beberapa fitur yang kami miliki pada produk kredit investasi
+            </p>
 
-          {product.product.features.length > 0 && (
             <div className="grid grid-cols-3 gap-4 container mx-auto mt-10">
               {product.product.features.map((feature) => {
                 // @ts-ignore
@@ -228,8 +228,8 @@ export default function DetailProductPage({ product }: DetailProductPageProps) {
                 )
               })}
             </div>
-          )}
-        </div>
+          </div>
+        )}
 
         <div className="bg-white py-[50px]">
           <div className="bg-primary container mx-auto py-8 px-11 rounded-4xl">
@@ -416,16 +416,16 @@ export default function DetailProductPage({ product }: DetailProductPageProps) {
           </div>
         </div>
 
-        <div className="container mx-auto py-10">
-          <h2 className="text-[#1946B9] text-4xl font-semibold text-center">
-            Ada pertanyaan? Kami siap membantu Anda!
-          </h2>
-          <p className="text-center text-[#3F4145] text-lg mt-5">
-            Butuh penjelasan lebih lanjut? Berikut pertanyaan yang paling sering
-            diajukan.
-          </p>
+        {product.product.faqs.length > 0 && (
+          <div className="container mx-auto py-10">
+            <h2 className="text-[#1946B9] text-4xl font-semibold text-center">
+              Ada pertanyaan? Kami siap membantu Anda!
+            </h2>
+            <p className="text-center text-[#3F4145] text-lg mt-5">
+              Butuh penjelasan lebih lanjut? Berikut pertanyaan yang paling
+              sering diajukan.
+            </p>
 
-          {product.product.faqs.length > 0 && (
             <div className="space-y-5">
               {product.product.faqs.map((faq, i) => (
                 <Faq
@@ -435,8 +435,8 @@ export default function DetailProductPage({ product }: DetailProductPageProps) {
                 />
               ))}
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </MainLayout>
     </>
   )
