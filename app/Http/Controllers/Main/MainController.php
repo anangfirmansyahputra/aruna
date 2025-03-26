@@ -16,6 +16,8 @@ class MainController extends Controller
 
         $products = Product::translation($lang)->get();
 
-        return Inertia::render("main/home", []);
+        return Inertia::render("main/home", [
+            'products' => $products
+        ]);
     }
 }
