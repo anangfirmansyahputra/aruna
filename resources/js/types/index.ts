@@ -37,7 +37,6 @@ export interface ProductTranslation {
   collateral_name: string
   keywords: string
   meta_descriptions: string
-  content: string
   slug: string
   heading_one: string
   heading_two: string

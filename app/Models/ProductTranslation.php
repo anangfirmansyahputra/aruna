@@ -15,7 +15,6 @@ class ProductTranslation extends Model
         'slug',
         'keywords',
         'meta_descriptions',
-        'content',
         "heading_one",
         "heading_two"
     ];
