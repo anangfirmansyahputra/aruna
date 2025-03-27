@@ -130,10 +130,14 @@ export default function HomePage({ products }: HomePageProps) {
             finansial.
           </p>
 
-          <div className="grid grid-cols-5 gap-[56px] mt-[60px]">
-            <div className="col-span-2 flex flex-col rounded-t-2xl bg-white">
-              <img src={ArticleBig} alt="" className="w-full object-cover" />
-              <div className="bg-white p-5">
+          <div className="grid grid-cols-5 aspect-retro gap-[56px] mt-[60px]">
+            <div className="col-span-2 flex flex-col rounded-t-3xl bg-white h-full">
+              <img
+                src={ArticleBig}
+                alt=""
+                className="w-full object-cover h-[80%]"
+              />
+              <div className="bg-white p-5 flex-1">
                 <div className="text-[#736E6E] space-x-2">
                   <span>21 Feb 2025</span>
                   <span>|</span>
@@ -148,13 +152,13 @@ export default function HomePage({ products }: HomePageProps) {
 
             <div className="col-span-3 flex-1 space-y-[38px]">
               {articles.map((article, index) => (
-                <div key={index} className="flex bg-white h-fit">
+                <div key={index} className="flex bg-white rounded-3xl">
                   <img
                     src={article.image_url}
                     alt=""
-                    className="w-[30%] object-cover rounded-2xl"
+                    className="object-cover rounded-2xl"
                   />
-                  <div className="p-5 h-fit">
+                  <div className="p-5 flex flex-col justify-center">
                     <div className="text-[#736E6E] space-x-2">
                       <span>21 Feb 2025</span>
                       <span>|</span>
@@ -170,6 +174,29 @@ export default function HomePage({ products }: HomePageProps) {
               ))}
             </div>
           </div>
+
+          <div className="flex items-center justify-center mt-[60px]">
+            <Link
+              href="/products"
+              className="flex items-center text-primary text-lg font-semibold group"
+            >
+              Lihat Semua Artikel
+              <ArrowRight className="w-5 h-5 ml-[10px] group-hover:ml-5 transition-all" />
+            </Link>
+          </div>
+        </div>
+      </div>
+
+      <div className="bg-[#184394] py-[50px] text-">
+        <h6 className="max-w-[758px] text-white text-center mx-auto text-3xl font-semibold">
+          Rasakan proses pencairan yang cepat dengan memenuhi persyaratan yang
+          tersedia
+        </h6>
+
+        <div className="flex items-center justify-center mt-[25px]">
+          <button className="text-[#184394] text-lg font-semibold bg-white py-[17px] px-[30px] rounded-2xl cursor-pointer hover:bg-white/90 transition-colors">
+            Dapatkan Sekarang
+          </button>
         </div>
       </div>
     </MainLayout>
