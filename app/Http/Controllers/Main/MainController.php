@@ -25,4 +25,9 @@ class MainController extends Controller
     {
         return Inertia::render("main/career", []);
     }
+
+    public function about()
+    {
+        return Inertia::render("main/about");
+    }
 }
