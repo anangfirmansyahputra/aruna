@@ -17,4 +17,9 @@ class ArticleController extends Controller
             'data' => $articles
         ]);
     }
+
+    public function show(Request $request, string $slug)
+    {
+        return Inertia::render("main/article/detail", []);
+    }
 }
