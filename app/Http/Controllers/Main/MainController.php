@@ -20,4 +20,9 @@ class MainController extends Controller
             'products' => $products
         ]);
     }
+
+    public function career()
+    {
+        return Inertia::render("main/career", []);
+    }
 }
