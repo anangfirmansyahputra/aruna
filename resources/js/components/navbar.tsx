@@ -12,35 +12,37 @@ export default function Navbar() {
   const lang = locale as 'id' | 'en'
 
   return (
-    <div>
-      <div className="flex container mx-auto justify-between py-2.5 font-medium text-base text-[#736E6E]">
-        <Link href="/" className="hover:text-primary transition-colors">
-          {getTranslate(lang, 'home_nav')}
-        </Link>
-        <div className="space-x-[25px]">
-          <Link
-            href="/contact"
-            className="hover:text-primary transition-colors"
-          >
-            {getTranslate(lang, 'contact_nav')}
+    <div className="fixed z-[5] w-full">
+      <div className="bg-white">
+        <div className="flex container mx-auto justify-between py-2.5 font-medium text-base text-[#736E6E]">
+          <Link href="/" className="hover:text-primary transition-colors">
+            {getTranslate(lang, 'home_nav')}
           </Link>
-          <Link href="/faq" className="hover:text-primary transition-colors">
-            FAQ
-          </Link>
-        </div>
-        <div className="space-x-[11px]">
-          <Link
-            href="/lang/en"
-            className={`${locale === 'en' && 'text-primary'} hover:text-primary transition-colors`}
-          >
-            EN
-          </Link>
-          <Link
-            href="/lang/id"
-            className={`${locale === 'id' && 'text-primary'} hover:text-primary transition-colors`}
-          >
-            ID
-          </Link>
+          <div className="space-x-[25px]">
+            <Link
+              href="/contact"
+              className="hover:text-primary transition-colors"
+            >
+              {getTranslate(lang, 'contact_nav')}
+            </Link>
+            <Link href="/faq" className="hover:text-primary transition-colors">
+              FAQ
+            </Link>
+          </div>
+          <div className="space-x-[11px]">
+            <Link
+              href="/lang/en"
+              className={`${locale === 'en' && 'text-primary'} hover:text-primary transition-colors`}
+            >
+              EN
+            </Link>
+            <Link
+              href="/lang/id"
+              className={`${locale === 'id' && 'text-primary'} hover:text-primary transition-colors`}
+            >
+              ID
+            </Link>
+          </div>
         </div>
       </div>
       <div className="bg-primary">
