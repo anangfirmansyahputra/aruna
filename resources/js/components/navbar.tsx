@@ -50,7 +50,10 @@ export default function Navbar() {
           </Link>
 
           <div className="text-white font-semibold text-lg space-x-[84px] flex">
-            <Link href="" className="hover:text-[#83AAFF] transition-colors">
+            <Link
+              href="/about"
+              className="hover:text-[#83AAFF] transition-colors"
+            >
               {getTranslate(lang, 'about_nav')}
             </Link>
 
@@ -117,10 +120,16 @@ export default function Navbar() {
                 )}
               </AnimatePresence>
             </div>
-            <Link href="" className="hover:text-[#83AAFF] transition-colors">
+            <Link
+              href="/articles"
+              className="hover:text-[#83AAFF] transition-colors"
+            >
               {getTranslate(lang, 'news_nav')}
             </Link>
-            <Link href="" className="hover:text-[#83AAFF] transition-colors">
+            <Link
+              href="/careers"
+              className="hover:text-[#83AAFF] transition-colors"
+            >
               {getTranslate(lang, 'career_nav')}
             </Link>
             <Link href="" className="hover:text-[#83AAFF] transition-colors">
