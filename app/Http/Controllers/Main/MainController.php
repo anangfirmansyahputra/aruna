@@ -30,4 +30,9 @@ class MainController extends Controller
     {
         return Inertia::render("main/about");
     }
+
+    public function contact()
+    {
+        return Inertia::render("main/contact");
+    }
 }

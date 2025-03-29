@@ -75,7 +75,7 @@ export default function Navbar() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 10 }}
                     transition={{ duration: 0.2 }}
-                    className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center"
+                    className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center z-[3]"
                   >
                     {/* Triangle */}
                     <motion.div

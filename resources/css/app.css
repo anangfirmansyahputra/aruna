@@ -7,6 +7,12 @@
 @source "../**/*.js";
 @source "../**/*.vue";
 
+@layer components {
+  .container {
+    @apply px-6 md:px-12 lg:px-16;
+  }
+}
+
 /* @theme {
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
