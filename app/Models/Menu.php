@@ -11,7 +11,8 @@ class Menu extends Model
         'group',
         'icon',
         'name',
-        'path'
+        'path',
+        'submenu'
     ];
 
     protected function createdAt(): Attribute

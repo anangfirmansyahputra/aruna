@@ -107,8 +107,6 @@ const calculatorResults = [
 ]
 
 export default function DetailProductPage({ product }: DetailProductPageProps) {
-  console.log(product)
-
   const appUrl = import.meta.env.APP_URL || 'http://127.0.0.1:8000'
   const { locale } = usePage().props
   const lang = locale as 'id' | 'en'

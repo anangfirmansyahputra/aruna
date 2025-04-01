@@ -32,12 +32,16 @@ export default function Navbar() {
           <div className="space-x-[11px]">
             <Link
               href="/lang/en"
+              preserveScroll
+              preserveState
               className={`${locale === 'en' && 'text-primary'} hover:text-primary transition-colors`}
             >
               EN
             </Link>
             <Link
               href="/lang/id"
+              preserveScroll
+              preserveState
               className={`${locale === 'id' && 'text-primary'} hover:text-primary transition-colors`}
             >
               ID

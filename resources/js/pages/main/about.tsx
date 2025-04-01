@@ -2,6 +2,9 @@ import MainLayout from '@/layouts/main-layout'
 import Wave from '../../../../public/assets/Wave.png'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import ProfileCard from '@/components/profile-card'
+import { TeamProfile } from '@/types'
+import { usePage } from '@inertiajs/react'
+import React from 'react'
 
 const values = [
   {
@@ -36,45 +39,52 @@ const values = [
   },
 ]
 
-const profiles = [
-  {
-    image_url: 'https://www.bpraruna.com/img/komisaris-1.jpg',
-    name: 'I Nyoman Sumertha',
-    title: 'Komisaris Utama',
-    description:
-      'Beliau menjabat sebagai Komisaris Utama PT BPR Aruna Nirmaladuta sejak tanggal 19 Maret 2018. Beliau memiliki pengalaman selama lebih dari 24 tahun dalam industri perbankan.',
-  },
-  {
-    image_url: 'https://www.bpraruna.com/img/komisaris-2.jpg',
-    name: 'I Ketut Gede Juarta Sabudi',
-    title: 'Komisaris',
-    description:
-      'Beliau memiliki pengalaman selama lebih dari 28 tahun dalam industri perbankan. Karir Beliau dimulai sebagai tenaga marketing di Bank Dagang Bali pada tahun 1989.',
-  },
-  {
-    image_url: 'https://www.bpraruna.com/img/komisaris-1.jpg',
-    name: 'I Ketut Gede Juarta Sabudi',
-    title: 'Komisaris',
-    description:
-      'Beliau memiliki pengalaman selama lebih dari 28 tahun dalam industri perbankan. Karir Beliau dimulai sebagai tenaga marketing di Bank Dagang Bali pada tahun 1989.',
-  },
-  {
-    image_url: 'https://www.bpraruna.com/img/komisaris-2.jpg',
-    name: 'I Ketut Gede Juarta Sabudi',
-    title: 'Komisaris',
-    description:
-      'Beliau memiliki pengalaman selama lebih dari 28 tahun dalam industri perbankan. Karir Beliau dimulai sebagai tenaga marketing di Bank Dagang Bali pada tahun 1989.',
-  },
-  {
-    image_url: 'https://www.bpraruna.com/img/komisaris-1.jpg',
-    name: 'I Ketut Gede Juarta Sabudi',
-    title: 'Komisaris',
-    description:
-      'Beliau memiliki pengalaman selama lebih dari 28 tahun dalam industri perbankan. Karir Beliau dimulai sebagai tenaga marketing di Bank Dagang Bali pada tahun 1989.',
-  },
-]
+// const profiles = [
+//   {
+//     image_url: 'https://www.bpraruna.com/img/komisaris-1.jpg',
+//     name: 'I Nyoman Sumertha',
+//     title: 'Komisaris Utama',
+//     description:
+//       'Beliau menjabat sebagai Komisaris Utama PT BPR Aruna Nirmaladuta sejak tanggal 19 Maret 2018. Beliau memiliki pengalaman selama lebih dari 24 tahun dalam industri perbankan.',
+//   },
+//   {
+//     image_url: 'https://www.bpraruna.com/img/komisaris-2.jpg',
+//     name: 'I Ketut Gede Juarta Sabudi',
+//     title: 'Komisaris',
+//     description:
+//       'Beliau memiliki pengalaman selama lebih dari 28 tahun dalam industri perbankan. Karir Beliau dimulai sebagai tenaga marketing di Bank Dagang Bali pada tahun 1989.',
+//   },
+//   {
+//     image_url: 'https://www.bpraruna.com/img/komisaris-1.jpg',
+//     name: 'I Ketut Gede Juarta Sabudi',
+//     title: 'Komisaris',
+//     description:
+//       'Beliau memiliki pengalaman selama lebih dari 28 tahun dalam industri perbankan. Karir Beliau dimulai sebagai tenaga marketing di Bank Dagang Bali pada tahun 1989.',
+//   },
+//   {
+//     image_url: 'https://www.bpraruna.com/img/komisaris-2.jpg',
+//     name: 'I Ketut Gede Juarta Sabudi',
+//     title: 'Komisaris',
+//     description:
+//       'Beliau memiliki pengalaman selama lebih dari 28 tahun dalam industri perbankan. Karir Beliau dimulai sebagai tenaga marketing di Bank Dagang Bali pada tahun 1989.',
+//   },
+//   {
+//     image_url: 'https://www.bpraruna.com/img/komisaris-1.jpg',
+//     name: 'I Ketut Gede Juarta Sabudi',
+//     title: 'Komisaris',
+//     description:
+//       'Beliau memiliki pengalaman selama lebih dari 28 tahun dalam industri perbankan. Karir Beliau dimulai sebagai tenaga marketing di Bank Dagang Bali pada tahun 1989.',
+//   },
+// ]
 
-export default function AboutPage() {
+interface AboutPageProps {
+  profiles: TeamProfile[]
+}
+
+export default function AboutPage({ profiles }: AboutPageProps) {
+  const { locale } = usePage().props
+  const lang = locale as 'id' | 'en'
+
   return (
     <MainLayout>
       <div className="relative">
@@ -184,16 +194,43 @@ export default function AboutPage() {
         </p>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-[160px] text-center mt-[30px]">
-          {/* Bagian bawah dengan 2 item yang diposisikan di tengah */}
-          <div className="col-span-1 lg:col-span-3 flex justify-center gap-[126px]">
-            {profiles.slice(0, 2).map((profile, index) => (
-              <ProfileCard {...profile} key={index} />
-            ))}
-          </div>
+          {/* Kelompokkan profiles setiap 5 item */}
+          {Array.from({ length: Math.ceil(profiles.length / 5) }).map(
+            (_, groupIndex) => {
+              const start = groupIndex * 5
+              const group = profiles.slice(start, start + 5)
 
-          {profiles.slice(2, 5).map((profile, index) => (
-            <ProfileCard {...profile} key={index} />
-          ))}
+              return (
+                <React.Fragment key={groupIndex}>
+                  {/* Untuk 2 item pertama dalam kelompok 5 */}
+                  {group.length > 0 && (
+                    <div className="col-span-1 lg:col-span-3 flex justify-center gap-[126px]">
+                      {group.slice(0, 2).map((profile, index) => (
+                        <ProfileCard
+                          name={profile.name}
+                          description={profile[`${lang}_description`]}
+                          title={profile[`${lang}_title`]}
+                          image_url={profile.image_url}
+                          key={start + index}
+                        />
+                      ))}
+                    </div>
+                  )}
+
+                  {/* Untuk 3 item berikutnya dalam kelompok 5 */}
+                  {group.slice(2, 5).map((profile, index) => (
+                    <ProfileCard
+                      name={profile.name}
+                      description={profile[`${lang}_description`]}
+                      title={profile[`${lang}_title`]}
+                      image_url={profile.image_url}
+                      key={start + 2 + index}
+                    />
+                  ))}
+                </React.Fragment>
+              )
+            }
+          )}
         </div>
       </div>
     </MainLayout>

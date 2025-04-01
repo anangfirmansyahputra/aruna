@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Main;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
+use App\Models\TeamProfile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Inertia\Inertia;
@@ -28,7 +29,11 @@ class MainController extends Controller
 
     public function about()
     {
-        return Inertia::render("main/about");
+        $teams = TeamProfile::all();
+
+        return Inertia::render("main/about", [
+            'profiles' => $teams
+        ]);
     }
 
     public function contact()

@@ -73,6 +73,7 @@ export interface Menu {
   icon: string
   path: string
   group: string
+  submenu?: string
   created_at: Date
   updated_at: Date
 }
@@ -162,4 +163,16 @@ export interface ProductRequirement {
   product: Product & {
     translations: ProductTranslation[]
   }
+}
+
+export interface TeamProfile {
+  id: number
+  name: string
+  en_title: string
+  id_title: string
+  id_description: string
+  en_description: string
+  image_url: string
+  created_at: Date
+  updated_at: Date
 }

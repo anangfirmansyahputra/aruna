@@ -91,18 +91,35 @@ class MenuSeeder extends Seeder
                 'icon' => 'UserOutlined',
                 'path' => '/dashboard/users',
             ],
+            [
+                'name' => 'Home Page',
+                'group' => 'Content',
+            ],
+            [
+                'name' => 'About Page',
+                'group' => 'Content',
+            ],
+            [
+                'name' => 'Team Profile',
+                'submenu' => 'About Page',
+                'path' => '/dashboard/team-profiles',
+            ],
         ];
 
+        Menu::query()->delete();
+
         $count = 1;
+
         foreach ($menus as $menu) {
             Menu::updateOrCreate(
                 ['name' => $menu['name']],
                 [
                     'name' => $menu['name'],
-                    "group" => $menu["group"],
-                    "icon" => $menu["icon"],
-                    "path" => $menu["path"],
-                    "order" => $count
+                    "group" => $menu["group"] ?? null,
+                    "icon" => $menu["icon"] ?? null,
+                    "path" => $menu["path"] ?? null,
+                    "order" => $count,
+                    "submenu" => $menu["submenu"] ?? null
                 ]
             );
 

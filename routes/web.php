@@ -13,6 +13,7 @@ use App\Http\Controllers\ProductFeatureController;
 use App\Http\Controllers\ProductRequirementController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\TeamProfileController;
 use App\Http\Controllers\TestimonialController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -32,6 +33,7 @@ Route::prefix('dashboard')->middleware(['auth', 'checkPermission'])->group(funct
     Route::resource("credit-proposals", CreditProposalController::class);
     Route::resource("product-features", ProductFeatureController::class);
     Route::resource("product-requirements", ProductRequirementController::class);
+    Route::resource("team-profiles", TeamProfileController::class);
 
     Route::get('/menus', [MenuController::class, 'index'])->name('menus.index');
     Route::get('/menus/{menu}/edit', [MenuController::class, 'edit'])->name('menus.edit');

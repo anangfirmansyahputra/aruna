@@ -302,24 +302,6 @@ export default function FormPage({ product, categories }: FormPageProps) {
                     />
                   )}
                 </Form.Item>
-
-                <Form.Item
-                  name={`${locale}__content`}
-                  label="Content"
-                  rules={[{ required: true, message: 'Content is required' }]}
-                >
-                  <Tiptap
-                    content={
-                      product?.translations.find(
-                        (t) => t.language_code === locale
-                      )?.content
-                    }
-                    setContent={(content: string) => {
-                      form.setFieldValue(`${locale}__content`, content)
-                      // setContent(content)
-                    }}
-                  />
-                </Form.Item>
               </Tabs.TabPane>
             ))}
           </Tabs>

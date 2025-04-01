@@ -78,29 +78,28 @@ const DashboardLayout = ({
     router.get('/login')
   }
 
-  const groupedMenus = (menus as MenuType[]).reduce<Record<string, MenuType[]>>(
-    (acc, menu) => {
+  const groupedMenus = (menus as MenuType[])
+    .filter((menu) => !menu.submenu)
+    .reduce<Record<string, MenuType[]>>((acc, menu) => {
       if (!acc[menu.group]) {
         acc[menu.group] = []
       }
       acc[menu.group].push(menu)
       return acc
-    },
-    {}
-  )
+    }, {})
 
   const keys = Object.keys(groupedMenus)
 
   const items = keys.map((key, index) => {
     const childrens = groupedMenus[key] as MenuType[]
-    const IconComponent = Icons[childrens[0].icon as keyof typeof Icons]
+    const IconComponent = Icons[childrens[0]?.icon as keyof typeof Icons]
 
     // Jika tidak ada anak, maka langsung return tanpa children
     if (childrens.length === 1) {
       return getItem(
         childrens[0].name,
-        childrens[0].path,
-        React.createElement(IconComponent as any)
+        childrens[0]?.path,
+        IconComponent ? React.createElement(IconComponent as any) : null
       )
     }
 
@@ -110,11 +109,25 @@ const DashboardLayout = ({
       null,
       childrens.map((c) => {
         const IconComponent = Icons[c.icon as keyof typeof Icons]
-        return getItem(
-          c.name,
-          c.path,
-          IconComponent ? React.createElement(IconComponent as any) : null
+
+        const submenu = (menus as MenuType[]).filter(
+          (menu) => menu.submenu === c.name
         )
+
+        if (submenu.length > 0) {
+          return getItem(
+            c.name,
+            c.path,
+            IconComponent ? React.createElement(IconComponent as any) : null,
+            submenu.map((menu) => getItem(menu.name, menu.path))
+          )
+        } else {
+          return getItem(
+            c.name,
+            c.path,
+            IconComponent ? React.createElement(IconComponent as any) : null
+          )
+        }
       })
     )
   })
