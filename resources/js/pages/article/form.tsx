@@ -13,9 +13,11 @@ import {
   Form,
   Image,
   Input,
+  message,
   Row,
   Select,
   Space,
+  Tabs,
   Typography,
   Upload,
 } from 'antd'
@@ -53,9 +55,27 @@ export default function FormPage({ article }: FormPageProps) {
   const [previewImage, setPreviewImage] = useState('')
   const [fileList, setFileList] = useState<UploadFile[]>([])
   const [slug, setSlug] = useState('')
-  const [content, setContent] = useState(article ? article.content : '')
+  const [content, setContent] = useState(
+    article
+      ? {
+          id: article.id_content,
+          en: article.en_content,
+        }
+      : {
+          id: '',
+          en: '',
+        }
+  )
   const [detailInformation, setDetailInformation] = useState(
-    article ? article.detail_information : ''
+    article
+      ? {
+          id: article.id_detail_information,
+          en: article.en_detail_information,
+        }
+      : {
+          id: '',
+          en: '',
+        }
   )
 
   useEffect(() => {
@@ -91,22 +111,40 @@ export default function FormPage({ article }: FormPageProps) {
 
   // Handle Submit Form
   const handleSubmit = async () => {
-    const formData = new FormData()
-    const formValues = form.getFieldsValue()
+    try {
+      const formData = new FormData()
+      const formValues = await form.validateFields()
 
-    Object.entries(formValues).forEach(([key, value]) => {
-      formData.append(key, value as string)
-    })
+      // ['id', 'en']
+      Object.entries(formValues).forEach(([key, value]) => {
+        formData.append(key, value as string)
+      })
 
-    formData.append('content', content)
-    formData.append('detail_information', detailInformation as string)
+      formData.append('id_content', content.id)
+      formData.append('en_content', content.en)
+      formData.append('id_detail_information', detailInformation.id as string)
+      formData.append('en_detail_information', detailInformation.en as string)
 
-    if (fileList.length > 0 && fileList[0].originFileObj) {
-      formData.append('image_url', fileList[0].originFileObj)
+      if (fileList.length > 0 && fileList[0].originFileObj) {
+        formData.append('image_url', fileList[0].originFileObj)
+      } else {
+        if (!article) {
+          message.error('Please insert 1 image')
+          return
+        }
+      }
+
+      // Kirim ke server
+      submit(formData)
+    } catch (err: any) {
+      console.log(err)
+
+      if (err?.errorFields) {
+        message.error(err.errorFields[0].errors[0])
+      } else {
+        message.error('An unexpected error occurred')
+      }
     }
-
-    // Kirim ke server
-    submit(formData)
   }
 
   const uploadProps: UploadProps = {
@@ -132,123 +170,165 @@ export default function FormPage({ article }: FormPageProps) {
           form={form}
           disabled={isLoading}
           layout="vertical"
-          onValuesChange={(changedValues) => {
-            if (changedValues.title) {
-              setSlug(generateSlug(changedValues.title))
-              form.setFieldsValue({ slug: generateSlug(changedValues.title) })
-            }
-          }}
+          // onValuesChange={(changedValues) => {
+          //   if (changedValues.id_title) {
+          //     setSlug(generateSlug(changedValues.title))
+          //     form.setFieldsValue({ slug: generateSlug(changedValues.title) })
+          //   }
+          // }}
         >
-          <Row gutter={[16, 16]}>
-            <Col xs={24} md={12}>
-              <Form.Item
-                name="title"
-                label="Title"
-                rules={[{ required: true, message: 'Please enter title' }]}
+          <Tabs>
+            {['id', 'en'].map((tab) => (
+              <Tabs.TabPane
+                tab={tab.toUpperCase()}
+                key={tab.toUpperCase()}
+                forceRender
               >
-                <Input placeholder="Enter title" />
-              </Form.Item>
-            </Col>
+                <Row gutter={[16, 16]}>
+                  <Col xs={24} md={12}>
+                    <Form.Item
+                      name={`${tab}_title`}
+                      label="Title"
+                      rules={[
+                        { required: true, message: 'Please enter title' },
+                      ]}
+                    >
+                      <Input
+                        placeholder="Enter title"
+                        onChange={(e) =>
+                          form.setFieldValue(
+                            `${tab}_slug`,
+                            generateSlug(e.target.value)
+                          )
+                        }
+                      />
+                    </Form.Item>
+                  </Col>
 
-            <Col xs={24} md={12}>
-              <Form.Item
-                name="slug"
-                label="Slug"
-                rules={[{ required: true, message: 'Please insert slug' }]}
-              >
-                <Input placeholder="Enter slug" value={slug} />
-              </Form.Item>
-            </Col>
-          </Row>
+                  <Col xs={24} md={12}>
+                    <Form.Item
+                      name={`${tab}_slug`}
+                      label="Slug"
+                      rules={[
+                        { required: true, message: 'Please insert slug' },
+                      ]}
+                    >
+                      <Input placeholder="Enter slug" value={slug} />
+                    </Form.Item>
+                  </Col>
+                </Row>
 
-          <Row gutter={[16, 16]}>
-            <Col xs={24} md={12}>
-              <Form.Item
-                name="keywords"
-                label="Keywords"
-                rules={[{ required: true, message: 'Please enter keyword' }]}
-              >
-                <Select placeholder="Enter keywords" mode="tags" />
-              </Form.Item>
-            </Col>
+                <Row gutter={[16, 16]}>
+                  <Col xs={24} md={12}>
+                    <Form.Item
+                      name={`${tab}_keywords`}
+                      label="Keywords"
+                      rules={[
+                        { required: true, message: 'Please enter keyword' },
+                      ]}
+                    >
+                      <Select placeholder="Enter keywords" mode="tags" />
+                    </Form.Item>
+                  </Col>
 
-            <Col xs={24} md={12}>
-              <Form.Item
-                name="tags"
-                label="Tags"
-                rules={[{ required: true, message: 'Please enter tags' }]}
-              >
-                <Select placeholder="Enter tags" mode="tags" />
-              </Form.Item>
-            </Col>
-          </Row>
+                  <Col xs={24} md={12}>
+                    <Form.Item
+                      name={`${tab}_tags`}
+                      label="Tags"
+                      rules={[{ required: true, message: 'Please enter tags' }]}
+                    >
+                      <Select placeholder="Enter tags" mode="tags" />
+                    </Form.Item>
+                  </Col>
+                </Row>
 
-          <Row gutter={[16, 16]}>
-            <Col xs={24} md={12}>
-              <Form.Item
-                name="category"
-                label="Category"
-                rules={[{ required: true, message: 'Please insert category' }]}
-              >
-                <Input placeholder="Enter category" />
-              </Form.Item>
-            </Col>
-          </Row>
+                <Row gutter={[16, 16]}>
+                  <Col xs={24} md={12}>
+                    <Form.Item
+                      name={`${tab}_category`}
+                      label="Category"
+                      rules={[
+                        { required: true, message: 'Please insert category' },
+                      ]}
+                    >
+                      <Input placeholder="Enter category" />
+                    </Form.Item>
+                  </Col>
+                </Row>
 
-          <Form.Item
-            name="meta_description"
-            label="Meta description"
-            rules={[
-              { required: true, message: 'Please enter meta description' },
-            ]}
-          >
-            <Input.TextArea rows={5} />
-          </Form.Item>
+                <Form.Item
+                  name={`${tab}_meta_description`}
+                  label="Meta description"
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Please enter meta description',
+                    },
+                  ]}
+                >
+                  <Input.TextArea rows={5} />
+                </Form.Item>
 
-          <Form.Item
-            label="Image"
-            name="image_url"
-            rules={[{ required: true, message: 'Please insert 1 image' }]}
-          >
-            <Dragger {...uploadProps}>
-              <p className="ant-upload-drag-icon">
-                <InboxOutlined />
-              </p>
-              <p className="ant-upload-text">
-                Click or drag file to this area to upload
-              </p>
-              <p className="ant-upload-hint">
-                Support for a single or bulk upload. Strictly prohibited from
-                uploading company data or other banned files.
-              </p>
-            </Dragger>
-            {previewImage && (
-              <Image
-                wrapperStyle={{ display: 'none' }}
-                preview={{
-                  visible: previewOpen,
-                  onVisibleChange: (visible) => setPreviewOpen(visible),
-                  afterOpenChange: (visible) => !visible && setPreviewImage(''),
-                }}
-                src={previewImage}
-              />
-            )}
-          </Form.Item>
+                <Form.Item label="Image" name="image_url">
+                  <Dragger {...uploadProps}>
+                    <p className="ant-upload-drag-icon">
+                      <InboxOutlined />
+                    </p>
+                    <p className="ant-upload-text">
+                      Click or drag file to this area to upload
+                    </p>
+                    <p className="ant-upload-hint">
+                      Support for a single or bulk upload. Strictly prohibited
+                      from uploading company data or other banned files.
+                    </p>
+                  </Dragger>
+                  {previewImage && (
+                    <Image
+                      wrapperStyle={{ display: 'none' }}
+                      preview={{
+                        visible: previewOpen,
+                        onVisibleChange: (visible) => setPreviewOpen(visible),
+                        afterOpenChange: (visible) =>
+                          !visible && setPreviewImage(''),
+                      }}
+                      src={previewImage}
+                    />
+                  )}
+                </Form.Item>
 
-          <Form.Item
-            name="content"
-            label="Content"
-            rules={[{ required: true, message: 'Content is required' }]}
-          >
-            <Tiptap content={content} setContent={setContent} />
-          </Form.Item>
+                <Form.Item
+                  name={`${tab}_content`}
+                  label="Content"
+                  rules={[{ required: true, message: 'Content is required' }]}
+                >
+                  <Tiptap
+                    content={content[tab as 'id' | 'en']}
+                    setContent={(e) =>
+                      setContent((prev) => ({
+                        ...prev,
+                        [tab as 'id' | 'en']: e,
+                      }))
+                    }
+                  />
+                </Form.Item>
 
-          <Form.Item name="detail_information" label="Detail Information">
-            <Tiptap
-              content={detailInformation}
-              setContent={setDetailInformation}
-            />
-          </Form.Item>
+                <Form.Item
+                  name={`${tab}_detail_information`}
+                  label="Detail Information"
+                >
+                  <Tiptap
+                    content={detailInformation[tab as 'id' | 'en']}
+                    setContent={(e) =>
+                      setDetailInformation((prev) => ({
+                        ...prev,
+                        [tab as 'id' | 'en']: e,
+                      }))
+                    }
+                  />
+                </Form.Item>
+              </Tabs.TabPane>
+            ))}
+          </Tabs>
 
           <Space className="flex justify-end mt-4">
             <Button onClick={() => router.visit('/dashboard/articles')}>

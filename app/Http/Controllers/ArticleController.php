@@ -34,15 +34,23 @@ class ArticleController extends Controller
     public function store(Request $request)
     {
         $validate = $request->validate([
-            'title' => 'required|string|unique:articles,title',
-            'slug' => 'required|string|unique:articles,title',
-            'keywords' => 'required|string',
-            'tags' => 'required|string',
-            'meta_description' => 'required|string',
-            'content' => 'required|string',
+            'id_title' => 'required|string',
+            'en_title' => 'required|string',
+            'id_slug' => 'required|string',
+            'en_slug' => 'required|string',
+            'id_keywords' => 'required|string',
+            'en_keywords' => 'required|string',
+            'id_tags' => 'required|string',
+            'en_tags' => 'required|string',
+            'id_meta_description' => 'required|string',
+            'en_meta_description' => 'required|string',
+            'id_content' => 'required|string',
+            'en_content' => 'required|string',
             'image_url' => 'mimes:jpeg,jpg,png,gif|max:1000',
-            'category' => 'required|string',
-            'detail_information' => 'string'
+            'id_category' => 'required|string',
+            'en_category' => 'required|string',
+            'id_detail_information' => 'string',
+            'en_detail_information' => 'string'
         ]);
 
         $validate['image_url'] = $request->file('image_url')->store('articles', 'public');
@@ -81,14 +89,22 @@ class ArticleController extends Controller
     public function update(Request $request, Article $article)
     {
         $validate = $request->validate([
-            'title' => "required|string|unique:articles,title,{$article->id}",
-            'slug' => "required|string|unique:articles,title,{$article->id}",
-            'keywords' => 'required|string',
-            'tags' => 'required|string',
-            'meta_description' => 'required|string',
-            'content' => 'required|string',
-            'category' => 'required|string',
-            'detail_information' => 'string',
+            'id_title' => 'required|string',
+            'en_title' => 'required|string',
+            'id_slug' => 'required|string',
+            'en_slug' => 'required|string',
+            'id_keywords' => 'required|string',
+            'en_keywords' => 'required|string',
+            'id_tags' => 'required|string',
+            'en_tags' => 'required|string',
+            'id_meta_description' => 'required|string',
+            'en_meta_description' => 'required|string',
+            'id_content' => 'required|string',
+            'en_content' => 'required|string',
+            'id_category' => 'required|string',
+            'en_category' => 'required|string',
+            'id_detail_information' => 'string',
+            'en_detail_information' => 'string',
             'image_url' => [
                 'nullable',
                 Rule::when(

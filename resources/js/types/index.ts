@@ -54,17 +54,25 @@ export interface Product {
 
 export interface Article {
   id: number
-  title: string
+  id_title: string
+  en_title: string
   image_url: string
-  keywords: string
-  meta_description: string
-  content: string
-  slug: string
-  tags: string
+  id_keywords: string
+  en_keywords: string
+  id_meta_description: string
+  en_meta_description: string
+  id_content: string
+  en_content: string
+  id_slug: string
+  en_slug: string
+  id_tags: string
+  en_tags: string
   created_at: Date
   updated_at: Date
-  category: string
-  detail_information?: string
+  id_category: string
+  en_category: string
+  id_detail_information?: string
+  en_detail_information?: string
 }
 
 export interface Menu {

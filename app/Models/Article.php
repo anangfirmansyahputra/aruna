@@ -9,15 +9,23 @@ use Illuminate\Support\Facades\Storage;
 class Article extends Model
 {
     protected $fillable = [
-        'title',
-        'slug',
-        'keywords',
-        'tags',
-        'meta_description',
-        'content',
+        'id_title',
+        'en_title',
+        'id_slug',
+        'en_slug',
+        'id_keywords',
+        'en_keywords',
+        'id_tags',
+        'en_tags',
+        'id_meta_description',
+        'en_meta_description',
+        'id_content',
+        'en_content',
         'image_url',
-        'category',
-        'detail_information'
+        'id_category',
+        'en_category',
+        'id_detail_information',
+        'en_detail_information'
     ];
 
     protected function createdAt(): Attribute

@@ -47,20 +47,20 @@ export default function ArticlePage({ data }: ArticlePage) {
     },
     {
       title: 'Title',
-      dataIndex: 'title',
-      key: 'title',
+      dataIndex: 'id_title',
+      key: 'id_title',
       width: 200,
     },
     {
       title: 'Slug',
-      dataIndex: 'slug',
-      key: 'slug',
+      dataIndex: 'id_slug',
+      key: 'id_slug',
       width: 200,
     },
     {
       title: 'Category',
-      dataIndex: 'category',
-      key: 'category',
+      dataIndex: 'id_category',
+      key: 'id_category',
       width: 200,
     },
     {
@@ -70,7 +70,7 @@ export default function ArticlePage({ data }: ArticlePage) {
       render: (_, record) => {
         return (
           <div className="flex flex-wrap gap-y-1">
-            {record.keywords.split(',').map((keyword, index) => (
+            {record.id_keywords.split(',').map((keyword, index) => (
               <Tag color="green" key={index}>
                 {keyword}
               </Tag>
@@ -87,7 +87,7 @@ export default function ArticlePage({ data }: ArticlePage) {
       render: (_, record) => {
         return (
           <div className="flex flex-wrap gap-y-1">
-            {record.tags.split(',').map((tag, index) => (
+            {record.id_tags.split(',').map((tag, index) => (
               <Tag color="green" key={index}>
                 {tag}
               </Tag>
