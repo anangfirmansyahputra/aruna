@@ -176,3 +176,14 @@ export interface TeamProfile {
   created_at: Date
   updated_at: Date
 }
+
+export interface CompanyValue {
+  id: number
+  icon: string
+  en_title: string
+  id_title: string
+  en_description: string
+  id_description: string
+  created_at: Date
+  updated_at: Date
+}

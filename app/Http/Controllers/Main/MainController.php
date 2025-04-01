@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Main;
 
 use App\Http\Controllers\Controller;
+use App\Models\CompanyValue;
 use App\Models\Product;
 use App\Models\TeamProfile;
 use Illuminate\Http\Request;
@@ -30,9 +31,11 @@ class MainController extends Controller
     public function about()
     {
         $teams = TeamProfile::all();
+        $companyValues = CompanyValue::all();
 
         return Inertia::render("main/about", [
-            'profiles' => $teams
+            'profiles' => $teams,
+            'company_values' => $companyValues
         ]);
     }
 

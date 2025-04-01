@@ -3,6 +3,7 @@
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CompanyValueController;
 use App\Http\Controllers\CreditProposalController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InterestRateController;
@@ -34,6 +35,7 @@ Route::prefix('dashboard')->middleware(['auth', 'checkPermission'])->group(funct
     Route::resource("product-features", ProductFeatureController::class);
     Route::resource("product-requirements", ProductRequirementController::class);
     Route::resource("team-profiles", TeamProfileController::class);
+    Route::resource("company-values", CompanyValueController::class);
 
     Route::get('/menus', [MenuController::class, 'index'])->name('menus.index');
     Route::get('/menus/{menu}/edit', [MenuController::class, 'edit'])->name('menus.edit');

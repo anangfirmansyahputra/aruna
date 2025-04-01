@@ -188,7 +188,7 @@ const DashboardLayout = ({
         breakpoint="lg"
         theme="dark"
         collapsedWidth="80"
-        collapsible
+        // collapsible
         collapsed={collapsed}
         onCollapse={(value) => setCollapsed(value)}
       >

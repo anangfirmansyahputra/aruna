@@ -2,9 +2,10 @@ import MainLayout from '@/layouts/main-layout'
 import Wave from '../../../../public/assets/Wave.png'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import ProfileCard from '@/components/profile-card'
-import { TeamProfile } from '@/types'
+import { CompanyValue, TeamProfile } from '@/types'
 import { usePage } from '@inertiajs/react'
 import React from 'react'
+import * as LucideIcons from 'lucide-react'
 
 const values = [
   {
@@ -79,9 +80,13 @@ const values = [
 
 interface AboutPageProps {
   profiles: TeamProfile[]
+  company_values: CompanyValue[]
 }
 
-export default function AboutPage({ profiles }: AboutPageProps) {
+export default function AboutPage({
+  profiles,
+  company_values,
+}: AboutPageProps) {
   const { locale } = usePage().props
   const lang = locale as 'id' | 'en'
 
@@ -150,36 +155,71 @@ export default function AboutPage({ profiles }: AboutPageProps) {
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 text-center mt-[30px]">
-            {values.slice(0, 3).map((value, index) => (
-              <div key={index} className="flex flex-col items-center">
-                <div className="bg-[#B4CCEF]/20 p-4 rounded-lg">
-                  <span className="text-4xl">{value.icon}</span>
-                </div>
-                <h3 className="mt-5 text-xl font-semibold text-[#183B56]">
-                  {value.title}
-                </h3>
-                <p className="mt-[13px] text-[#5A7184]">{value.description}</p>
-              </div>
-            ))}
-            {/* Bagian bawah dengan 2 item yang diposisikan di tengah */}
-            <div className="col-span-1 lg:col-span-3 flex justify-center gap-8">
-              {values.slice(3, 5).map((value, index) => (
-                <div
-                  key={index}
-                  className="flex flex-col items-center max-w-xs"
-                >
-                  <div className="bg-[#B4CCEF]/20 p-4 rounded-lg">
-                    <span className="text-4xl">{value.icon}</span>
-                  </div>
-                  <h3 className="mt-5 text-xl font-semibold text-[#183B56]">
-                    {value.title}
-                  </h3>
-                  <p className="mt-[13px] text-[#5A7184]">
-                    {value.description}
-                  </p>
-                </div>
-              ))}
-            </div>
+            {/* Kelompokkan company_values setiap 5 item (3 di grid biasa + 2 di tengah) */}
+            {Array.from({ length: Math.ceil(company_values.length / 5) }).map(
+              (_, groupIndex) => {
+                const start = groupIndex * 5
+                const group = company_values.slice(start, start + 5)
+
+                return (
+                  <React.Fragment key={groupIndex}>
+                    {/* 3 item pertama dalam grid biasa */}
+                    {group.slice(0, 3).map((value, index) => {
+                      // @ts-ignore
+                      const IconComponent = LucideIcons[value.icon]
+
+                      return (
+                        <div
+                          key={start + index}
+                          className="flex flex-col items-center"
+                        >
+                          <div className="bg-[#B4CCEF]/20 p-4 rounded-lg">
+                            <span className="text-4xl">
+                              <IconComponent size={24} />
+                            </span>
+                          </div>
+                          <h3 className="mt-5 text-xl font-semibold text-[#183B56]">
+                            {value[`${lang}_title`]}
+                          </h3>
+                          <p className="mt-[13px] text-[#5A7184]">
+                            {value[`${lang}_description`]}
+                          </p>
+                        </div>
+                      )
+                    })}
+
+                    {/* 2 item berikutnya di tengah (jika ada) */}
+                    {group.length > 3 && (
+                      <div className="col-span-1 lg:col-span-3 flex justify-center gap-8">
+                        {group.slice(3, 5).map((value, index) => {
+                          // @ts-ignore
+                          const IconComponent = LucideIcons[value.icon]
+
+                          return (
+                            <div
+                              key={start + 3 + index}
+                              className="flex flex-col items-center max-w-xs"
+                            >
+                              <div className="bg-[#B4CCEF]/20 p-4 rounded-lg">
+                                <span className="text-4xl">
+                                  <IconComponent size={24} />
+                                </span>
+                              </div>
+                              <h3 className="mt-5 text-xl font-semibold text-[#183B56]">
+                                {value[`${lang}_title`]}
+                              </h3>
+                              <p className="mt-[13px] text-[#5A7184]">
+                                {value[`${lang}_description`]}
+                              </p>
+                            </div>
+                          )
+                        })}
+                      </div>
+                    )}
+                  </React.Fragment>
+                )
+              }
+            )}
           </div>
         </div>
       </div>

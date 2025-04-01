@@ -104,6 +104,11 @@ class MenuSeeder extends Seeder
                 'submenu' => 'About Page',
                 'path' => '/dashboard/team-profiles',
             ],
+            [
+                'name' => 'Company Value',
+                'submenu' => 'About Page',
+                'path' => '/dashboard/company-values',
+            ],
         ];
 
         Menu::query()->delete();
