@@ -1,5 +1,11 @@
 import ArticleCard from '@/components/article-card'
 import MainLayout from '@/layouts/main-layout'
+import { Article } from '@/types'
+import { usePage } from '@inertiajs/react'
+
+interface ArticlePageProps {
+  articles: Article[]
+}
 
 const articles = [
   {
@@ -28,7 +34,10 @@ const articles = [
   },
 ]
 
-export default function ArticlePage() {
+export default function ArticlePage({ articles }: ArticlePageProps) {
+  const { locale } = usePage().props
+  const lang = locale as 'id' | 'en'
+
   return (
     <MainLayout>
       <div className="container mx-auto py-[40px]">
@@ -51,7 +60,13 @@ export default function ArticlePage() {
 
         <div className="grid grid-cols-3 mt-10 gap-[35px]">
           {articles.map((article, i) => (
-            <ArticleCard {...article} key={i} />
+            <ArticleCard
+              slug={article[`${lang}_slug`]}
+              image_url={article.image_url}
+              title={article[`${lang}_title`]}
+              created_at={article.created_at}
+              key={i}
+            />
           ))}
         </div>
       </div>

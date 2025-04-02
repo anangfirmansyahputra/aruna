@@ -25,8 +25,8 @@ return new class extends Migration
             $table->string("en_title");
             $table->string("id_category");
             $table->string("en_category");
-            $table->string("id_detail_information");
-            $table->string("en_detail_information");
+            $table->text("id_detail_information");
+            $table->text("en_detail_information");
             $table->string("id_slug");
             $table->string("en_slug");
             $table->string("id_keywords");
@@ -35,8 +35,8 @@ return new class extends Migration
             $table->string("en_tags");
             $table->string("id_meta_description");
             $table->string("en_meta_description");
-            $table->string("id_content");
-            $table->string("en_content");
+            $table->text("id_content");
+            $table->text("en_content");
         });
     }
 
@@ -63,10 +63,10 @@ return new class extends Migration
             $table->dropColumn("id_content");
             $table->dropColumn("en_content");
 
-            $table->string('title')->unique();
+            $table->string('title');
             $table->string('category');
             $table->longText('detail_information')->nullable();
-            $table->string('slug')->unique();
+            $table->string('slug');
             $table->string('keywords');
             $table->string('tags');
             $table->text('meta_description');

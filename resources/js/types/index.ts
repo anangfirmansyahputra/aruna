@@ -67,7 +67,7 @@ export interface Article {
   en_slug: string
   id_tags: string
   en_tags: string
-  created_at: Date
+  created_at: string
   updated_at: Date
   id_category: string
   en_category: string

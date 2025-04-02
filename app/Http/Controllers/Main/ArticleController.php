@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Main;
 
 use App\Http\Controllers\Controller;
 use App\Models\Article;
+use Illuminate\Contracts\Database\Query\Builder;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -14,12 +15,31 @@ class ArticleController extends Controller
         $articles = Article::all();
 
         return Inertia::render("main/article/page", [
-            'data' => $articles
+            'articles' => $articles
         ]);
     }
 
     public function show(Request $request, string $slug)
     {
-        return Inertia::render("main/article/detail", []);
+        $article = Article::where(function ($query) use ($slug) {
+            $query->where("en_slug", $slug)
+                ->orWhere("id_slug", $slug);
+        })->first();
+
+        if (!$article) {
+            abort(404);
+        }
+
+        $related_article = Article::where(function ($query) use ($slug) {
+            $query->where("en_slug", "!=", $slug)
+                ->orWhere("id_slug", "!=", $slug);
+        })
+            ->limit(5)
+            ->get();
+
+        return Inertia::render("main/article/detail", [
+            'article' => $article,
+            'related' => $related_article
+        ]);
     }
 }

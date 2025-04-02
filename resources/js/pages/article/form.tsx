@@ -2,8 +2,8 @@ import Tiptap from '@/components/tiptap'
 import { useFormHandler } from '@/hooks/use-form-handler'
 import DashboardLayout from '@/layouts/dashboard-layout'
 import { checkPermission } from '@/lib/permission'
-import { Category, Article } from '@/types'
-import { InboxOutlined, PlusOutlined } from '@ant-design/icons'
+import { Article, Category } from '@/types'
+import { InboxOutlined } from '@ant-design/icons'
 import { Head, router, usePage } from '@inertiajs/react'
 import type { GetProp, UploadFile, UploadProps } from 'antd'
 import {
@@ -19,10 +19,9 @@ import {
   Space,
   Tabs,
   Typography,
-  Upload,
 } from 'antd'
 import Dragger from 'antd/es/upload/Dragger'
-import { JSX, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 interface FormPageProps {
   article?: Article
@@ -115,7 +114,16 @@ export default function FormPage({ article }: FormPageProps) {
       const formData = new FormData()
       const formValues = await form.validateFields()
 
-      // ['id', 'en']
+      if (
+        content.id === '' ||
+        content.id === '<p class="text-base"></p>' ||
+        content.en === '' ||
+        content.en === '<p class="text-base"></p>'
+      ) {
+        message.error('Please insert content')
+        return
+      }
+
       Object.entries(formValues).forEach(([key, value]) => {
         formData.append(key, value as string)
       })
@@ -296,11 +304,7 @@ export default function FormPage({ article }: FormPageProps) {
                   )}
                 </Form.Item>
 
-                <Form.Item
-                  name={`${tab}_content`}
-                  label="Content"
-                  rules={[{ required: true, message: 'Content is required' }]}
-                >
+                <Form.Item name={`${tab}_content`} label="Content">
                   <Tiptap
                     content={content[tab as 'id' | 'en']}
                     setContent={(e) =>
