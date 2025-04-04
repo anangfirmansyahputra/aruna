@@ -169,6 +169,10 @@ const types = [
     label: 'About Page',
   },
   {
+    key: 'contact',
+    label: 'Contact Page',
+  },
+  {
     key: 'product',
     label: 'Product Page',
   },
