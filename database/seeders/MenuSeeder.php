@@ -101,13 +101,21 @@ class MenuSeeder extends Seeder
             ],
             [
                 'name' => 'Team Profile',
+                'group' => 'Content',
                 'submenu' => 'About Page',
                 'path' => '/dashboard/team-profiles',
             ],
             [
                 'name' => 'Company Value',
+                'group' => 'Content',
                 'submenu' => 'About Page',
                 'path' => '/dashboard/company-values',
+            ],
+            [
+                'name' => 'SEO',
+                'group' => 'SEO',
+                'icon' => 'ProductOutlined',
+                'path' => '/dashboard/seo',
             ],
         ];
 

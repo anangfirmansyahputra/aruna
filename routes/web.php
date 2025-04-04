@@ -14,6 +14,7 @@ use App\Http\Controllers\ProductFeatureController;
 use App\Http\Controllers\ProductRequirementController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\SeoController;
 use App\Http\Controllers\TeamProfileController;
 use App\Http\Controllers\TestimonialController;
 use App\Http\Controllers\UserController;
@@ -36,6 +37,8 @@ Route::prefix('dashboard')->middleware(['auth', 'checkPermission'])->group(funct
     Route::resource("product-requirements", ProductRequirementController::class);
     Route::resource("team-profiles", TeamProfileController::class);
     Route::resource("company-values", CompanyValueController::class);
+    Route::get("seo", [SeoController::class, 'index'])->name("seo.index");
+    Route::post("seo", [SeoController::class, 'update'])->name("seo.update");
 
     Route::get('/menus', [MenuController::class, 'index'])->name('menus.index');
     Route::get('/menus/{menu}/edit', [MenuController::class, 'edit'])->name('menus.edit');

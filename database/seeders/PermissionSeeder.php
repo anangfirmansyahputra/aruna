@@ -14,6 +14,8 @@ class PermissionSeeder extends Seeder
 
     public function run()
     {
+        Permission::query()->delete();
+
         $routeCollection = app('router')->getRoutes();
 
         foreach ($routeCollection as $route) {

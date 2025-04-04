@@ -120,8 +120,12 @@ export default function MenuForm({
                     <Checkbox key={menu.id} value={menu.id}>
                       <Tooltip title={`Path: ${menu.path}`}>
                         <Space>
-                          {React.createElement(
-                            Icons[menu.icon as keyof typeof Icons] as any
+                          {menu.icon ? (
+                            React.createElement(
+                              Icons[menu.icon as keyof typeof Icons] as any
+                            )
+                          ) : (
+                            <Icons.FolderOutlined />
                           )}
                           <span>{menu.name}</span>
                         </Space>

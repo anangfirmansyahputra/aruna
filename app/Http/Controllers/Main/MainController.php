@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Main;
 use App\Http\Controllers\Controller;
 use App\Models\CompanyValue;
 use App\Models\Product;
+use App\Models\Seo;
 use App\Models\TeamProfile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -25,17 +26,22 @@ class MainController extends Controller
 
     public function career()
     {
-        return Inertia::render("main/career", []);
+        $seo = Seo::where("type", "career")->first();
+        return Inertia::render("main/career", [
+            'seo' => $seo
+        ]);
     }
 
     public function about()
     {
         $teams = TeamProfile::all();
         $companyValues = CompanyValue::all();
+        $seo = Seo::where("type", "about")->first();
 
         return Inertia::render("main/about", [
             'profiles' => $teams,
-            'company_values' => $companyValues
+            'company_values' => $companyValues,
+            'seo' => $seo
         ]);
     }
 

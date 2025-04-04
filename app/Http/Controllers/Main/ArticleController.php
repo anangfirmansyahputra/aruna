@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Main;
 
 use App\Http\Controllers\Controller;
 use App\Models\Article;
+use App\Models\Seo;
 use Illuminate\Contracts\Database\Query\Builder;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -13,9 +14,11 @@ class ArticleController extends Controller
     public function index()
     {
         $articles = Article::all();
+        $seo = Seo::where("type", "article")->first();
 
         return Inertia::render("main/article/page", [
-            'articles' => $articles
+            'articles' => $articles,
+            'seo' => $seo
         ]);
     }
 

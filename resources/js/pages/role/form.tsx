@@ -50,12 +50,16 @@ const columns = (
     dataIndex: 'icon',
     key: 'icon',
     render: (_, record) => {
-      const IconComponent = iconsMap[record.icon]
-      return (
-        <div className="flex items-center gap-2">
-          <IconComponent /> {record.icon}
-        </div>
-      )
+      if (record.icon) {
+        const IconComponent = iconsMap[record.icon]
+        return (
+          <div className="flex items-center gap-2">
+            <IconComponent /> {record.icon}
+          </div>
+        )
+      } else {
+        return '-'
+      }
     },
   },
   {

@@ -1,19 +1,11 @@
 import DashboardLayout from '@/layouts/dashboard-layout'
-import { Menu } from '@/types'
-import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
-import { Head, router, usePage } from '@inertiajs/react'
-import {
-  Button,
-  Divider,
-  Popconfirm,
-  Space,
-  Table,
-  TableProps,
-  Typography,
-} from 'antd'
-import { JSX } from 'react'
-import * as Icons from '@ant-design/icons'
 import { checkPermission } from '@/lib/permission'
+import { Menu } from '@/types'
+import * as Icons from '@ant-design/icons'
+import { EditOutlined } from '@ant-design/icons'
+import { Head, router, usePage } from '@inertiajs/react'
+import { Button, Divider, Space, Table, TableProps, Typography } from 'antd'
+import { JSX } from 'react'
 
 const iconsMap: any = Icons
 
@@ -36,23 +28,33 @@ export default function MenuPage({ data }: MenuPageProps) {
       title: 'Path',
       dataIndex: 'path',
       key: 'path',
+      render: (_, record) => {
+        return record.path ?? '-'
+      },
     },
     {
       title: 'Group',
       dataIndex: 'group',
       key: 'group',
+      render: (_, record) => {
+        return record.group ?? '-'
+      },
     },
     {
       title: 'Icon',
       dataIndex: 'icon',
       key: 'icon',
       render: (_, record) => {
-        const IconComponent = iconsMap[record.icon]
-        return (
-          <div className="flex items-center gap-2">
-            <IconComponent /> {record.icon}
-          </div>
-        )
+        if (record.icon) {
+          const IconComponent = iconsMap[record.icon]
+          return (
+            <div className="flex items-center gap-2">
+              <IconComponent /> {record.icon}
+            </div>
+          )
+        } else {
+          return <div>-</div>
+        }
       },
     },
     {

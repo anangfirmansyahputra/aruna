@@ -195,3 +195,16 @@ export interface CompanyValue {
   created_at: Date
   updated_at: Date
 }
+
+export interface SEO {
+  id: number
+  id_title: string
+  en_title: string
+  id_meta_descriptions: string
+  en_meta_descriptions: string
+  id_keywords: string
+  en_keywords: string
+  updated_at: Date
+  created_at: Date
+  type: string
+}
