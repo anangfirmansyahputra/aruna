@@ -196,6 +196,10 @@ const types = [
     key: 'deposito',
     label: 'Deposito Page',
   },
+  {
+    key: 'faq',
+    label: 'FAQ Page',
+  },
 ]
 
 const items = (data: SEO[]) => {

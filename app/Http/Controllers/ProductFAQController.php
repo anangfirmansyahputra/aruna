@@ -17,7 +17,7 @@ class ProductFAQController extends Controller
         $productFaqs = ProductFAQ::with('product.translations')->get();
         $products = Product::with('translations')->get();
 
-        return Inertia::render('faq/page', [
+        return Inertia::render('faq-product/page', [
             'data' => $productFaqs,
             'products' => $products
         ]);
@@ -30,7 +30,7 @@ class ProductFAQController extends Controller
     {
         $products = Product::with("translations")->get();
 
-        return Inertia::render('faq/form', [
+        return Inertia::render('faq-product/form', [
             'products' => $products
         ]);
     }
@@ -55,7 +55,7 @@ class ProductFAQController extends Controller
         $validate = $this->validate($request);
         ProductFAQ::create($validate);
 
-        return to_route('faqs.index');
+        return to_route('product-faqs.index');
     }
 
     /**
@@ -69,11 +69,12 @@ class ProductFAQController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(ProductFAQ $faq)
+    public function edit(string $id)
     {
         $products = Product::with('translations')->get();
+        $faq = ProductFAQ::find($id);
 
-        return Inertia::render('faq/form', [
+        return Inertia::render('faq-product/form', [
             'products' => $products,
             'faq' => $faq
         ]);
@@ -82,19 +83,21 @@ class ProductFAQController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, ProductFAQ $faq)
+    public function update(Request $request, string $id)
     {
+        $faq = ProductFAQ::find($id);
         $validate = $this->validate($request);
         $faq->update($validate);
-        return to_route('faqs.index');
+        return to_route('product-faqs.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ProductFAQ $faq)
+    public function destroy(string $id)
     {
+        $faq = ProductFAQ::find($id);
         $faq->delete();
-        return to_route('faqs.index');
+        return to_route('product-faqs.index');
     }
 }

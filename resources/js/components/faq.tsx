@@ -11,7 +11,7 @@ export default function Faq({ answer, question }: FaqProps) {
   const [show, setShow] = React.useState(false)
 
   return (
-    <div className="p-[30px] rounded-2xl shadow space-y-3">
+    <div className="p-[30px] rounded-2xl shadow space-y-3 bg-white">
       <div className="flex items-center justify-between gap-5">
         <h6 className="text-xl font-medium text-[#292C31]">{question}</h6>
         <button

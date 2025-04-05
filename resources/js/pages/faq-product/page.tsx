@@ -1,6 +1,6 @@
 import DashboardLayout from '@/layouts/dashboard-layout'
 import { checkPermission } from '@/lib/permission'
-import { FAQ } from '@/types'
+import { Product, ProductFAQ, ProductTranslation } from '@/types'
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 import { Head, router, usePage } from '@inertiajs/react'
 import {
@@ -16,29 +16,56 @@ import {
 import { JSX } from 'react'
 
 interface FAQPageProps {
-  data: FAQ[]
+  data: (ProductFAQ & {
+    product: Product & {
+      translations: ProductTranslation[]
+    }
+  })[]
+  products: (Product & {
+    translations: ProductTranslation[]
+  })[]
 }
 
 const breadcrumbs = ['Dashboard', 'FAQ']
 
-export default function FAQPage({ data }: FAQPageProps) {
+export default function FAQPage({ data, products }: FAQPageProps) {
   const { permissions } = usePage().props
 
   const confirm = (id: number) => {
     try {
-      router.delete(`/dashboard/faqs/${id}`)
+      router.delete(`/dashboard/product-faqs/${id}`)
       message.success('Action success')
     } catch (err: any) {
       message.error('Internal server error')
     }
   }
 
-  const columns: TableProps<FAQ>['columns'] = [
+  const columns: TableProps<
+    ProductFAQ & {
+      product: Product & {
+        translations: ProductTranslation[]
+      }
+    }
+  >['columns'] = [
     {
       title: 'Question',
       dataIndex: 'id_question',
       key: 'id_question',
       width: 200,
+      filters: products.map((product) => ({
+        text: product.translations[0].name,
+        value: product.id,
+      })),
+      filterMode: 'tree',
+      filterSearch: true,
+      onFilter: (value, record) => record.product_id === value,
+    },
+    {
+      title: 'Product',
+      dataIndex: 'product',
+      key: 'product',
+      width: 200,
+      render: (_, record) => <div>{record.product.translations[0].name}</div>,
     },
     {
       title: 'Created Date',
@@ -53,14 +80,16 @@ export default function FAQPage({ data }: FAQPageProps) {
 
       render: (_, record) => (
         <Space>
-          {checkPermission(permissions as string[], 'faqs.edit') && (
+          {checkPermission(permissions as string[], 'product-faqs.edit') && (
             <Button
               icon={<EditOutlined />}
-              onClick={() => router.visit(`/dashboard/faqs/${record.id}/edit`)}
+              onClick={() =>
+                router.visit(`/dashboard/product-faqs/${record.id}/edit`)
+              }
             />
           )}
 
-          {checkPermission(permissions as string[], 'faqs.destroy') && (
+          {checkPermission(permissions as string[], 'product-faqs.destroy') && (
             <Popconfirm
               title="Delete data"
               description="Are yoy sure to delete this data?"
@@ -78,13 +107,13 @@ export default function FAQPage({ data }: FAQPageProps) {
 
   return (
     <>
-      <Head title="FAQ" />
+      <Head title="FAQ Product" />
 
       <>
         <div className="flex items-center justify-between">
-          <Typography.Title level={4}>FAQ</Typography.Title>
+          <Typography.Title level={4}>FAQ Product</Typography.Title>
           <Button
-            onClick={() => router.visit('/dashboard/faqs/create')}
+            onClick={() => router.visit('/dashboard/product-faqs/create')}
             type="primary"
           >
             Add FAQ

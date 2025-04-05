@@ -16,5 +16,6 @@ Route::get("/articles", [ArticleController::class, 'index']);
 Route::get("/articles/{slug}", [ArticleController::class, 'show']);
 Route::get("/about", [MainController::class, 'about']);
 Route::get("/contact", [MainController::class, 'contact']);
+Route::get("/faq", [MainController::class, 'faq']);
 
 Route::post("/contact", [MainController::class, 'sendMailContact']);

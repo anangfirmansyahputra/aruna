@@ -6,6 +6,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CompanyValueController;
 use App\Http\Controllers\CreditProposalController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\FaqController;
 use App\Http\Controllers\InterestRateController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\ProductController;
@@ -28,7 +29,7 @@ Route::prefix('dashboard')->middleware(['auth', 'checkPermission'])->group(funct
     Route::resource('articles', ArticleController::class);
     Route::resource('roles', RoleController::class);
     Route::resource('users', UserController::class);
-    Route::resource('faqs', ProductFAQController::class);
+    Route::resource('product-faqs', ProductFAQController::class);
     Route::resource('reports', ReportController::class);
     Route::resource("interest-rates", InterestRateController::class);
     Route::resource("testimonials", TestimonialController::class);
@@ -37,9 +38,10 @@ Route::prefix('dashboard')->middleware(['auth', 'checkPermission'])->group(funct
     Route::resource("product-requirements", ProductRequirementController::class);
     Route::resource("team-profiles", TeamProfileController::class);
     Route::resource("company-values", CompanyValueController::class);
+    Route::resource("faqs", FaqController::class);
+
     Route::get("seo", [SeoController::class, 'index'])->name("seo.index");
     Route::post("seo", [SeoController::class, 'update'])->name("seo.update");
-
     Route::get('/menus', [MenuController::class, 'index'])->name('menus.index');
     Route::get('/menus/{menu}/edit', [MenuController::class, 'edit'])->name('menus.edit');
     Route::put('/menus/{menu}', [MenuController::class, 'update'])->name('menus.update');

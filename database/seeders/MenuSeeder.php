@@ -56,10 +56,10 @@ class MenuSeeder extends Seeder
                 'path' => '/dashboard/interest-rates',
             ],
             [
-                'name' => 'FAQ',
+                'name' => 'FAQ Product',
                 'group' => 'Products',
                 'icon' => 'QuestionCircleOutlined',
-                'path' => '/dashboard/faqs',
+                'path' => '/dashboard/product-faqs',
             ],
             [
                 'name' => 'Article',
@@ -90,6 +90,12 @@ class MenuSeeder extends Seeder
                 'group' => 'Security',
                 'icon' => 'UserOutlined',
                 'path' => '/dashboard/users',
+            ],
+            [
+                'name' => 'FAQ',
+                'group' => 'FAQ',
+                'icon' => 'QuestionCircleOutlined',
+                'path' => '/dashboard/faqs',
             ],
             [
                 'name' => 'Home Page',

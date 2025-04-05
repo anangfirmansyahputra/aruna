@@ -30,8 +30,10 @@ export default function SeoHead({
   const siteUrl = `https://example.com${url}` // Ganti domain
   const ogImage = image || 'https://example.com/images/og-default.jpg'
 
+  const newTitle = title + ' | BPR Aruna'
+
   return (
-    <Head title={title}>
+    <Head title={newTitle}>
       {/* Standard SEO */}
       <meta name="description" content={description} />
       <meta name="keywords" content={keywords} />
@@ -41,14 +43,14 @@ export default function SeoHead({
 
       {/* Open Graph */}
       <meta property="og:type" content="website" />
-      <meta property="og:title" content={title} />
+      <meta property="og:title" content={newTitle} />
       <meta property="og:description" content={description} />
       <meta property="og:url" content={siteUrl} />
       <meta property="og:image" content={ogImage} />
 
       {/* Twitter Card */}
       <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:title" content={title} />
+      <meta name="twitter:title" content={newTitle} />
       <meta name="twitter:description" content={description} />
       <meta name="twitter:image" content={ogImage} />
     </Head>

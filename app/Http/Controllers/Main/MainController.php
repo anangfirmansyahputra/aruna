@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Main;
 use App\Http\Controllers\Controller;
 use App\Mail\ContactMail;
 use App\Models\CompanyValue;
+use App\Models\Faq;
 use App\Models\Product;
 use App\Models\Seo;
 use App\Models\TeamProfile;
@@ -18,11 +19,13 @@ class MainController extends Controller
     public function index()
     {
         $lang = Session::get("locale", "en");
+        $seo = Seo::where("type", "home")->first();
 
         $products = Product::translation($lang)->get();
 
         return Inertia::render("main/home", [
-            'products' => $products
+            'products' => $products,
+            'seo' => $seo
         ]);
     }
 
@@ -52,6 +55,15 @@ class MainController extends Controller
         $seo = Seo::where("type", "contact")->first();
         return Inertia::render("main/contact", [
             'seo' => $seo
+        ]);
+    }
+
+    public function faq()
+    {
+        $seo = Seo::where("type", "faq")->first();
+        return Inertia::render("main/faq", [
+            'seo' => $seo,
+            'faqs' => Faq::all()
         ]);
     }
 

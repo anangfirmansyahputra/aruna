@@ -2,7 +2,7 @@ import { Link, router, usePage } from '@inertiajs/react'
 import Logo from '../../../public/assets/logo.svg'
 import { Category, Product, ProductTranslation } from '@/types'
 import { motion, AnimatePresence } from 'framer-motion'
-import React from 'react'
+import React, { Fragment } from 'react'
 import { getTranslate } from '@/lib/lang'
 
 export default function Navbar() {
@@ -106,18 +106,26 @@ export default function Navbar() {
                             {category.translations[0].name}
                           </p>
                           {category.products.map((product) => (
-                            <a
-                              href={`/products/${product.translations[0].slug}`}
-                              className={`${
-                                url ===
-                                `/products/${product.translations[0].slug}`
-                                  ? 'text-primary'
-                                  : 'text-black'
-                              } text-base font-normal hover:text-primary transition-colors`}
-                              key={product.id}
-                            >
-                              {product.translations[0].name}
-                            </a>
+                            <Fragment key={product.id}>
+                              <a
+                                href={`/products/${product.translations[0].slug}`}
+                                className={`${
+                                  url ===
+                                  `/products/${product.translations[0].slug}`
+                                    ? 'text-primary'
+                                    : 'text-black'
+                                } text-base font-normal hover:text-primary transition-colors`}
+                                key={product.id}
+                              >
+                                {product.translations[0].name}
+                              </a>
+                              <p className="text-xs text-slate-600 font-normal mt-1">
+                                {product.translations[0].meta_descriptions.substring(
+                                  0,
+                                  80
+                                ) + '...'}
+                              </p>
+                            </Fragment>
                           ))}
                         </div>
                       ))}

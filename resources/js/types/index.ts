@@ -208,3 +208,13 @@ export interface SEO {
   created_at: Date
   type: string
 }
+
+export interface FAQ {
+  id: number
+  id_question: string
+  en_question: string
+  en_answer: string
+  id_answer: string
+  created_at: Date
+  updated_at: Date
+}
