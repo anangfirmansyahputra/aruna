@@ -9,6 +9,7 @@ type Option = {
 type SelectInputProps = {
   required?: boolean
   options: Option[]
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
 }
 
 export default function SelectInput({ required, options }: SelectInputProps) {

@@ -50,7 +50,6 @@ class ProductController extends Controller
             "translations.*.slug" => "required|string",
             "translations.*.keywords" => "required|array",
             "translations.*.meta_descriptions" => "required|string",
-            "translations.*.content" => "required|string",
             "translations.*.heading_one" => "required|string",
             "translations.*.heading_two" => "required|string",
         ]);
