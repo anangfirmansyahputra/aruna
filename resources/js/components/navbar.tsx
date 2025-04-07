@@ -149,7 +149,10 @@ export default function Navbar() {
             <Link href="" className="hover:text-[#83AAFF] transition-colors">
               {getTranslate(lang, 'promo_nav')}
             </Link>
-            <Link href="" className="hover:text-[#83AAFF] transition-colors">
+            <Link
+              href="/credit"
+              className="hover:text-[#83AAFF] transition-colors"
+            >
               {getTranslate(lang, 'proposal_nav')}
             </Link>
           </div>
