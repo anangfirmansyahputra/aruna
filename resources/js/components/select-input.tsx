@@ -9,10 +9,16 @@ type Option = {
 type SelectInputProps = {
   required?: boolean
   options: Option[]
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+  onChange: (e: string, name: string) => void
+  name: string
 }
 
-export default function SelectInput({ required, options }: SelectInputProps) {
+export default function SelectInput({
+  required,
+  options,
+  onChange,
+  name,
+}: SelectInputProps) {
   const [selected, setSelected] = useState<Option | null>(null)
   const [open, setOpen] = useState(false)
 
@@ -20,6 +26,7 @@ export default function SelectInput({ required, options }: SelectInputProps) {
     <div className="w-full">
       <div className="relative">
         <button
+          type="button"
           onClick={() => setOpen(!open)}
           className="w-full text-left text-xs px-4 py-3 rounded-xl border border-gray-300 text-sm text-gray-500 focus:outline-none"
         >
@@ -34,6 +41,7 @@ export default function SelectInput({ required, options }: SelectInputProps) {
                 onClick={() => {
                   setSelected(option)
                   setOpen(false)
+                  onChange(option.value, name)
                 }}
                 className="px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer"
               >

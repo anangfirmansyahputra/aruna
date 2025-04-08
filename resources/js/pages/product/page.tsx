@@ -1,6 +1,6 @@
 import DashboardLayout from '@/layouts/dashboard-layout'
 import { checkPermission } from '@/lib/permission'
-import { Product } from '@/types'
+import { Product, ProductTranslation } from '@/types'
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 import { Head, router, usePage } from '@inertiajs/react'
 import {
@@ -17,7 +17,9 @@ import {
 } from 'antd'
 
 interface ProductPage {
-  data: Product[]
+  data: (Product & {
+    translations: ProductTranslation[]
+  })[]
 }
 
 const breadcrumbs = ['Dashboard', 'Product']
@@ -34,7 +36,11 @@ export default function ProductPage({ data }: ProductPage) {
     }
   }
 
-  const columns: TableProps<Product>['columns'] = [
+  const columns: TableProps<
+    Product & {
+      translations: ProductTranslation[]
+    }
+  >['columns'] = [
     {
       title: 'Image',
       key: 'image_url',

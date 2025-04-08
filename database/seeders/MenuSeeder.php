@@ -38,12 +38,6 @@ class MenuSeeder extends Seeder
                 'path' => '/dashboard/products',
             ],
             [
-                'name' => 'Feature',
-                'group' => 'Products',
-                'icon' => 'ShoppingOutlined',
-                'path' => '/dashboard/product-features',
-            ],
-            [
                 'name' => 'Requirement',
                 'group' => 'Products',
                 'icon' => 'ShoppingOutlined',
@@ -72,6 +66,12 @@ class MenuSeeder extends Seeder
                 'group' => "Financing",
                 'icon' => "DollarOutlined",
                 "path" => "/dashboard/reports",
+            ],
+            [
+                'name' => 'Credit',
+                'group' => "Credit",
+                'icon' => "DollarOutlined",
+                "path" => "/dashboard/credit-proposals",
             ],
             [
                 'name' => 'Menu',

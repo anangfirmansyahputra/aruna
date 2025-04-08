@@ -218,3 +218,22 @@ export interface FAQ {
   created_at: Date
   updated_at: Date
 }
+
+export interface CreditProposal {
+  id: number
+  product_id: number
+  plafond_amount: number
+  usage_purpose: string
+  debtor_name: string
+  debtor_date_birth: string
+  debtor_no_ktp: string
+  debtor_npwp: string
+  debtor_no_hp: string
+  debtor_email: string
+  debtor_address: string
+  collateral_name_reference: string
+  collateral_type: string
+  collateral_photo_ktp: string
+  created_at: Date
+  updated_at: Date
+}

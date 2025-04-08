@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\ProductFeature;
 use App\Models\ProductTranslation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -92,10 +93,12 @@ class ProductController extends Controller
     public function edit(Product $product)
     {
         $categories = Category::with("translations")->get();
+        $features = ProductFeature::where('product_id', $product->id)->get();
 
         return Inertia::render('product/form', [
             'product' => $product->load(["translations"]),
-            'categories' => $categories
+            'categories' => $categories,
+            'features' => $features
         ]);
     }
 

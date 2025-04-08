@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Enums\CollateralType;
 use App\Models\CreditProposal;
+use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 
@@ -16,7 +18,7 @@ class CreditProposalController extends Controller
     public function index()
     {
         return Inertia::render("credit-proposal/page", [
-            'data' => CreditProposal::with('product')->get()
+            'data' => CreditProposal::with('product.translations')->get()
         ]);
     }
 
@@ -25,7 +27,10 @@ class CreditProposalController extends Controller
      */
     public function create()
     {
-        return Inertia::render("credit-proposal/form");
+        $products = Product::where("is_credit", true)->translation("ID")->get();
+        return Inertia::render("credit-proposal/form", [
+            'products' => $products
+        ]);
     }
 
     /**
@@ -37,13 +42,12 @@ class CreditProposalController extends Controller
             "product_id" => "required|numeric|exists:products,id",
             "plafond_amount" => "required|numeric",
             "usage_purpose" => "required|string",
-            "debtor_nanme" => "required|string",
+            "debtor_name" => "required|string",
             "debtor_date_birth" => "required|date",
             "debtor_no_ktp" => "required|string",
             "debtor_npwp" => "required|string",
             "debtor_no_hp" => "required|string",
             "debtor_email" => "required|string|email",
-            "debtor_address" => "required|string",
             "collateral_name_reference" => "string|nullable",
             "collateral_address" => "string|nullable",
             "collateral_type" => ["required", Rule::in(array_column(CollateralType::cases(), "value"))],
@@ -52,6 +56,8 @@ class CreditProposalController extends Controller
 
         try {
             $validate["collateral_photo_ktp"] = $request->file("collateral_photo_ktp")->store("ktp", "public");
+            $validate["debtor_date_birth"] = Carbon::parse($request->debtor_date_birth)->toDateString();
+
 
             CreditProposal::create($validate);
             return to_route("credit-proposals.index");
@@ -73,8 +79,10 @@ class CreditProposalController extends Controller
      */
     public function edit(CreditProposal $creditProposal)
     {
+        $products = Product::translation("ID")->get();
         return Inertia::render("credit-proposal/form", [
-            "data" => $creditProposal
+            'products' => $products,
+            'data' => $creditProposal
         ]);
     }
 
@@ -87,13 +95,12 @@ class CreditProposalController extends Controller
             "product_id" => "required|numeric|exists:products,id",
             "plafond_amount" => "required|numeric",
             "usage_purpose" => "required|string",
-            "debtor_nanme" => "required|string",
+            "debtor_name" => "required|string",
             "debtor_date_birth" => "required|date",
             "debtor_no_ktp" => "required|string",
             "debtor_npwp" => "required|string",
             "debtor_no_hp" => "required|string",
             "debtor_email" => "required|string|email",
-            "debtor_address" => "required|string",
             "collateral_name_reference" => "string|nullable",
             "collateral_address" => "string|nullable",
             "collateral_type" => ["required", Rule::in(array_column(CollateralType::cases(), "value"))],
@@ -112,6 +119,12 @@ class CreditProposalController extends Controller
         } else {
             unset($validate["collateral_photo_ktp"]);
         }
+
+        $validate["debtor_date_birth"] = Carbon::parse($request->debtor_date_birth)->toDateString();
+        $creditProposal->update($validate);
+
+
+        return to_route("credit-proposals.index");
     }
 
     /**

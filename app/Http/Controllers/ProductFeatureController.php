@@ -40,7 +40,7 @@ class ProductFeatureController extends Controller
     {
         $validate = $this->validate($request);
         ProductFeature::create($validate);
-        return to_route("product-features.index");
+        return back();
     }
 
     public function edit(ProductFeature $productFeature)
@@ -55,12 +55,12 @@ class ProductFeatureController extends Controller
     {
         $validate = $this->validate($request);
         $productFeature->update($validate);
-        return to_route("product-features.index");
+        return back();
     }
 
     public function destroy(ProductFeature $productFeature)
     {
         $productFeature->delete();
-        return to_route('reports.index');
+        return back();
     }
 }

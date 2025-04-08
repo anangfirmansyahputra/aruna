@@ -4,7 +4,7 @@ import { useForm } from 'antd/es/form/Form'
 import { useEffect, useState } from 'react'
 
 interface UseFormHandlerProps<T> {
-  initialValues?: T
+  initialValues?: T | null
   url: string
   method?: 'post' | 'put'
 }

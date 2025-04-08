@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\Main\ArticleController;
-use App\Http\Controllers\Main\CreditProposalController;
 use App\Http\Controllers\Main\MainController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Main\ProductController;
@@ -18,6 +17,7 @@ Route::get("/articles/{slug}", [ArticleController::class, 'show']);
 Route::get("/about", [MainController::class, 'about']);
 Route::get("/contact", [MainController::class, 'contact']);
 Route::get("/faq", [MainController::class, 'faq']);
-Route::get("/credit", [CreditProposalController::class, 'index']);
+Route::get("/credit", [MainController::class, 'credit']);
+Route::post("/credit", [MainController::class, 'creditStore']);
 
 Route::post("/contact", [MainController::class, 'sendMailContact']);

@@ -2,7 +2,13 @@ import Tiptap from '@/components/tiptap'
 import { useFormHandler } from '@/hooks/use-form-handler'
 import DashboardLayout from '@/layouts/dashboard-layout'
 import { checkPermission } from '@/lib/permission'
-import { Category, Locale, Product, ProductTranslation } from '@/types'
+import {
+  Category,
+  Locale,
+  Product,
+  ProductFeature,
+  ProductTranslation,
+} from '@/types'
 import { InboxOutlined } from '@ant-design/icons'
 import { Head, router, usePage } from '@inertiajs/react'
 import type { GetProp, UploadFile, UploadProps } from 'antd'
@@ -17,11 +23,15 @@ import {
   Select,
   Space,
   Switch,
+  Table,
   Tabs,
   Typography,
 } from 'antd'
 import Dragger from 'antd/es/upload/Dragger'
 import { JSX, useEffect, useState } from 'react'
+import { featureColumn } from './column'
+import { Plus } from 'lucide-react'
+import FeatureForm from './feature-form'
 
 const breadcrumbs = ['Dashboard', 'Category', 'Create']
 
@@ -30,6 +40,7 @@ interface FormPageProps {
     translations: ProductTranslation[]
   }
   categories: Category[]
+  features: ProductFeature[]
 }
 
 const generateSlug = (text: string) => {
@@ -50,12 +61,18 @@ const getBase64 = (file: FileType): Promise<string> =>
     reader.onerror = (error) => reject(error)
   })
 
-export default function FormPage({ product, categories }: FormPageProps) {
+export default function FormPage({
+  product,
+  categories,
+  features,
+}: FormPageProps) {
   const { permissions } = usePage().props
   const [previewOpen, setPreviewOpen] = useState(false)
   const [previewImage, setPreviewImage] = useState('')
   const [fileList, setFileList] = useState<UploadFile[]>([])
   const [isCredit, setIsCredit] = useState(product ? product.is_credit : false)
+
+  const [showFeature, setShowFeature] = useState(false)
 
   useEffect(() => {
     if (product?.image_url) {
@@ -320,7 +337,28 @@ export default function FormPage({ product, categories }: FormPageProps) {
             )}
           </Space>
         </Form>
+
+        <Divider />
+        {product && (
+          <div className="grid grid-cols-2 gap-5">
+            <FeatureForm
+              productId={product.id}
+              features={features}
+              permissions={permissions as string[]}
+            />
+            <div>
+              <div className="flex items-center justify-between mb-5">
+                <Typography.Title level={4}>Requirement</Typography.Title>
+                <Button type="primary" size="middle" icon={<Plus />} />
+              </div>
+              <Table />
+              <Divider />
+            </div>
+          </div>
+        )}
       </div>
+
+      <></>
     </>
   )
 }
