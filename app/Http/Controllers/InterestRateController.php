@@ -43,7 +43,7 @@ class InterestRateController extends Controller
 
         InterestRate::create($validate);
 
-        return to_route("interest-rates.index");
+        return back();
     }
 
     /**
@@ -78,7 +78,7 @@ class InterestRateController extends Controller
 
         $interestRate->update($validate);
 
-        return to_route("interest-rates.index");
+        return back();
     }
 
     /**
@@ -87,6 +87,6 @@ class InterestRateController extends Controller
     public function destroy(InterestRate $interestRate)
     {
         $interestRate->delete();
-        return to_route("interest-rates.index");
+        return back();
     }
 }

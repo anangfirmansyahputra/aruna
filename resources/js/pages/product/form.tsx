@@ -1,12 +1,12 @@
-import Tiptap from '@/components/tiptap'
 import { useFormHandler } from '@/hooks/use-form-handler'
 import DashboardLayout from '@/layouts/dashboard-layout'
 import { checkPermission } from '@/lib/permission'
 import {
   Category,
-  Locale,
+  InterestRate,
   Product,
   ProductFeature,
+  ProductRequirement,
   ProductTranslation,
 } from '@/types'
 import { InboxOutlined } from '@ant-design/icons'
@@ -23,15 +23,14 @@ import {
   Select,
   Space,
   Switch,
-  Table,
   Tabs,
   Typography,
 } from 'antd'
 import Dragger from 'antd/es/upload/Dragger'
 import { JSX, useEffect, useState } from 'react'
-import { featureColumn } from './column'
-import { Plus } from 'lucide-react'
 import FeatureForm from './feature-form'
+import InterestRateForm from './interest-rate-form'
+import RequirementForm from './requirement-form'
 
 const breadcrumbs = ['Dashboard', 'Category', 'Create']
 
@@ -41,6 +40,8 @@ interface FormPageProps {
   }
   categories: Category[]
   features: ProductFeature[]
+  requirements: ProductRequirement[]
+  interest_rates: InterestRate[]
 }
 
 const generateSlug = (text: string) => {
@@ -65,6 +66,8 @@ export default function FormPage({
   product,
   categories,
   features,
+  requirements,
+  interest_rates,
 }: FormPageProps) {
   const { permissions } = usePage().props
   const [previewOpen, setPreviewOpen] = useState(false)
@@ -153,6 +156,42 @@ export default function FormPage({
     maxCount: 1,
     listType: 'picture',
   }
+
+  const productTabs = [
+    {
+      key: 'feature',
+      label: 'Feature',
+      children: (
+        <FeatureForm
+          productId={product!.id}
+          features={features}
+          permissions={permissions as string[]}
+        />
+      ),
+    },
+    {
+      key: 'interest',
+      label: 'Interest Rate',
+      children: (
+        <InterestRateForm
+          productId={product!.id}
+          interests={interest_rates}
+          permissions={permissions as string[]}
+        />
+      ),
+    },
+    {
+      key: 'requirement',
+      label: 'Requirement',
+      children: (
+        <RequirementForm
+          productId={product!.id}
+          requirements={requirements}
+          permissions={permissions as string[]}
+        />
+      ),
+    },
+  ]
 
   return (
     <>
@@ -339,23 +378,7 @@ export default function FormPage({
         </Form>
 
         <Divider />
-        {product && (
-          <div className="grid grid-cols-2 gap-5">
-            <FeatureForm
-              productId={product.id}
-              features={features}
-              permissions={permissions as string[]}
-            />
-            <div>
-              <div className="flex items-center justify-between mb-5">
-                <Typography.Title level={4}>Requirement</Typography.Title>
-                <Button type="primary" size="middle" icon={<Plus />} />
-              </div>
-              <Table />
-              <Divider />
-            </div>
-          </div>
-        )}
+        {product && <Tabs items={productTabs} />}
       </div>
 
       <></>

@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\InterestRate;
 use App\Models\Product;
 use App\Models\ProductFeature;
+use App\Models\ProductRequirement;
 use App\Models\ProductTranslation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -94,11 +96,16 @@ class ProductController extends Controller
     {
         $categories = Category::with("translations")->get();
         $features = ProductFeature::where('product_id', $product->id)->get();
+        $requirements = ProductRequirement::where("product_id", $product->id)->get();
+        $interestRates = InterestRate::where("product_id", $product->id)->get();
 
         return Inertia::render('product/form', [
             'product' => $product->load(["translations"]),
             'categories' => $categories,
-            'features' => $features
+            'features' => $features,
+            'requirements' => $requirements,
+            'interest_rates' => $interestRates,
+
         ]);
     }
 

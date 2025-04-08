@@ -117,7 +117,7 @@ export default function CreditForm({ credit_products }: CreditFormProps) {
           forceFormData: true,
           onSuccess: (props: any) => {
             console.log('success', props)
-            // setStep(4)
+            setStep(4)
           },
           onError: (props: any) => {
             console.log(props)
