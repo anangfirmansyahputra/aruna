@@ -44,12 +44,6 @@ class MenuSeeder extends Seeder
                 'path' => '/dashboard/product-requirements',
             ],
             [
-                'name' => 'FAQ Product',
-                'group' => 'Products',
-                'icon' => 'QuestionCircleOutlined',
-                'path' => '/dashboard/product-faqs',
-            ],
-            [
                 'name' => 'Article',
                 'group' => 'News',
                 'icon' => 'ReadOutlined',

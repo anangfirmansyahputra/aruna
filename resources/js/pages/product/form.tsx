@@ -5,6 +5,7 @@ import {
   Category,
   InterestRate,
   Product,
+  ProductFAQ,
   ProductFeature,
   ProductRequirement,
   ProductTranslation,
@@ -31,6 +32,7 @@ import { JSX, useEffect, useState } from 'react'
 import FeatureForm from './feature-form'
 import InterestRateForm from './interest-rate-form'
 import RequirementForm from './requirement-form'
+import FAQForm from './faq-form'
 
 const breadcrumbs = ['Dashboard', 'Category', 'Create']
 
@@ -42,6 +44,7 @@ interface FormPageProps {
   features: ProductFeature[]
   requirements: ProductRequirement[]
   interest_rates: InterestRate[]
+  faqs: ProductFAQ[]
 }
 
 const generateSlug = (text: string) => {
@@ -68,6 +71,7 @@ export default function FormPage({
   features,
   requirements,
   interest_rates,
+  faqs,
 }: FormPageProps) {
   const { permissions } = usePage().props
   const [previewOpen, setPreviewOpen] = useState(false)
@@ -176,6 +180,17 @@ export default function FormPage({
         <InterestRateForm
           productId={product!.id}
           interests={interest_rates}
+          permissions={permissions as string[]}
+        />
+      ),
+    },
+    {
+      key: 'faq',
+      label: 'FAQ',
+      children: (
+        <FAQForm
+          productId={product!.id}
+          faqs={faqs}
           permissions={permissions as string[]}
         />
       ),

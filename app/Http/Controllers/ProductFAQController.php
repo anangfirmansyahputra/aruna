@@ -55,7 +55,7 @@ class ProductFAQController extends Controller
         $validate = $this->validate($request);
         ProductFAQ::create($validate);
 
-        return to_route('product-faqs.index');
+        return back();
     }
 
     /**
@@ -88,7 +88,7 @@ class ProductFAQController extends Controller
         $faq = ProductFAQ::find($id);
         $validate = $this->validate($request);
         $faq->update($validate);
-        return to_route('product-faqs.index');
+        return back();
     }
 
     /**
@@ -98,6 +98,6 @@ class ProductFAQController extends Controller
     {
         $faq = ProductFAQ::find($id);
         $faq->delete();
-        return to_route('product-faqs.index');
+        return back();
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\InterestRate;
 use App\Models\Product;
+use App\Models\ProductFAQ;
 use App\Models\ProductFeature;
 use App\Models\ProductRequirement;
 use App\Models\ProductTranslation;
@@ -98,6 +99,7 @@ class ProductController extends Controller
         $features = ProductFeature::where('product_id', $product->id)->get();
         $requirements = ProductRequirement::where("product_id", $product->id)->get();
         $interestRates = InterestRate::where("product_id", $product->id)->get();
+        $faqs = ProductFAQ::where("product_id", $product->id)->get();
 
         return Inertia::render('product/form', [
             'product' => $product->load(["translations"]),
@@ -105,7 +107,7 @@ class ProductController extends Controller
             'features' => $features,
             'requirements' => $requirements,
             'interest_rates' => $interestRates,
-
+            'faqs' => $faqs
         ]);
     }
 
