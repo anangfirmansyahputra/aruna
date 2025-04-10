@@ -56,6 +56,12 @@ class MenuSeeder extends Seeder
                 "path" => "/dashboard/credit-proposals",
             ],
             [
+                'name' => 'Promo',
+                'group' => "Promo",
+                'icon' => "DollarOutlined",
+                "path" => "/dashboard/promos",
+            ],
+            [
                 'name' => 'Menu',
                 'group' => 'Security',
                 'icon' => 'MenuUnfoldOutlined',

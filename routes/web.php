@@ -13,6 +13,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductFAQController;
 use App\Http\Controllers\ProductFeatureController;
 use App\Http\Controllers\ProductRequirementController;
+use App\Http\Controllers\PromoController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SeoController;
@@ -29,16 +30,13 @@ Route::prefix('dashboard')->middleware(['auth', 'checkPermission'])->group(funct
     Route::resource('articles', ArticleController::class);
     Route::resource('roles', RoleController::class);
     Route::resource('users', UserController::class);
-    Route::resource('product-faqs', ProductFAQController::class);
     Route::resource('reports', ReportController::class);
-    Route::resource("interest-rates", InterestRateController::class);
     Route::resource("testimonials", TestimonialController::class);
     Route::resource("credit-proposals", CreditProposalController::class);
-    Route::resource("product-features", ProductFeatureController::class);
-    Route::resource("product-requirements", ProductRequirementController::class);
     Route::resource("team-profiles", TeamProfileController::class);
     Route::resource("company-values", CompanyValueController::class);
     Route::resource("faqs", FaqController::class);
+    Route::resource("promos", PromoController::class);
 
     Route::get("seo", [SeoController::class, 'index'])->name("seo.index");
     Route::post("seo", [SeoController::class, 'update'])->name("seo.update");

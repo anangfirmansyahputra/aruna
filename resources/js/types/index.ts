@@ -238,3 +238,18 @@ export interface CreditProposal {
   created_at: Date
   updated_at: Date
 }
+
+export interface Promo {
+  id: number
+  product_id: number
+  image_url: string
+  start_date: string
+  end_date: string
+  coupon: string
+  id_content: string
+  en_content: string
+  id_description: string
+  en_description: string
+  created_at: Date
+  updated_at: Date
+}

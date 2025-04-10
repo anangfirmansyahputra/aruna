@@ -1,16 +1,12 @@
 import DashboardLayout from '@/layouts/dashboard-layout'
 import { checkPermission } from '@/lib/permission'
-import {
-  Product,
-  ProductFAQ,
-  ProductRequirement,
-  ProductTranslation,
-} from '@/types'
+import { Promo } from '@/types'
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 import { Head, router, usePage } from '@inertiajs/react'
 import {
   Button,
   Divider,
+  Image,
   message,
   Popconfirm,
   Space,
@@ -20,47 +16,73 @@ import {
 } from 'antd'
 import { JSX } from 'react'
 
-interface ProductRequirementProps {
-  data: ProductRequirement[]
-  products: (Product & {
-    translations: ProductTranslation[]
-  })[]
+interface PromoProps {
+  data: Promo[]
 }
 
-const breadcrumbs = ['Dashboard', 'Product Requirement']
+const breadcrumbs = ['Dashboard', 'Promo']
 
-export default function FAQPage({ data, products }: ProductRequirementProps) {
+export default function PromoPage({ data }: PromoProps) {
   const { permissions } = usePage().props
 
   const confirm = (id: number) => {
     try {
-      router.delete(`/dashboard/product-requirements/${id}`)
+      router.delete(`/dashboard/promos/${id}`)
       message.success('Action success')
     } catch (err: any) {
       message.error('Internal server error')
     }
   }
 
-  const columns: TableProps<ProductRequirement>['columns'] = [
+  const columns: TableProps<Promo>['columns'] = [
     {
-      title: 'Title',
+      title: 'Image',
+      dataIndex: 'image_url',
+      key: 'image_url',
+      width: 200,
+      render: (_, record) => <Image src={`/storage/${record.image_url}`} />,
+    },
+    {
+      title: 'Start Date',
+      dataIndex: 'start_date',
+      key: 'start_date',
+      width: 200,
+    },
+    {
+      title: 'End Date',
+      dataIndex: 'end_date',
+      key: 'end_date',
+      width: 200,
+    },
+    {
+      title: 'Coupon',
+      dataIndex: 'coupon',
+      key: 'coupon',
+      width: 200,
+    },
+    {
+      title: 'ID Title',
       dataIndex: 'id_title',
       key: 'id_title',
       width: 200,
-      filters: products.map((product) => ({
-        text: product.translations[0].name,
-        value: product.id,
-      })),
-      filterMode: 'tree',
-      filterSearch: true,
-      onFilter: (value, record) => record.product_id === value,
     },
     {
-      title: 'Product',
-      dataIndex: 'product',
-      key: 'product',
+      title: 'EN Title',
+      dataIndex: 'en_title',
+      key: 'en_title',
       width: 200,
-      render: (_, record) => <div>{record.product.translations[0].name}</div>,
+    },
+    {
+      title: 'ID Description',
+      dataIndex: 'id_description',
+      key: 'id_description',
+      width: 200,
+    },
+    {
+      title: 'EN Description',
+      dataIndex: 'en_description',
+      key: 'en_description',
+      width: 200,
     },
     {
       title: 'Created Date',
@@ -68,6 +90,7 @@ export default function FAQPage({ data, products }: ProductRequirementProps) {
       key: 'created_at',
       width: 200,
     },
+
     {
       title: 'Action',
       key: 'action',
@@ -75,26 +98,18 @@ export default function FAQPage({ data, products }: ProductRequirementProps) {
 
       render: (_, record) => (
         <Space>
-          {checkPermission(
-            permissions as string[],
-            'product-requirements.edit'
-          ) && (
+          {checkPermission(permissions as string[], 'promos.edit') && (
             <Button
               icon={<EditOutlined />}
               onClick={() =>
-                router.visit(
-                  `/dashboard/product-requirements/${record.id}/edit`
-                )
+                router.visit(`/dashboard/promos/${record.id}/edit`)
               }
             />
           )}
 
-          {checkPermission(
-            permissions as string[],
-            'product-requirements.destroy'
-          ) && (
+          {checkPermission(permissions as string[], 'promos.destroy') && (
             <Popconfirm
-              title="Delete data"
+              title="Delete the category"
               description="Are yoy sure to delete this data?"
               onConfirm={() => confirm(record.id)}
               okText="Yes"
@@ -110,18 +125,16 @@ export default function FAQPage({ data, products }: ProductRequirementProps) {
 
   return (
     <>
-      <Head title="Product Requirement" />
+      <Head title="Promo" />
 
       <>
         <div className="flex items-center justify-between">
-          <Typography.Title level={4}>Product Requirement</Typography.Title>
+          <Typography.Title level={4}>Promo</Typography.Title>
           <Button
-            onClick={() =>
-              router.visit('/dashboard/product-requirements/create')
-            }
+            onClick={() => router.visit('/dashboard/promos/create')}
             type="primary"
           >
-            Add requirement
+            Add promo
           </Button>
         </div>
         <Divider />
@@ -139,6 +152,6 @@ export default function FAQPage({ data, products }: ProductRequirementProps) {
   )
 }
 
-FAQPage.layout = (page: JSX.Element) => (
+PromoPage.layout = (page: JSX.Element) => (
   <DashboardLayout breadcrumbs={breadcrumbs}>{page}</DashboardLayout>
 )
