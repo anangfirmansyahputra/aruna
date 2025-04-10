@@ -20,6 +20,7 @@ import {
   Form,
   Image,
   Input,
+  message,
   Row,
   Select,
   Space,
@@ -114,39 +115,49 @@ export default function FormPage({
 
   // Handle Submit Form
   const handleSubmit = async () => {
-    const formData = new FormData()
-    const formValues = form.getFieldsValue()
+    try {
+      const formData = new FormData()
+      const formValues = form.getFieldsValue()
 
-    const values = await form.validateFields()
-    const locales = ['ID', 'EN']
+      const values = await form.validateFields()
+      const locales = ['ID', 'EN']
 
-    const translations = locales.map((locale) => {
-      const translation: Record<string, any> = {
-        language_code: locale,
-      }
-
-      Object.keys(values).forEach((key) => {
-        if (key.startsWith(`${locale}__`)) {
-          const fieldName = key.replace(`${locale}__`, '')
-          translation[fieldName] = values[key]
+      const translations = locales.map((locale) => {
+        const translation: Record<string, any> = {
+          language_code: locale,
         }
+
+        Object.keys(values).forEach((key) => {
+          if (key.startsWith(`${locale}__`)) {
+            const fieldName = key.replace(`${locale}__`, '')
+            translation[fieldName] = values[key]
+          }
+        })
+
+        return translation
       })
 
-      return translation
-    })
+      formData.append('translations', JSON.stringify(translations))
 
-    formData.append('translations', JSON.stringify(translations))
+      Object.entries(formValues).forEach(([key, value]) => {
+        formData.append(key, value as string)
+      })
 
-    Object.entries(formValues).forEach(([key, value]) => {
-      formData.append(key, value as string)
-    })
+      if (fileList.length > 0 && fileList[0].originFileObj) {
+        formData.append('image_url', fileList[0].originFileObj)
+      }
 
-    if (fileList.length > 0 && fileList[0].originFileObj) {
-      formData.append('image_url', fileList[0].originFileObj)
+      // Kirim ke server
+      submit(formData)
+    } catch (err: any) {
+      console.log(err)
+
+      if (err?.errorFields) {
+        message.error(err.errorFields[0].errors[0])
+      } else {
+        message.error('An unexpected error occurred')
+      }
     }
-
-    // Kirim ke server
-    submit(formData)
   }
 
   const uploadProps: UploadProps = {
@@ -167,7 +178,7 @@ export default function FormPage({
       label: 'Feature',
       children: (
         <FeatureForm
-          productId={product!.id}
+          productId={product?.id}
           features={features}
           permissions={permissions as string[]}
         />
@@ -178,7 +189,7 @@ export default function FormPage({
       label: 'Interest Rate',
       children: (
         <InterestRateForm
-          productId={product!.id}
+          productId={product?.id}
           interests={interest_rates}
           permissions={permissions as string[]}
         />
@@ -189,7 +200,7 @@ export default function FormPage({
       label: 'FAQ',
       children: (
         <FAQForm
-          productId={product!.id}
+          productId={product?.id}
           faqs={faqs}
           permissions={permissions as string[]}
         />
@@ -200,7 +211,7 @@ export default function FormPage({
       label: 'Requirement',
       children: (
         <RequirementForm
-          productId={product!.id}
+          productId={product?.id}
           requirements={requirements}
           permissions={permissions as string[]}
         />
@@ -339,6 +350,23 @@ export default function FormPage({
                       ]}
                     >
                       <Input />
+                    </Form.Item>
+                  </Col>
+                </Row>
+
+                <Row gutter={[16, 16]}>
+                  <Col xs={24} sm={12}>
+                    <Form.Item
+                      name={`${locale}__description`}
+                      label="Descriptions"
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Please enter description',
+                        },
+                      ]}
+                    >
+                      <Input.TextArea rows={4} />
                     </Form.Item>
                   </Col>
                 </Row>

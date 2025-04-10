@@ -40,6 +40,7 @@ export interface ProductTranslation {
   slug: string
   heading_one: string
   heading_two: string
+  description?: string
 }
 
 export interface Product {

@@ -16,7 +16,8 @@ class ProductTranslation extends Model
         'keywords',
         'meta_descriptions',
         "heading_one",
-        "heading_two"
+        "heading_two",
+        "description"
     ];
 
     protected $casts = [

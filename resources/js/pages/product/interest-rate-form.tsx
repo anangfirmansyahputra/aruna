@@ -22,7 +22,7 @@ import { useState } from 'react'
 interface InterestRateFormProps {
   permissions: string[]
   interests: InterestRate[]
-  productId: number
+  productId?: number
 }
 
 export default function InterestRateForm({

@@ -120,10 +120,13 @@ export default function Navbar() {
                                 {product.translations[0].name}
                               </a>
                               <p className="text-xs text-slate-600 font-normal mt-1">
-                                {product.translations[0].meta_descriptions.substring(
-                                  0,
-                                  80
-                                ) + '...'}
+                                {(product.translations[0].description?.length ||
+                                  0) > 50
+                                  ? product.translations[0].description?.substring(
+                                      0,
+                                      80
+                                    ) + '...'
+                                  : product.translations[0].description}
                               </p>
                             </Fragment>
                           ))}

@@ -54,6 +54,7 @@ class ProductController extends Controller
             "translations.*.slug" => "required|string",
             "translations.*.keywords" => "required|array",
             "translations.*.meta_descriptions" => "required|string",
+            "translations.*.description" => "required|string",
             "translations.*.heading_one" => "required|string",
             "translations.*.heading_two" => "required|string",
         ]);
@@ -70,7 +71,7 @@ class ProductController extends Controller
             $product->translations()->createMany($validate["translations"]);
 
             DB::commit();
-            return to_route('products.index');
+            return redirect()->route('products.edit', $product->id);
         } catch (\Exception $e) {
             DB::rollBack();
             return back()->with('error', $e->getMessage());

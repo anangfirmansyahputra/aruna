@@ -26,7 +26,7 @@ import React, { useState } from 'react'
 interface FAQFormProps {
   permissions: string[]
   faqs: ProductFAQ[]
-  productId: number
+  productId?: number
 }
 
 export default function FAQForm({

@@ -25,7 +25,7 @@ import React, { useEffect, useState } from 'react'
 interface FeatureFormProps {
   permissions: string[]
   features: ProductFeature[]
-  productId: number
+  productId?: number
 }
 
 export default function FeatureForm({

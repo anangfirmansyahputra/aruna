@@ -1,6 +1,6 @@
 import { useFormHandler } from '@/hooks/use-form-handler'
 import { checkPermission } from '@/lib/permission'
-import { ProductFeature, ProductRequirement } from '@/types'
+import { ProductRequirement } from '@/types'
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 import { router, usePage } from '@inertiajs/react'
 import {
@@ -12,21 +12,19 @@ import {
   message,
   Modal,
   Popconfirm,
-  Select,
   Space,
   Table,
   TableProps,
   Tabs,
   Typography,
 } from 'antd'
-import * as LucideIcons from 'lucide-react'
 import { Plus } from 'lucide-react'
-import React, { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 interface RequirementFormProps {
   permissions: string[]
   requirements: ProductRequirement[]
-  productId: number
+  productId?: number
 }
 
 export default function RequirementForm({
