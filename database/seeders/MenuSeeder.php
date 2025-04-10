@@ -38,12 +38,6 @@ class MenuSeeder extends Seeder
                 'path' => '/dashboard/products',
             ],
             [
-                'name' => 'Requirement',
-                'group' => 'Products',
-                'icon' => 'ShoppingOutlined',
-                'path' => '/dashboard/product-requirements',
-            ],
-            [
                 'name' => 'Article',
                 'group' => 'News',
                 'icon' => 'ReadOutlined',

@@ -93,7 +93,7 @@ export default function RequirementForm({
         message.error('An unexpected error occurred')
       }
     } finally {
-      form.resetFields()
+      // form.resetFields()
     }
   }
 
@@ -114,6 +114,7 @@ export default function RequirementForm({
 
   const handleEdit = (record: ProductRequirement) => {
     setData(record)
+    setItems(JSON.parse(record.items))
     showModal()
     form.setFieldsValue(record)
   }
@@ -166,7 +167,8 @@ export default function RequirementForm({
 
   const handleOkItem = () => {
     setIsModalOpenItem(false)
-    if (isEdit) {
+
+    if (isEdit !== null) {
       setItems((prev) => ({
         ...prev,
         [lang]: prev[lang].map((item, index) => {

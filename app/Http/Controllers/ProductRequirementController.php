@@ -47,7 +47,7 @@ class ProductRequirementController extends Controller
     {
         $validate = $this->validate($request);
         ProductRequirement::create($validate);
-        return to_route("product-requirements.index");
+        return back();
     }
 
     /**
@@ -76,7 +76,7 @@ class ProductRequirementController extends Controller
     {
         $validate = $this->validate($request);
         $productRequirement->update($validate);
-        return to_route("product-requirements.index");
+        return back();
     }
 
     /**
