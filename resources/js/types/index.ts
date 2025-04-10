@@ -248,6 +248,8 @@ export interface Promo {
   coupon: string
   id_content: string
   en_content: string
+  id_title: string
+  en_title: string
   id_description: string
   en_description: string
   created_at: Date

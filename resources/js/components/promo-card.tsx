@@ -1,13 +1,16 @@
-// Jika belum, pasang locale dan plugin
 import dayjs from 'dayjs'
 import 'dayjs/locale/id'
-dayjs.locale('id') // set ke bahasa Indonesia
+dayjs.locale('id')
 
 import { Promo } from '@/types'
+import { router } from '@inertiajs/react'
 
 export default function PromoCard(data: Promo & { lang: 'en' | 'id' }) {
   return (
-    <div className="w-full bg-[#ddd] rounded-[30px] overflow-hidden">
+    <div
+      className="w-full bg-[#ddd] rounded-[30px] overflow-hidden cursor-pointer"
+      onClick={() => router.visit(`/promo/${data.id}`)}
+    >
       <img
         src={`/storage/${data.image_url}`}
         className="h-[300px] w-full object-cover"

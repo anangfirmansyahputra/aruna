@@ -107,8 +107,6 @@ class PromoController extends Controller
             unset($data["image_url"]);
         }
 
-        dd($data);
-
         $promo->update($data);
         return redirect()->route("promos.index");
     }

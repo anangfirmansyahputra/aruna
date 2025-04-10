@@ -149,7 +149,10 @@ export default function Navbar() {
             >
               {getTranslate(lang, 'career_nav')}
             </Link>
-            <Link href="" className="hover:text-[#83AAFF] transition-colors">
+            <Link
+              href="/promo"
+              className="hover:text-[#83AAFF] transition-colors"
+            >
               {getTranslate(lang, 'promo_nav')}
             </Link>
             <Link

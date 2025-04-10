@@ -20,7 +20,7 @@ class PromoController extends Controller
     public function show(Request $request, string $id)
     {
         $promo = Promo::findOrFail($id);
-        return Inertia::render("main/promo/form", [
+        return Inertia::render("main/promo/detail", [
             'promo' => $promo
         ]);
     }
