@@ -5,6 +5,7 @@ use App\Http\Controllers\Main\ArticleController;
 use App\Http\Controllers\Main\MainController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Main\ProductController;
+use App\Http\Controllers\Main\PromoController;
 
 Route::get("/lang/{lang}", LocaleController::class);
 
@@ -19,5 +20,7 @@ Route::get("/contact", [MainController::class, 'contact']);
 Route::get("/faq", [MainController::class, 'faq']);
 Route::get("/credit", [MainController::class, 'credit']);
 Route::post("/credit", [MainController::class, 'creditStore']);
+Route::get("/promo", [PromoController::class, 'index']);
+Route::get("/promo/{id}", [PromoController::class, 'show']);
 
 Route::post("/contact", [MainController::class, 'sendMailContact']);
