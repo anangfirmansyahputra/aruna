@@ -1,8 +1,9 @@
 import MainLayout from '@/layouts/main-layout'
-import CareerImage from '../../../../public/assets/career.png'
+import CareerImage from '../../../../../public/assets/career.png'
 import { ArrowRight } from 'lucide-react'
 import SeoHead from '@/components/seo-head'
 import { SEO } from '@/types'
+import { Link } from '@inertiajs/react'
 
 interface CareerPageProps {
   seo: SEO | null
@@ -48,10 +49,13 @@ export default function CareerPage({ seo }: CareerPageProps) {
                 quaerat ipsa, repellat est, vitae officia natus cupiditate iure.
                 Autem placeat cupiditate veritatis quo error ab dolor?
               </p>
-              <button className="bg-[#1946B9] rounded-lg text-white font-bold py-[11px] px-[24px] flex items-center">
+              <Link
+                href="/careers/all"
+                className="bg-[#1946B9] w-fit rounded-lg text-white font-bold py-[11px] px-[24px] flex items-center"
+              >
                 Lamar Sekarang
                 <ArrowRight className="ml-2 w-5 h-5" />
-              </button>
+              </Link>
             </div>
           </div>
         </div>

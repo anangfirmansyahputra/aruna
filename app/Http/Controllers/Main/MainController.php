@@ -31,14 +31,6 @@ class MainController extends Controller
         ]);
     }
 
-    public function career()
-    {
-        $seo = Seo::where("type", "career")->first();
-        return Inertia::render("main/career", [
-            'seo' => $seo
-        ]);
-    }
-
     public function about()
     {
         $teams = TeamProfile::all();

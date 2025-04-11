@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\Main\ArticleController;
+use App\Http\Controllers\Main\CareerController;
 use App\Http\Controllers\Main\MainController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Main\ProductController;
@@ -10,7 +11,8 @@ use App\Http\Controllers\Main\PromoController;
 Route::get("/lang/{lang}", LocaleController::class);
 
 Route::get("/", [MainController::class, 'index']);
-Route::get("/careers", [MainController::class, 'career']);
+Route::get("/careers", [CareerController::class, 'index']);
+Route::get("/careers/all", [CareerController::class, 'all']);
 Route::get("/products", [ProductController::class, "index"]);
 Route::get("/products/{slug}", [ProductController::class, "show"]);
 Route::get("/articles", [ArticleController::class, 'index']);
