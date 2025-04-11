@@ -255,3 +255,13 @@ export interface Promo {
   created_at: Date
   updated_at: Date
 }
+
+export interface Career {
+  id: number
+  id_title: string
+  en_title: string
+  id_requirement: string
+  en_requirement: string
+  created_at: Date
+  updated_at: Date
+}

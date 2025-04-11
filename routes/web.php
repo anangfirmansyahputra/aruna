@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CareerController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CompanyValueController;
 use App\Http\Controllers\CreditProposalController;
@@ -37,6 +38,7 @@ Route::prefix('dashboard')->middleware(['auth', 'checkPermission'])->group(funct
     Route::resource("company-values", CompanyValueController::class);
     Route::resource("faqs", FaqController::class);
     Route::resource("promos", PromoController::class);
+    Route::resource("careers", CareerController::class);
 
     Route::get("seo", [SeoController::class, 'index'])->name("seo.index");
     Route::post("seo", [SeoController::class, 'update'])->name("seo.update");
