@@ -54,6 +54,7 @@ class HandleInertiaRequests extends Middleware
             'permissions' => $user ? $user->getAllPermissions()->pluck('name') : [],
             'locale' => $locale,
             'categories' => $categories,
+            "crisp_website_id" => config("frontend.crisp_website_id"),
         ]);
     }
 }

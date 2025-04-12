@@ -56,19 +56,19 @@ export default function HomePage({ products, seo }: HomePageProps) {
       />
 
       <MainLayout>
-        <div className="flex container mx-auto py-[36px]">
-          <div className="w-[40%]">
+        <div className="flex lg:flex-row flex-col container mx-auto py-[36px]">
+          <div className="w-[60%] xl:w-[40%] mx-auto lg:mx-0">
             <img src={HomeImage} alt="" className="w-full" />
           </div>
           <div className="flex-1 py-[75px]">
-            <h2 className="text-primary font-semibold text-5xl leading-[70px] max-w-[650px]">
+            <h2 className="text-primary lg:text-start text-center font-semibold text-5xl leading-[70px] lg:max-w-[650px]">
               Percayakan Kebutuhan Anda Oleh Kami
             </h2>
-            <p className="mt-[27px] tracking-wide leading-[40px]">
+            <p className="mt-[27px] tracking-wide leading-[40px] lg:text-start text-center">
               Mulai dari pendidikan, kesehatan, hingga modal usaha. BPR Aruna
               siap membantu Anda.
             </p>
-            <div className="mt-[27px] space-x-5">
+            <div className="mt-[27px] space-x-5 flex items-center justify-center lg:justify-start">
               <button className="cursor-pointer text-white bg-primary px-[30px] py-[17px] font-semibold text-lg rounded-xl">
                 Mulai Sekarang
               </button>
@@ -121,7 +121,7 @@ export default function HomePage({ products, seo }: HomePageProps) {
             Anda Selalu bisa berhemat dengan produk - produk yang kami miliki
           </p>
 
-          <div className="grid grid-cols-3 mt-10 gap-[50px]">
+          <div className="grid grid-cols-2 lg:grid-cols-3 mt-10 gap-[50px]">
             {products.map((product, index) => (
               <ProductCard product={product} key={index} />
             ))}

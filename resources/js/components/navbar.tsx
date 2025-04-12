@@ -14,7 +14,7 @@ export default function Navbar() {
   return (
     <div className="fixed z-[5] w-full">
       <div className="bg-white">
-        <div className="flex container mx-auto justify-between py-2.5 font-medium text-base text-[#736E6E]">
+        <div className="flex px-10 lg:px-0 lg:container mx-auto justify-between py-2.5 font-medium text-base text-[#736E6E]">
           <Link href="/" className="hover:text-primary transition-colors">
             {getTranslate(lang, 'home_nav')}
           </Link>
@@ -50,12 +50,12 @@ export default function Navbar() {
         </div>
       </div>
       <div className="bg-primary">
-        <div className=" container mx-auto flex justify-between py-2.5 items-center">
+        <div className="px-10 lg:px-0 lg:container mx-auto justify-between py-2.5 items-center flex">
           <Link href="/">
             <img src={Logo} alt="Logo" className="w-[238px]" />
           </Link>
 
-          <div className="text-white font-semibold text-lg space-x-[84px] flex">
+          <div className="text-white font-semibold xl:text-lg space-x-8 xl:space-x-[84px] lg:flex hidden">
             <Link
               href="/about"
               className="hover:text-[#83AAFF] transition-colors"
