@@ -13,7 +13,7 @@ class ArticleController extends Controller
 {
     public function index()
     {
-        $articles = Article::all();
+        $articles = Article::latest()->get();
         $seo = Seo::where("type", "article")->first();
 
         return Inertia::render("main/article/page", [
