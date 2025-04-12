@@ -31,15 +31,15 @@ export default function ProductPage({ products, seo }: ProductPageProps) {
       />
 
       <MainLayout>
-        <div className="pt-10 pb-[84px] container mx-auto">
-          <h2 className="text-primary text-5xl font-semibold text-center">
+        <div className="pt-10 pb-[84px] container mx-auto md:px-0 px-5">
+          <h2 className="text-primary text-2xl lg:text-5xl font-semibold text-center">
             Produk Dari Kami
           </h2>
-          <p className="text-center mt-5 text-lg text-[#3F4145]">
+          <p className="text-center mt-5 lg:text-lg text-[#3F4145]">
             Anda Selalu bisa berhemat dengan produk - produk yang kami miliki
           </p>
 
-          <div className="grid grid-cols-3 mt-10 gap-[50px]">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 mt-10 gap-5 md:gap-[50px]">
             {products.map((product, index) => (
               <ProductCard product={product} key={index} />
             ))}
