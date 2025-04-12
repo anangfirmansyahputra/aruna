@@ -2,7 +2,7 @@ import MainLayout from '@/layouts/main-layout'
 import { Facebook, Instagram, Link, Youtube } from 'lucide-react'
 import ArticleImage from '../../../../../public/assets/article.png'
 import { Article } from '@/types'
-import { usePage } from '@inertiajs/react'
+import { router, usePage } from '@inertiajs/react'
 import Tiptap from '@/components/tiptap'
 
 interface ArticleDetailPageProps {
@@ -19,13 +19,15 @@ export default function ArticleDetailPage({
 
   return (
     <MainLayout>
-      <div className="container mx-auto grid grid-cols-3 py-[50px] gap-[50px]">
-        <div className="col-span-2">
-          <h1 className="text-3xl font-medium">{article[`${lang}_title`]}</h1>
+      <div className="container mx-auto grid grid-cols-3 py-5 md:py-[50px] gap-[50px] md:px-0 px-5">
+        <div className="col-span-3 lg:col-span-2">
+          <h1 className="text-2xl md:text-3xl font-medium">
+            {article[`${lang}_title`]}
+          </h1>
           <img
-            className="mt-[30px] w-full rounded-3xl object-cover"
+            className="mt-[30px] w-full rounded-3xl object-cover aspect-square md:aspect-video"
             src={article.image_url}
-            alt="BPR Aruna raih GOLDEN AWARDS"
+            alt={article[`${lang}_title`]}
           />
 
           <div className="space-y-5 mt-[30px]">
@@ -55,16 +57,21 @@ export default function ArticleDetailPage({
         </div>
 
         {/* Sidebar kosong, tambahkan placeholder atau hapus */}
-        <div className="col-span-1 bg-primary rounded-3xl p-[25px] h-fit">
-          <p className="text-white text-xl font-semibold">Berita Terkini</p>
+        <div className="col-span-3 lg:col-span-1 bg-primary rounded-3xl p-[15px] md:p-[25px] h-fit">
+          <p className="text-white md:text-xl font-semibold md:text-start text-center">
+            Berita Terkini
+          </p>
 
           <div className="mt-[28px] space-y-[23px]">
             {related.map((r) => (
-              <div className="flex gap-5">
+              <div
+                className="flex sm:flex-row flex-col gap-5 cursor-pointer"
+                onClick={() => router.visit(`/articles/${r[`${lang}_slug`]}`)}
+              >
                 <img
                   src={r.image_url}
                   alt={r[`${lang}_title`]}
-                  className="w-[35%] rounded-3xl bg-white aspect-video object-cover"
+                  className="sm:w-[35%] h-full rounded-xl lg:rounded-3xl bg-white aspect-video object-cover"
                 />
                 <div className="flex-1">
                   <p className="text-sm text-white font-medium">
