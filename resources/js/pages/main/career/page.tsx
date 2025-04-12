@@ -13,6 +13,7 @@ export default function CareerPage({ seo }: CareerPageProps) {
   return (
     <>
       <SeoHead
+        url="/careers"
         seo={seo}
         fallbackTitle={{
           id: 'Karier',

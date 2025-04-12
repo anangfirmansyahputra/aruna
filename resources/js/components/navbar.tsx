@@ -16,7 +16,9 @@ export default function Navbar() {
   const lang = locale as 'id' | 'en'
 
   return (
-    <div className="fixed z-[5] w-full flex flex-col h-screen">
+    <div
+      className={`${isMenuOpen && 'h-screen'} fixed z-[5] w-full flex flex-col`}
+    >
       <div>
         <div className="bg-white">
           <div className="flex px-10 lg:px-0 lg:container mx-auto md:text-base text-sm justify-between py-2.5 font-medium text-base text-[#736E6E]">

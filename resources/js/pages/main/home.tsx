@@ -1,14 +1,13 @@
+import ProductCard from '@/components/product-card'
+import SeoHead from '@/components/seo-head'
 import MainLayout from '@/layouts/main-layout'
 import { Article, Product, ProductTranslation, SEO } from '@/types'
+import { Link, usePage } from '@inertiajs/react'
+import { ArrowRight, MoveUpRight } from 'lucide-react'
 import HomeImage from '../../../../public/assets/home-image.png'
 import ImageOne from '../../../../public/assets/image-about-one.png'
 import ImageTwo from '../../../../public/assets/image-about-two.png'
-import ArticleBig from '../../../../public/assets/article-big.png'
-import ArticleOne from '../../../../public/assets/article-one.png'
-import { ArrowRight, MoveUpRight } from 'lucide-react'
-import ProductCard from '@/components/product-card'
-import { Link, usePage } from '@inertiajs/react'
-import SeoHead from '@/components/seo-head'
+import { router } from '@inertiajs/react'
 
 interface HomePageProps {
   products: (Product & {
@@ -22,9 +21,14 @@ export default function HomePage({ products, seo, articles }: HomePageProps) {
   const { locale } = usePage().props
   const lang = locale as 'id' | 'en'
 
+  const handleNavigate = (url: string) => {
+    router.visit(url)
+  }
+
   return (
     <>
       <SeoHead
+        url=""
         seo={seo}
         fallbackTitle={{
           id: 'Beranda',
@@ -42,8 +46,12 @@ export default function HomePage({ products, seo, articles }: HomePageProps) {
 
       <MainLayout>
         <div className="flex lg:flex-row flex-col container mx-auto py-[36px] sm:px-0 px-5">
-          <div className="w-[60%] xl:w-[40%] mx-auto lg:mx-0">
-            <img src={HomeImage} alt="" className="w-full" />
+          <div className="w-full sm:w-[60%] xl:w-[40%] mx-auto lg:mx-0">
+            <img
+              src={HomeImage}
+              alt=""
+              className="w-full aspect-square object-cover"
+            />
           </div>
           <div className="flex-1 py-5 md:py-[75px]">
             <h2 className="text-primary lg:text-start text-center font-semibold text-2xl md:text-5xl md:leading-[70px] lg:max-w-[650px]">
@@ -83,7 +91,7 @@ export default function HomePage({ products, seo, articles }: HomePageProps) {
                 <MoveUpRight className="w-4 h-4" />
               </button>
             </div>
-            <div className="w-full md:w-[40%] space-y-5">
+            <div className="w-full md:w-[40%] space-y-5 md:order-2 order-1">
               <img
                 src={ImageOne}
                 alt=""
@@ -134,38 +142,55 @@ export default function HomePage({ products, seo, articles }: HomePageProps) {
               teknologi finansial.
             </p>
 
-            <div className="grid xl:grid-cols-5 aspect-retro gap-[56px] mt-[60px]">
+            <div className="grid lg:grid-cols-5 aspect-retro gap-5 lg:gap-[56px] mt-[60px]">
               {articles[0] && (
-                <div className="hidden xl:flex col-span-2 flex-col rounded-t-3xl bg-white h-full">
+                <div
+                  role="button"
+                  onClick={() =>
+                    handleNavigate(`/articles/${articles[0][`${lang}_slug`]}`)
+                  }
+                  // className="hidden xl:flex col-span-2 flex-col rounded-3xl overflow-hidden bg-white h-full cursor-pointer group"
+                  className="col-span-5 lg:col-span-2 flex-col cursor-pointer rounded-3xl bg-white group"
+                >
                   <img
                     src={articles[0].image_url}
                     alt=""
-                    className="w-full object-cover h-[80%]"
+                    className="w-full object-cover aspect-square rounded-t-3xl"
                   />
                   <div className="bg-white p-5 flex-1">
-                    <div className="text-[#736E6E] space-x-2">
+                    <div className="text-[#736E6E] space-x-2 md:text-base text-sm">
                       {articles[0].created_at}
                     </div>
 
-                    <h5 className="text-2xl mt-[15px]">
+                    <h5 className="md:text-2xl mt-[15px] group-hover:text-primary transition-colors">
                       {articles[0][`${lang}_title`]}
                     </h5>
                   </div>
                 </div>
               )}
 
-              <div className="col-span-5 xl:col-span-3 flex-1 space-y-[38px]">
+              <div className="col-span-5 sm:mt-0 mt-5 lg:col-span-3 flex-1 space-y-5 md:space-y-[38px]">
                 {articles.slice(1, 3).map((article, index) => (
-                  <div key={index} className="flex bg-white rounded-3xl">
-                    <div>
-                      <img src={article.image_url} alt="" className="" />
+                  <div
+                    onClick={() =>
+                      handleNavigate(`/articles/${article[`${lang}_slug`]}`)
+                    }
+                    key={index}
+                    className="flex bg-white rounded-3xl overflow-hidden cursor-pointer group"
+                  >
+                    <div className="flex-1">
+                      <img
+                        src={article.image_url}
+                        alt=""
+                        className="aspect-square object-cover"
+                      />
                     </div>
-                    <div className="w-[90%] p-5 flex flex-col justify-center">
+                    <div className="w-[60%] p-5 flex flex-col justify-center">
                       <div className="text-[#736E6E] md:text-base text-xs space-x-2">
                         {article.created_at}
                       </div>
 
-                      <h5 className="text-sm md:text-2xl mt-[15px]">
+                      <h5 className="text-sm md:text-2xl mt-[15px] group-hover:text-primary transition-colors">
                         {article[`${lang}_title`]}
                       </h5>
                       <p className="mt-[15px] text-[#736E6E] md:block hidden">
@@ -179,17 +204,17 @@ export default function HomePage({ products, seo, articles }: HomePageProps) {
 
             <div className="flex items-center justify-center mt-[60px]">
               <Link
-                href="/products"
-                className="flex items-center text-primary text-lg font-semibold group"
+                href="/articles"
+                className="flex items-center text-primary text-sm md:text-lg font-semibold group"
               >
                 Lihat Semua Artikel
-                <ArrowRight className="w-5 h-5 ml-[10px] group-hover:ml-5 transition-all" />
+                <ArrowRight className="w-4 md:w-5 h-4 md:h-5 ml-[10px] group-hover:ml-5 transition-all" />
               </Link>
             </div>
           </div>
         </div>
 
-        <div className="bg-[#184394] py-[50px] text-">
+        <div className="bg-[#184394] py-[50px] md:px-0">
           <h6 className="max-w-[758px] text-white text-center mx-auto text-xl md:text-3xl font-semibold">
             Rasakan proses pencairan yang cepat dengan memenuhi persyaratan yang
             tersedia

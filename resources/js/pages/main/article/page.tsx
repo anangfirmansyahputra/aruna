@@ -16,6 +16,7 @@ export default function ArticlePage({ articles, seo }: ArticlePageProps) {
   return (
     <>
       <SeoHead
+        url="/articles"
         seo={seo}
         fallbackTitle={{
           id: 'Artikel',

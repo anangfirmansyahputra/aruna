@@ -55,6 +55,7 @@ class HandleInertiaRequests extends Middleware
             'locale' => $locale,
             'categories' => $categories,
             "crisp_website_id" => config("frontend.crisp_website_id"),
+            'app_url' => config("frontend.app_url"),
         ]);
     }
 }

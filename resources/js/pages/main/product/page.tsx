@@ -14,6 +14,7 @@ export default function ProductPage({ products, seo }: ProductPageProps) {
   return (
     <>
       <SeoHead
+        url="/products"
         seo={seo}
         fallbackTitle={{
           id: 'Produk Kami',

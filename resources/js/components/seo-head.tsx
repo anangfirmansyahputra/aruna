@@ -7,6 +7,7 @@ interface SeoHeadProps {
   fallbackDescription?: { id: string; en: string }
   fallbackKeywords?: { id: string; en: string }
   image?: string // opsional custom og:image
+  url: string
 }
 
 export default function SeoHead({
@@ -15,8 +16,9 @@ export default function SeoHead({
   fallbackDescription,
   fallbackKeywords,
   image,
+  url,
 }: SeoHeadProps) {
-  const { locale, url } = usePage().props
+  const { locale, app_url } = usePage().props
   const lang = locale as 'id' | 'en'
 
   const title =
@@ -27,8 +29,8 @@ export default function SeoHead({
     'Default description'
   const keywords = seo?.[`${lang}_keywords`] || fallbackKeywords?.[lang] || ''
 
-  const siteUrl = `https://example.com${url}` // Ganti domain
-  const ogImage = image || 'https://example.com/images/og-default.jpg'
+  const siteUrl = `${app_url}${url}` // Ganti domain
+  const ogImage = image || `${app_url}/public/assets/logo.png`
 
   const newTitle = title + ' | BPR Aruna'
 

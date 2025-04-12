@@ -16,6 +16,7 @@ export default function FaqPage({ faqs, seo }: FaqPageProps) {
   return (
     <>
       <SeoHead
+        url="/faq"
         seo={seo}
         fallbackTitle={{
           id: 'Pertanyaan yang Sering Diajukan',

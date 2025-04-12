@@ -25,6 +25,7 @@ export default function AboutPage({
   return (
     <>
       <SeoHead
+        url="/about"
         seo={seo}
         fallbackTitle={{
           id: 'Tentang Kami',

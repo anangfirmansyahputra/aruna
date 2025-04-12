@@ -98,6 +98,7 @@ export default function ContactPage({ seo }: ContactPageProps) {
   return (
     <>
       <SeoHead
+        url="/contact"
         seo={seo}
         fallbackTitle={{
           id: 'Kontak Kami',
