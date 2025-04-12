@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Main;
 
 use App\Http\Controllers\Controller;
 use App\Mail\ContactMail;
+use App\Models\Article;
 use App\Models\CompanyValue;
 use App\Models\CreditProposal;
 use App\Models\Faq;
@@ -22,12 +23,14 @@ class MainController extends Controller
     {
         $lang = Session::get("locale", "en");
         $seo = Seo::where("type", "home")->first();
+        $articles = Article::latest()->get();
 
         $products = Product::translation($lang)->get();
 
         return Inertia::render("main/home", [
             'products' => $products,
-            'seo' => $seo
+            'seo' => $seo,
+            'articles' => $articles
         ]);
     }
 

@@ -9,15 +9,15 @@ import { Link } from '@inertiajs/react'
 export default function Footer() {
   return (
     <div className="bg-primary">
-      <div className="container mx-auto py-9">
-        <div className="grid grid-cols-4">
+      <div className="container mx-auto py-9 sm:px-0 px-5 md:text-base text-sm">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
           <div className="text-[#fefefe]">
             <p>Kantor Pusat</p>
             <p className="mt-3.5">PT BPR Aruna Nirmaladuta</p>
             <p className="mt-1">Jl. Dharma Giri No. 99, Gianyar – Bali</p>
             <div className="mt-5 flex items-center gap-1.5">
               <MapPin />
-              <p className="text-lg">Lokasi Lainnya</p>
+              <p className="md:text-lg">Lokasi Lainnya</p>
             </div>
           </div>
 
@@ -64,9 +64,9 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-9 flex gap-9 items-center justify-center">
+        <div className="mt-9 hidden md:flex lg:flex-row flex-col gap-9 items-center justify-center">
           <img src={Logo} className="w-[189px]" />
-          <div className="bg-white w-fit p-2 rounded-full space-x-3.5">
+          <div className="bg-white w-fit p-2 rounded-full flex-wrap md:space-x-3.5">
             <Link
               href=""
               className="text-[#fefefe] bg-[#1E5AF5] rounded-full p-2 px-3.5 inline-block"
@@ -111,9 +111,9 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="pt-2.5 border-t border-white mt-9 text-[#fefefe] flex justify-between">
+        <div className="pt-2.5 border-t border-white mt-9 text-[#fefefe] gap-5 md:flex justify-between">
           <p>© 2025 - PT BPR Aruna Nirmaladuta</p>
-          <div className="space-x-11">
+          <div className="space-x-11 flex flex-col md:flex-row gap-2 mt-2 md:mt-0">
             <Link href="">Terms & Conditions</Link>
             <Link href="">Privacy Policy</Link>
           </div>
