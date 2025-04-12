@@ -1,9 +1,8 @@
+import Tiptap from '@/components/tiptap'
 import MainLayout from '@/layouts/main-layout'
-import { Facebook, Instagram, Link, Youtube } from 'lucide-react'
-import ArticleImage from '../../../../../public/assets/article.png'
 import { Article } from '@/types'
 import { router, usePage } from '@inertiajs/react'
-import Tiptap from '@/components/tiptap'
+import { Facebook, Instagram, Link, Youtube } from 'lucide-react'
 
 interface ArticleDetailPageProps {
   article: Article

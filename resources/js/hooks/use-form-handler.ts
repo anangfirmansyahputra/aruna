@@ -44,9 +44,12 @@ export function useFormHandler<T extends Record<string, any>>({
       data: formData ? formData : formValues,
       preserveScroll: true,
       preserveState: true,
-      onSuccess: () => {
+      onSuccess: (props: any) => {
+        console.log(!props?.props?.flash?.error)
         form.resetFields()
-        message.success('Action success')
+        if (!props?.props?.flash?.error) {
+          message.success('Action success')
+        }
         setIsLoading(false)
       },
       onError: (errors) => {

@@ -34,7 +34,7 @@ export default function AllCareerPage({ careers }: AllCareerPageProps) {
       </div>
 
       <div className="bg-[#F0F4FF] w-full -mt-[12vh] z-[2] relative">
-        <div className="container mx-auto py-[64px] px-[75px]">
+        <div className="container mx-auto space-y-5 py-[64px] px-[75px]">
           {careers.map((career) => (
             <CareerCard key={career.id} {...career} lang={lang} />
           ))}

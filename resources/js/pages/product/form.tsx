@@ -147,8 +147,8 @@ export default function FormPage({
         formData.append('image_url', fileList[0].originFileObj)
       }
 
-      // Kirim ke server
       submit(formData)
+      // message.success('Action success')
     } catch (err: any) {
       console.log(err)
 

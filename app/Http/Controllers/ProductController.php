@@ -9,6 +9,7 @@ use App\Models\ProductFAQ;
 use App\Models\ProductFeature;
 use App\Models\ProductRequirement;
 use App\Models\ProductTranslation;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
@@ -72,8 +73,11 @@ class ProductController extends Controller
 
             DB::commit();
             return redirect()->route('products.edit', $product->id);
-        } catch (\Exception $e) {
+        } catch (QueryException $e) {
             DB::rollBack();
+            if ($e->errorInfo[1] == 1062) {
+                return back()->with('error', 'Title or slug alredy exist!');
+            }
             return back()->with('error', $e->getMessage());
         }
     }

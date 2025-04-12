@@ -30,16 +30,16 @@ export default function CareerPage({ seo }: CareerPageProps) {
       />
       <MainLayout>
         <div className="bg-[#F0F4FF]">
-          <div className="container mx-auto flex">
-            <div className="w-[45%]">
+          <div className="container mx-auto flex lg:flex-row flex-col">
+            <div className="xl:py-0 py-10 lg:w-[45%]">
               <img
                 src={CareerImage}
                 alt=""
-                className="w-full object-cover -mt-18"
+                className="w-full object-cover -mt-18 xl:-mt-0 2xl:-mt-18"
               />
             </div>
-            <div className="flex-1 space-y-[25px]">
-              <h2 className="text-4xl font-semibold text-[#1946B9] max-w-[645px] mt-[165px]">
+            <div className="flex-1 space-y-[25px] lg:-mt-0 -mt-20">
+              <h2 className="text-4xl font-semibold text-[#1946B9] max-w-[645px] lg:mt-[165px]">
                 Wujudkan Masa Depan Cerah dengan Karir Impian di Sini
               </h2>
               <p className="text-lg text-[#3F4145]">
@@ -52,7 +52,7 @@ export default function CareerPage({ seo }: CareerPageProps) {
               </p>
               <Link
                 href="/careers/all"
-                className="bg-[#1946B9] w-fit rounded-lg text-white font-bold py-[11px] px-[24px] flex items-center"
+                className="bg-[#1946B9] w-fit rounded-lg text-white font-bold py-[11px] px-[24px] flex items-center mb-10 lg:mb-0"
               >
                 Lamar Sekarang
                 <ArrowRight className="ml-2 w-5 h-5" />
@@ -61,7 +61,7 @@ export default function CareerPage({ seo }: CareerPageProps) {
           </div>
         </div>
 
-        <div className="grid grid-cols-3 gap-[60px] container mx-auto py-[75px]">
+        <div className="grid grid-cols-3 gap-5 lg:gap-[60px] container mx-auto py-[75px]">
           <div className="bg-[#F6F7F9] aspect-[16/12] flex flex-col items-center justify-center space-y-[25px] py-[45px] px-5 border-[13px] border-[#D7DDE3] rounded-3xl">
             <p className="text-[#24252C] font-semibold text-7xl">12K+</p>
             <p className="text-[#24252C] font-semibold text-2xl">Point 1</p>
