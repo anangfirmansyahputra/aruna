@@ -11,7 +11,7 @@ export default function MainLayout({ children }: MainLayoutProps) {
   return (
     <>
       <Navbar />
-      <div className="pt-[142px]">{children}</div>
+      <div className="pt-[115px] md:pt-[142px]">{children}</div>
       <CrispChat />
       <Footer />
     </>
