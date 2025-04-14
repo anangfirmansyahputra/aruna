@@ -156,31 +156,31 @@ export default function DetailProductPage({ product }: DetailProductPageProps) {
       </Head>
 
       <MainLayout>
-        <div className="container mx-auto py-[52px]">
-          <div className="flex gap-[112px] items-center justify-center">
+        <div className="container mx-auto py-[52px] lg:px-0 px-5">
+          <div className="flex gap-10 lg:gap-[112px] items-center justify-center md:flex-row flex-col">
             <img
               src={product.product.image_url}
-              className="rounded-full object-cover w-[474px] h-[474px] border-[2px] border-[#1946B9] p-2 border-dashed"
+              className="rounded-full object-cover w-[80%] lg:w-1/2 aspect-square 2xl:w-[474px] 2xl:h-[474px] border-[2px] border-[#1946B9] p-2 border-dashed"
             />
 
             <div>
-              <div className="w-fit bg-[#83AAFF] text-[#FFFFFF] py-[5px] px-[15px] rounded-full">
+              <div className="w-fit lg:text-base text-sm bg-[#83AAFF] text-[#FFFFFF] py-[5px] px-[15px] rounded-full md:mx-0 mx-auto">
                 <h4>{product.name}</h4>
               </div>
-              <h2 className="text-4xl font-semibold text-primary mt-3 max-w-[645px] leading-11">
+              <h2 className=" text-xl md:text-2xl lg:text-4xl font-semibold text-primary mt-3 lg:max-w-[645px] lg:leading-11 md:text-start text-center">
                 {product.heading_one}
               </h2>
-              <p className="text-lg text-[#3F4145] mt-[30px] max-w-[645px]">
+              <p className="text-sm md:text-base lg:text-lg text-[#3F4145] mt-3 md:mt-[30px] lg:max-w-[645px] md:text-start text-center">
                 {product.heading_two}
               </p>
 
-              <div className="mt-[30px] flex gap-[25px]">
-                <button className="bg-primary text-white rounded-2xl font-semibold py-3.5 px-[34px] flex items-start cursor-pointer">
+              <div className="mt-[30px] lg:flex-row flex-col hidden md:flex gap-[25px]">
+                <button className="bg-primary w-fit text-white rounded-2xl font-semibold py-3.5 px-[15px] lg:px-[34px] flex items-start cursor-pointer lg:text-base text-sm">
                   {getTranslate(lang as 'id' | 'en', 'apply_now')}
                   <ArrowRight className="ml-2" />
                 </button>
 
-                <button className="text-primary border border-primary bg-white rounded-2xl font-semibold py-3.5 px-[34px] flex items-start cursor-pointer">
+                <button className="text-primary w-fit border border-primary bg-white rounded-2xl font-semibold py-3.5 px-[15px] lg:px-[34px] flex items-start cursor-pointer lg:text-base text-sm">
                   {getTranslate(lang, 'credit_simulation')}
                 </button>
               </div>
@@ -189,15 +189,15 @@ export default function DetailProductPage({ product }: DetailProductPageProps) {
         </div>
 
         {product.product.features.length > 0 && (
-          <div className="bg-[#F0F4FF] mt-10 py-10">
-            <h3 className="text-primary text-center text-4xl font-semibold">
+          <div className="bg-[#F0F4FF] mt-10 py-10 lg:px-0 px-5">
+            <h3 className="text-primary text-center text-xl md:text-2xl lg:text-4xl font-semibold">
               Fitur {product.name}
             </h3>
-            <p className="text-lg text-[#141515] text-center mt-2">
+            <p className="text-base lg:text-lg text-[#141515] text-center mt-2">
               Beberapa fitur yang kami miliki pada produk {product.name}
             </p>
 
-            <div className="grid grid-cols-3 gap-4 container mx-auto mt-10">
+            <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 container mx-auto mt-10">
               {product.product.features.map((feature) => {
                 // @ts-ignore
                 const IconComponent = LucideIcons[feature.icon]
@@ -210,10 +210,10 @@ export default function DetailProductPage({ product }: DetailProductPageProps) {
                     <div className="p-[22px] bg-[#F8F9F9] rounded-full">
                       <IconComponent size={16} className="text-[#3387EC]" />
                     </div>
-                    <p className="text-[#141515] font-medium text-xl mt-3.5 text-center">
+                    <p className="text-[#141515] font-medium text-base lg:text-xl mt-3.5 text-center">
                       {feature[`${lang}_title`]}
                     </p>
-                    <p className="text-[#8F9090] mt-3.5 text-center">
+                    <p className="text-[#8F9090] mt-3.5 text-center lg:text-base text-sm">
                       {feature[`${lang}_description`]}
                     </p>
                   </div>
