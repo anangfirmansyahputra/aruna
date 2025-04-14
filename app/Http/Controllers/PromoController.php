@@ -46,6 +46,8 @@ class PromoController extends Controller
             "en_description" => "required|string",
             "id_title" => "required|string",
             "en_title" => "required|string",
+            "id_slug" => "required|string|unique:promos,id_slug",
+            "en_slug" => "required|string|unique:promos,en_slug",
             'image_url' => 'mimes:jpeg,jpg,png,gif|max:1000',
         ]);
 
@@ -98,6 +100,8 @@ class PromoController extends Controller
             "en_description" => "required|string",
             "id_title" => "required|string",
             "en_title" => "required|string",
+            "id_slug" => "required|string|unique:promos,id_slug," . $promo->id,
+            "en_slug" => "required|string|unique:promos,en_slug," . $promo->id,
         ]);
 
         $dates = explode(',', $request->date);

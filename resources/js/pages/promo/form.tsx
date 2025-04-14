@@ -30,6 +30,14 @@ interface FormPageProps {
   products: Product[]
 }
 
+const generateSlug = (text: string) => {
+  return text
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, '-')
+    .replace(/[^\w-]+/g, '')
+}
+
 type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0]
 
 const getBase64 = (file: FileType): Promise<string> =>
@@ -100,6 +108,7 @@ export default function FormPage({ data, products }: FormPageProps) {
       })
 
       formData.append('id_content', content.id)
+
       formData.append('en_content', content.en)
       // if (data) {
       //   formData.append('start_date', `${data.start_date}`)
@@ -190,7 +199,22 @@ export default function FormPage({ data, products }: FormPageProps) {
                     label="Title"
                     rules={[{ required: true, message: 'Please enter title' }]}
                   >
-                    <Input />
+                    <Input
+                      onChange={(e) =>
+                        form.setFieldValue(
+                          `${locale}_slug`,
+                          generateSlug(e.target.value)
+                        )
+                      }
+                    />
+                  </Form.Item>
+
+                  <Form.Item
+                    name={`${locale}_slug`}
+                    label="Slug"
+                    rules={[{ required: true, message: 'Please insert slug' }]}
+                  >
+                    <Input placeholder="Enter slug" />
                   </Form.Item>
 
                   <Form.Item

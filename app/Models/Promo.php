@@ -20,6 +20,8 @@ class Promo extends Model
         'en_description',
         "id_title",
         "en_title",
+        'id_slug',
+        'en_slug'
     ];
 
     protected function createdAt(): Attribute

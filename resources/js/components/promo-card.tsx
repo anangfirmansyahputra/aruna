@@ -9,7 +9,7 @@ export default function PromoCard(data: Promo & { lang: 'en' | 'id' }) {
   return (
     <div
       className="w-full bg-[#ddd] rounded-[30px] overflow-hidden cursor-pointer"
-      onClick={() => router.visit(`/promo/${data.id}`)}
+      onClick={() => router.visit(`/promo/${data[`${data.lang}_slug`]}`)}
     >
       <img
         src={`/storage/${data.image_url}`}

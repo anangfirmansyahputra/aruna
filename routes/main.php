@@ -23,6 +23,6 @@ Route::get("/faq", [MainController::class, 'faq']);
 Route::get("/credit", [MainController::class, 'credit']);
 Route::post("/credit", [MainController::class, 'creditStore']);
 Route::get("/promo", [PromoController::class, 'index']);
-Route::get("/promo/{id}", [PromoController::class, 'show']);
+Route::get("/promo/{slug}", [PromoController::class, 'show']);
 
 Route::post("/contact", [MainController::class, 'sendMailContact']);
