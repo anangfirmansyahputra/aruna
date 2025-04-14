@@ -53,7 +53,7 @@ export default function ArticleDetailPage({
         {/* Canonical URL */}
         <link
           rel="canonical"
-          href={`${app_url}/products/${article[`${lang}_slug`]}`}
+          href={`${app_url}/articles/${article[`${lang}_slug`]}`}
         />
       </Head>
 

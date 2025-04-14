@@ -26,7 +26,12 @@ class SeoController extends Controller
     public function update(Request $request)
     {
         $validate = $this->validate($request);
-        Seo::updateOrCreate($validate);
+        $seo = Seo::where("type", $validate['type'])->first();
+        if ($seo) {
+            $seo->update($validate);
+        } else {
+            Seo::create($validate);
+        }
         return to_route("seo.index");
     }
 

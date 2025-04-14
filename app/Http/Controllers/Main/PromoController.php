@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Main;
 
 use App\Http\Controllers\Controller;
 use App\Models\Promo;
+use App\Models\Seo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Inertia\Inertia;
@@ -13,8 +14,10 @@ class PromoController extends Controller
     public function index()
     {
         $promos = Promo::latest()->get();
+        $seo = Seo::where("type", "promo")->first();
         return Inertia::render('main/promo/page', [
-            'promos' => $promos
+            'promos' => $promos,
+            'seo' => $seo
         ]);
     }
 
