@@ -107,8 +107,7 @@ const calculatorResults = [
 ]
 
 export default function DetailProductPage({ product }: DetailProductPageProps) {
-  const appUrl = import.meta.env.APP_URL || 'http://127.0.0.1:8000'
-  const { locale } = usePage().props
+  const { locale, app_url } = usePage().props
   const lang = locale as 'id' | 'en'
   const [showResultCalculator, setShowResultCalculator] = React.useState(false)
   const [showInterest, setShowInterest] = useState(false)
@@ -132,7 +131,7 @@ export default function DetailProductPage({ product }: DetailProductPageProps) {
         {/* Meta Standar */}
         <meta name="description" content={product.meta_descriptions} />
         <meta name="keywords" content={product.keywords} />
-        <meta name="author" content="Nama Brand atau Author" />
+        <meta name="author" content="BPR Aruna" />
 
         {/* Meta Open Graph (SEO + Social Media) */}
         <meta property="og:type" content="product" />
@@ -141,7 +140,7 @@ export default function DetailProductPage({ product }: DetailProductPageProps) {
         <meta property="og:image" content={product.product.image_url} />
         <meta
           property="og:url"
-          content={`${appUrl}/products/${product.slug}`}
+          content={`${app_url}/products/${product.slug}`}
         />
         <meta property="og:site_name" content="Nama Website" />
 
@@ -152,7 +151,7 @@ export default function DetailProductPage({ product }: DetailProductPageProps) {
         <meta name="twitter:image" content={product.product.image_url} />
 
         {/* Canonical URL */}
-        <link rel="canonical" href={`${appUrl}/products/${product.slug}`} />
+        <link rel="canonical" href={`${app_url}/products/${product.slug}`} />
       </Head>
 
       <MainLayout>
