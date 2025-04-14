@@ -45,9 +45,10 @@ export default function FormPage({ data, products }: FormPageProps) {
   const [previewOpen, setPreviewOpen] = useState(false)
   const [previewImage, setPreviewImage] = useState('')
   const [fileList, setFileList] = useState<UploadFile[]>([])
-  const [expiratedDate, setExpiratedDate] = useState(
-    data ? [dayjs(data.start_date), dayjs(data.end_date)] : undefined
-  )
+  // const [expiratedDate, setExpiratedDate] = useState(
+  //   data ? [dayjs(data.start_date), dayjs(data.end_date)] : undefined
+  // )
+
   const [content, setContent] = useState<{ en: string; id: string }>(
     data
       ? {
@@ -100,10 +101,10 @@ export default function FormPage({ data, products }: FormPageProps) {
 
       formData.append('id_content', content.id)
       formData.append('en_content', content.en)
-      if (data) {
-        formData.append('start_date', `${data.start_date}`)
-        formData.append('end_date', `${data.end_date}`)
-      }
+      // if (data) {
+      //   formData.append('start_date', `${data.start_date}`)
+      //   formData.append('end_date', `${data.end_date}`)
+      // }
 
       if (fileList.length > 0 && fileList[0].originFileObj) {
         formData.append('image_url', fileList[0].originFileObj)
@@ -202,7 +203,13 @@ export default function FormPage({ data, products }: FormPageProps) {
                       },
                     ]}
                   >
-                    <DatePicker.RangePicker />
+                    <DatePicker.RangePicker
+                      defaultValue={
+                        data
+                          ? [dayjs(data?.start_date), dayjs(data?.end_date)]
+                          : undefined
+                      }
+                    />
                   </Form.Item>
 
                   <Form.Item
