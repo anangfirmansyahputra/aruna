@@ -16,7 +16,7 @@ export default function ProfileCard({
       <img
         src={image_url}
         alt={name}
-        className="max-w-[283px] object-cover rounded-2xl"
+        className="w-[283px] h-[317px] object-cover rounded-2xl border border-[#E2E8F0]"
       />
       <div className="absolute bg-white z-[2] border border-[#E2E8F0] py-[23px] px-[12px] rounded-2xl top-[150px] -right-[120px] max-w-[236px] w-full">
         <h5 className="font-semibold text-sm">{name}</h5>

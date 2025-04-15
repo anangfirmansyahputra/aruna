@@ -51,12 +51,21 @@ export default function ProductPage({ data }: ProductPage) {
       width: 200,
     },
     {
-      title: 'Name',
+      title: 'ID Name',
       dataIndex: 'name',
       key: 'name',
       width: 250,
       render: (_, record) => {
         return <div>{record.translations[0].name}</div>
+      },
+    },
+    {
+      title: 'EN Name',
+      dataIndex: 'name',
+      key: 'name',
+      width: 250,
+      render: (_, record) => {
+        return <div>{record.translations[1].name}</div>
       },
     },
     {
@@ -80,12 +89,21 @@ export default function ProductPage({ data }: ProductPage) {
       width: 200,
     },
     {
-      title: 'Calculator name',
+      title: 'ID Calculator name',
       dataIndex: 'collateral_name',
       key: 'collateral_name',
       width: 250,
       render: (_, record) => {
         return <div>{record.translations[0].collateral_name}</div>
+      },
+    },
+    {
+      title: 'EN Calculator name',
+      dataIndex: 'collateral_name',
+      key: 'collateral_name',
+      width: 250,
+      render: (_, record) => {
+        return <div>{record.translations[1].collateral_name}</div>
       },
     },
     {

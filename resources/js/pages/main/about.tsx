@@ -222,6 +222,16 @@ export default function AboutPage({
             )}
           </div>
         </div>
+
+        <div className="bg-[#F0F4FF]">
+          <div className="container mx-auto">
+            <h2 className="text-4xl font-semibold">Laporan Keuangan</h2>
+            <p>
+              Akses laporan keuangan terbaru kami yang transparan dan akurat
+              sebagai wujud komitmen terhadap tata kelola yang baik.
+            </p>
+          </div>
+        </div>
       </MainLayout>
     </>
   )
