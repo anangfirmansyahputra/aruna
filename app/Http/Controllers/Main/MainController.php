@@ -9,6 +9,7 @@ use App\Models\CompanyValue;
 use App\Models\CreditProposal;
 use App\Models\Faq;
 use App\Models\Product;
+use App\Models\Report;
 use App\Models\Seo;
 use App\Models\TeamProfile;
 use Illuminate\Http\Request;
@@ -39,11 +40,13 @@ class MainController extends Controller
         $teams = TeamProfile::all();
         $companyValues = CompanyValue::all();
         $seo = Seo::where("type", "about")->first();
+        $reports = Report::latest()->get();
 
         return Inertia::render("main/about", [
             'profiles' => $teams,
             'company_values' => $companyValues,
-            'seo' => $seo
+            'seo' => $seo,
+            'reports' => $reports
         ]);
     }
 

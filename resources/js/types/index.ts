@@ -123,7 +123,8 @@ export interface ProductFAQ {
 
 export interface Report {
   id: number
-  title: string
+  id_title: string
+  en_title: string
   file: string
   year: Date
   created_at: Date

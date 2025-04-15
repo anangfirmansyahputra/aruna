@@ -11,7 +11,9 @@ import {
   Form,
   GetProp,
   Input,
+  message,
   Space,
+  Tabs,
   Typography,
   UploadFile,
   UploadProps,
@@ -46,7 +48,9 @@ export default function FormPage({ report }: FormPageProps) {
   })
 
   useEffect(() => {
-    form.setFieldValue('year', dayjs(report?.year, 'YYYY'))
+    if (report) {
+      form.setFieldValue('year', dayjs(report?.year, 'YYYY'))
+    }
 
     if (report?.file) {
       setFileList([
@@ -82,21 +86,30 @@ export default function FormPage({ report }: FormPageProps) {
   }
 
   const handleSubmit = async () => {
-    const formData = new FormData()
-    const formValues = form.getFieldsValue()
+    try {
+      const formData = new FormData()
+      const formValues = form.getFieldsValue()
+      await form.validateFields()
 
-    Object.entries(formValues).forEach(([key, value]) => {
-      formData.append(key, value as string)
-    })
+      Object.entries(formValues).forEach(([key, value]) => {
+        formData.append(key, value as string)
+      })
 
-    formData.delete('year')
-    formData.append('year', form.getFieldValue('year').year())
+      formData.delete('year')
+      formData.append('year', form.getFieldValue('year').year())
 
-    if (fileList.length > 0 && fileList[0].originFileObj) {
-      formData.append('file', fileList[0].originFileObj)
+      if (fileList.length > 0 && fileList[0].originFileObj) {
+        formData.append('file', fileList[0].originFileObj)
+      }
+
+      submit(formData)
+    } catch (err: any) {
+      if (err?.errorFields) {
+        message.error(err.errorFields[0].errors[0])
+      } else {
+        message.error('An unexpected error occurred')
+      }
     }
-
-    submit(formData)
   }
 
   return (
@@ -109,13 +122,23 @@ export default function FormPage({ report }: FormPageProps) {
 
         <div className="grid lg:grid-cols-2">
           <Form disabled={isLoading} form={form} layout="vertical">
-            <Form.Item
-              name="title"
-              label="Title"
-              rules={[{ required: true, message: 'Enter title' }]}
-            >
-              <Input placeholder="Enter title" />
-            </Form.Item>
+            <Tabs>
+              {['id', 'en'].map((locale) => (
+                <Tabs.TabPane
+                  key={locale}
+                  tab={locale.toUpperCase()}
+                  forceRender
+                >
+                  <Form.Item
+                    name={`${locale}_title`}
+                    label="Title"
+                    rules={[{ required: true, message: 'Enter title' }]}
+                  >
+                    <Input placeholder="Enter title" />
+                  </Form.Item>
+                </Tabs.TabPane>
+              ))}
+            </Tabs>
 
             <Form.Item
               name="year"

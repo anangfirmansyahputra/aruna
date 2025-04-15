@@ -9,7 +9,8 @@ use Illuminate\Support\Facades\Storage;
 class Report extends Model
 {
     protected $fillable = [
-        'title',
+        'id_title',
+        'en_title',
         'file',
         'year'
     ];
