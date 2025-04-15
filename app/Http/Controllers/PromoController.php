@@ -55,12 +55,13 @@ class PromoController extends Controller
             $data['image_url'] = $request->file("image_url")->store("promo", "public");
         }
 
-        $dates = explode(',', $request->date);
-        $startDateRaw = implode(',', array_slice($dates, 0, 2)); // "Fri, 25 Apr 2025 16:00:00 GMT"
-        $endDateRaw = implode(',', array_slice($dates, 2));      // "Tue, 29 Apr 2025 16:00:00 GMT"
-        $data["start_date"] = Carbon::parse($startDateRaw)->setTimezone('Asia/Jakarta')->addDay()->toDateString(); // Menambah 1 hari
-        $data["end_date"] = Carbon::parse($endDateRaw)->setTimezone('Asia/Jakarta')->addDay()->toDateString(); // Menambah 1 hari
-
+        if (isset($request->date)) {
+            $dates = explode(',', $request->date);
+            $startDateRaw = implode(',', array_slice($dates, 0, 2)); // "Fri, 25 Apr 2025 16:00:00 GMT"
+            $endDateRaw = implode(',', array_slice($dates, 2));      // "Tue, 29 Apr 2025 16:00:00 GMT"
+            $data["start_date"] = Carbon::parse($startDateRaw)->setTimezone('Asia/Jakarta')->addDay()->toDateString(); // Menambah 1 hari
+            $data["end_date"] = Carbon::parse($endDateRaw)->setTimezone('Asia/Jakarta')->addDay()->toDateString(); // Menambah 1 hari
+        }
 
         Promo::create($data);
         return redirect()->route("promos.index");
@@ -104,11 +105,13 @@ class PromoController extends Controller
             "en_slug" => "required|string|unique:promos,en_slug," . $promo->id,
         ]);
 
-        $dates = explode(',', $request->date);
-        $startDateRaw = implode(',', array_slice($dates, 0, 2)); // "Fri, 25 Apr 2025 16:00:00 GMT"
-        $endDateRaw = implode(',', array_slice($dates, 2));      // "Tue, 29 Apr 2025 16:00:00 GMT"
-        $data["start_date"] = Carbon::parse($startDateRaw)->setTimezone('Asia/Jakarta')->addDay()->toDateString(); // Menambah 1 hari
-        $data["end_date"] = Carbon::parse($endDateRaw)->setTimezone('Asia/Jakarta')->addDay()->toDateString(); // Menambah 1 hari
+        if (($request->date !== "undefined")) {
+            $dates = explode(',', $request->date);
+            $startDateRaw = implode(',', array_slice($dates, 0, 2)); // "Fri, 25 Apr 2025 16:00:00 GMT"
+            $endDateRaw = implode(',', array_slice($dates, 2));      // "Tue, 29 Apr 2025 16:00:00 GMT"
+            $data["start_date"] = Carbon::parse($startDateRaw)->setTimezone('Asia/Jakarta')->addDay()->toDateString(); // Menambah 1 hari
+            $data["end_date"] = Carbon::parse($endDateRaw)->setTimezone('Asia/Jakarta')->addDay()->toDateString(); // Menambah 1 hari
+        }
 
         if ($request->hasFile("image_url")) {
             $request->file("image_url")->store("promo", "public");
