@@ -146,7 +146,7 @@ export default function CreditForm({ credit_products }: CreditFormProps) {
   return (
     <MainLayout>
       <div className="bg-[#F0F4FF] pt-[80px] pb-[50px]">
-        <div className="max-w-[552px] px-10 py-[32px] bg-white mx-auto w-full rounded-2xl border border-[#1946B9]">
+        <div className="max-w-[552px] px-[25px] lg:px-10 py-[25px] lg:py-[32px] bg-white mx-auto w-full rounded-2xl border border-[#1946B9]">
           {/* Step Indicator */}
           <div className="flex items-center justify-center">
             {[1, 2, 3].map((s, i) => (
@@ -162,7 +162,7 @@ export default function CreditForm({ credit_products }: CreditFormProps) {
             ))}
           </div>
 
-          <h1 className="text-[#050B32] font-semibold text-2xl text-center mt-[15px]">
+          <h1 className="text-[#050B32] font-semibold text-xl lg:text-2xl text-center mt-[15px]">
             FORMULIR PENGAJUAN KREDIT
           </h1>
           <div>
@@ -228,7 +228,7 @@ export default function CreditForm({ credit_products }: CreditFormProps) {
             {step === 2 && (
               <>
                 <div className="bg-primary py-[15px] px-[20px] rounded-xl mt-[10px]">
-                  <h2 className="text-white text-2xl font-semibold text-center">
+                  <h2 className="text-white text-xl lg:text-2xl font-semibold text-center">
                     Data calon debitur
                   </h2>
                 </div>
@@ -258,7 +258,7 @@ export default function CreditForm({ credit_products }: CreditFormProps) {
                   />
                 </div>
 
-                <div className="grid grid-cols-2 gap-5 mt-5">
+                <div className="grid lg:grid-cols-2 gap-5 mt-5">
                   <div>
                     <label className="text-[#050B32] text-xs font-medium">
                       No KTP <span className="text-red-500">*</span>
@@ -284,7 +284,7 @@ export default function CreditForm({ credit_products }: CreditFormProps) {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-5 mt-5">
+                <div className="grid lg:grid-cols-2 gap-5 mt-5">
                   <div>
                     <label className="text-[#050B32] text-xs font-medium">
                       Pekerjaan <span className="text-red-500">*</span>
@@ -328,13 +328,13 @@ export default function CreditForm({ credit_products }: CreditFormProps) {
             {step === 3 && (
               <>
                 <div className="bg-primary py-[15px] px-[20px] rounded-xl mt-[10px]">
-                  <h2 className="text-white text-2xl font-semibold text-center">
+                  <h2 className="text-white text-xl lg:text-2xl font-semibold text-center">
                     Jaminan
                   </h2>
                 </div>
 
                 <div>
-                  <div className="grid grid-cols-2 gap-5">
+                  <div className="grid lg:grid-cols-2 gap-5">
                     <div className="mt-5">
                       <div>
                         <label
@@ -457,7 +457,7 @@ export default function CreditForm({ credit_products }: CreditFormProps) {
                 <div className="w-64 h-64">
                   <Lottie animationData={animationData} loop={false} />
                 </div>
-                <h2 className="text-[#050B32] text-2xl font-semibold">
+                <h2 className="text-[#050B32] text-xl lg:text-2xl font-semibold">
                   BERHASIL REGISTRASI
                 </h2>
                 <p className="text-primary max-w-[320px] text-center mx-auto">
