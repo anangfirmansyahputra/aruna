@@ -9,15 +9,19 @@ import { ChevronDown, Menu, X } from 'lucide-react'
 export default function Navbar() {
   const { locale, categories, navbar } = usePage().props
   const { url } = usePage()
-  const [isHover, setIsHover] = React.useState(false)
   const [isMenuOpen, setIsMenuOpen] = React.useState(false)
+
+  const [isHover, setIsHover] = React.useState(false)
   const [showAllProducts, setShowAllProducts] = useState(false)
+
+  const [isHoverProposal, setIsHoverProposal] = React.useState(false)
+  const [showAllProposals, setShowAllProposals] = useState(false)
 
   const lang = locale as 'id' | 'en'
 
   return (
     <div
-      className={`${isMenuOpen && 'h-screen'} fixed z-[5] w-full flex flex-col`}
+      className={`${isMenuOpen && 'h-screen'} fixed z-[50] w-full flex flex-col`}
     >
       <div>
         <div className="bg-white">
@@ -119,12 +123,11 @@ export default function Navbar() {
                               <Fragment key={product.id}>
                                 <a
                                   href={`/products/${product.translations[0].slug}`}
-                                  className={`${
-                                    url ===
+                                  className={`${url ===
                                     `/products/${product.translations[0].slug}`
-                                      ? 'text-primary'
-                                      : 'text-black'
-                                  } text-base font-normal hover:text-primary transition-colors`}
+                                    ? 'text-primary'
+                                    : 'text-black'
+                                    } text-base font-normal hover:text-primary transition-colors`}
                                   key={product.id}
                                 >
                                   {product.translations[0].name}
@@ -133,9 +136,9 @@ export default function Navbar() {
                                   {(product.translations[0].description
                                     ?.length || 0) > 50
                                     ? product.translations[0].description?.substring(
-                                        0,
-                                        80
-                                      ) + '...'
+                                      0,
+                                      80
+                                    ) + '...'
                                     : product.translations[0].description}
                                 </p>
                               </Fragment>
@@ -165,12 +168,57 @@ export default function Navbar() {
               >
                 {getTranslate(lang, 'promo_nav')}
               </Link>
-              <Link
+              {/* <Link
                 href="/credit"
                 className="hover:text-[#83AAFF] transition-colors"
               >
                 {getTranslate(lang, 'proposal_nav')}
-              </Link>
+              </Link> */}
+
+              <div
+                role="link"
+                className={`relative group hover:text-[#83AAFF] transition-colors cursor-pointer`}
+                onMouseEnter={() => setIsHoverProposal(true)}
+                onMouseLeave={() => setIsHoverProposal(false)}
+              >
+                <span>
+                  {getTranslate(lang, 'proposal_nav')}
+                </span>
+
+                {/* Dropdown */}
+                <AnimatePresence>
+                  {isHoverProposal && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 10 }}
+                      transition={{ duration: 0.2 }}
+                      className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center z-[3]"
+                    >
+                      {/* Triangle */}
+                      <motion.div
+                        initial={{ rotateX: 90 }}
+                        animate={{ rotateX: 0 }}
+                        exit={{ rotateX: 90 }}
+                        transition={{ duration: 0.2 }}
+                        className="mt-6 w-0 h-0 border-l-8 border-r-8 border-b-8 border-transparent border-b-white"
+                      />
+
+                      {/* Dropdown Content */}
+                      <motion.div className="max-w-fit bg-white py-[42px] px-12 shadow rounded-[10px] flex flex-col gap-5">
+                        <div className="flex flex-col gap-y-2.5">
+                          <Link href="/credit" className="text-primary text-lg font-semibold w-full truncate">
+                            Kredit
+                          </Link>
+                          <Link href="/e-deposito" className="text-primary text-lg font-semibold w-full truncate">
+                            e-Deposito
+                          </Link>
+                        </div>
+                      </motion.div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
             </div>
 
             <div className="lg:hidden z-10 relative">
@@ -248,12 +296,11 @@ export default function Navbar() {
                               <Link
                                 onClick={(e) => e.stopPropagation()}
                                 href={`/products/${product.translations[0].slug}`}
-                                className={`${
-                                  url ===
+                                className={`${url ===
                                   `/products/${product.translations[0].slug}`
-                                    ? 'text-primary'
-                                    : 'text-black'
-                                } text-base font-normal text-xs hover:text-primary transition-colors`}
+                                  ? 'text-primary'
+                                  : 'text-black'
+                                  } text-base font-normal text-xs hover:text-primary transition-colors`}
                                 key={product.id}
                               >
                                 {product.translations[0].name}
@@ -262,9 +309,9 @@ export default function Navbar() {
                                 {(product.translations[0].description?.length ||
                                   0) > 50
                                   ? product.translations[0].description?.substring(
-                                      0,
-                                      80
-                                    ) + '...'
+                                    0,
+                                    80
+                                  ) + '...'
                                   : product.translations[0].description}
                               </p>
                             </Fragment>
@@ -292,13 +339,49 @@ export default function Navbar() {
               <Link
                 href="/promo"
                 onClick={() => setIsMenuOpen(false)}
-                className="mb-4"
+                className="mb-1"
               >
                 {getTranslate(lang, 'promo_nav')}
               </Link>
-              <Link href="/credit" onClick={() => setIsMenuOpen(false)}>
+              {/* <Link href="/credit" onClick={() => setIsMenuOpen(false)}>
                 {getTranslate(lang, 'proposal_nav')}
-              </Link>
+              </Link> */}
+              <div
+                className="cursor-pointer relative mb-1"
+                onClick={() => setShowAllProposals((prev) => !prev)}
+              >
+                <div className="flex items-center gap-2 justify-between">
+                  <p>{getTranslate(lang, 'proposal_nav')}</p>
+                  <motion.button
+                    className="p-3 rounded-full w-fit cursor-pointer"
+                    animate={{ rotate: showAllProposals ? 180 : 0 }}
+                    transition={{ duration: 0.3, ease: 'easeInOut' }}
+                  >
+                    <ChevronDown className="w-5 h-5" />
+                  </motion.button>
+                </div>
+
+                <AnimatePresence>
+                  {showAllProposals && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 10 }}
+                      transition={{ duration: 0.2 }}
+                      className="bg-white rounded-[10px] space-y-5 mb-4"
+                    >
+                      <div className="flex flex-col gap-y-2.5">
+                        <Link href="/credit" className="text-primary text-xs font-semibold truncate">
+                          Kredit
+                        </Link>
+                        <Link href="/e-deposito" className="text-primary text-xs font-semibold truncate">
+                          e-Deposito
+                        </Link>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
             </div>
           </motion.div>
         )}
