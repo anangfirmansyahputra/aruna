@@ -3,6 +3,7 @@
 use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\Main\ArticleController;
 use App\Http\Controllers\Main\CareerController;
+use App\Http\Controllers\Main\DepositoController;
 use App\Http\Controllers\Main\MainController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Main\ProductController;
@@ -27,4 +28,5 @@ Route::get("/promo/{slug}", [PromoController::class, 'show']);
 
 Route::post("/contact", [MainController::class, 'sendMailContact']);
 
-Route::get("/e-deposito", [MainController::class, 'eDeposito']);
+Route::get("/e-deposito", [DepositoController::class, 'index'])->name("e-deposito");
+Route::get("/e-deposito/form", [DepositoController::class, 'form'])->name("e-deposito.form");

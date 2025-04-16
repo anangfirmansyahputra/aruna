@@ -5,7 +5,7 @@ import FaqProduct from '@/components/faq-product'
 import SeoHead from '@/components/seo-head'
 import MainLayout from '@/layouts/main-layout'
 import { Article, SEO } from '@/types'
-import { router, usePage } from '@inertiajs/react'
+import { Link, router, usePage } from '@inertiajs/react'
 import { UserRound, UserRoundPlus } from 'lucide-react'
 
 interface DepositoPageProps {
@@ -123,14 +123,14 @@ export default function ArticlePage({ seo }: DepositoPageProps) {
               Formulir Pengajuan E-Deposito
             </h1>
             <div className="grid grid-cols-1 gap-6 mt-8 md:mt-12 md:grid-cols-2 md:gap-x-10">
-              <button className="w-full bg-linear-to-br from-[#46B136] to-[#78CC6B] flex items-center justify-center gap-x-4 rounded-2xl text-2xl font-semibold text-white px-8 py-8 md:text-3xl md:px-10 md:py-12 cursor-pointer hover:opacity-80 transition-all duration-300">
+              <Link href="/e-deposito/form" className="w-full bg-linear-to-br from-[#46B136] to-[#78CC6B] flex items-center justify-center gap-x-4 rounded-2xl text-2xl font-semibold text-white px-8 py-8 md:text-3xl md:px-10 md:py-12 cursor-pointer hover:opacity-80 transition-all duration-300">
                 <UserRoundPlus className="w-6 h-6 shrink-0 md:w-12 md:h-12" />
                 <span className="text-lg md:text-3xl">Nasabah Baru</span>
-              </button>
-              <button className="w-full bg-linear-to-br from-primary to-[#2B61E9] flex items-center justify-center gap-x-4 rounded-2xl text-2xl font-semibold text-white px-8 py-8 md:text-3xl md:px-10 md:py-12 cursor-pointer hover:opacity-80 transition-all duration-300">
+              </Link>
+              <Link href="/e-deposito/form" className="w-full bg-linear-to-br from-primary to-[#2B61E9] flex items-center justify-center gap-x-4 rounded-2xl text-2xl font-semibold text-white px-8 py-8 md:text-3xl md:px-10 md:py-12 cursor-pointer hover:opacity-80 transition-all duration-300">
                 <UserRound className="w-6 h-6 shrink-0 md:w-12 md:h-12" />
                 <span className="text-lg md:text-3xl">Nasabah BPR Aruna</span>
-              </button>
+              </Link>
             </div>
           </div>
 
@@ -147,9 +147,9 @@ export default function ArticlePage({ seo }: DepositoPageProps) {
                 <div className="absolute right-0 z-10 hidden w-4 h-4 bg-[#45BBF4] rounded-full top-20 sm:block"></div>
 
                 {/* Bottom horizontal connecting line */}
-                <div className="absolute top-[26rem] left-0 right-0 h-0.5 border-gray-200 border-dashed border-[1px] hidden sm:block"></div>
-                <div className="absolute left-0 z-10 hidden w-4 h-4 bg-[#45BBF4] rounded-full top-[25.5rem] sm:block"></div>
-                <div className="absolute right-0 z-10 hidden w-4 h-4 bg-[#45BBF4] rounded-full top-[25.5rem] sm:block"></div>
+                <div className="absolute top-[27rem] left-0 right-0 h-0.5 border-gray-200 border-dashed border-[1px] hidden sm:block"></div>
+                <div className="absolute left-0 z-10 hidden w-4 h-4 bg-[#45BBF4] rounded-full top-[26.5rem] sm:block"></div>
+                <div className="absolute right-0 z-10 hidden w-4 h-4 bg-[#45BBF4] rounded-full top-[26.5rem] sm:block"></div>
 
                 <div className="grid grid-cols-1 gap-8">
                   {/* First row - 3 steps */}
@@ -157,7 +157,7 @@ export default function ArticlePage({ seo }: DepositoPageProps) {
                     {stepItems.slice(0, 3).map((item) => (
                       <div key={item.number} className="flex flex-col items-center">
                         <div
-                          className={`w-14 h-14 rounded-md flex items-center justify-center text-xl font-bold mb-10 shadow-md z-10 ${item.highlighted ? "bg-gradient-to-br from-primary to-[#45BBF4] text-white" : "bg-white text-primary"
+                          className={`size-16 rounded-md flex items-center justify-center text-xl font-bold mb-10 shadow-md z-10 ${item.highlighted ? "bg-gradient-to-br from-primary to-[#45BBF4] text-white" : "bg-white text-primary"
                             }`}
                         >
                           {item.number}
@@ -184,7 +184,7 @@ export default function ArticlePage({ seo }: DepositoPageProps) {
                     {stepItems.slice(3, 5).map((item) => (
                       <div key={item.number} className="flex flex-col items-center">
                         <div
-                          className={`w-14 h-14 rounded-md flex items-center justify-center text-xl font-bold mb-10 shadow-md z-10 ${item.highlighted ? "bg-gradient-to-br from-primary to-[#45BBF4] text-white" : "bg-white text-primary"
+                          className={`size-16 rounded-md flex items-center justify-center text-xl font-bold mb-10 shadow-md z-10 ${item.highlighted ? "bg-gradient-to-br from-primary to-[#45BBF4] text-white" : "bg-white text-primary"
                             }`}
                         >
                           {item.number}
