@@ -137,4 +137,12 @@ class MainController extends Controller
             return back()->with('error', $e->getMessage());
         }
     }
+
+    public function eDeposito()
+    {
+        $seo = Seo::where("type", "e-deposito")->first();
+        return Inertia::render("main/e-deposito/page", [
+            'seo' => $seo
+        ]);
+    }
 }

@@ -17,7 +17,7 @@ export default function Navbar() {
 
   return (
     <div
-      className={`${isMenuOpen && 'h-screen'} fixed z-[5] w-full flex flex-col`}
+      className={`${isMenuOpen && 'h-screen'} fixed z-[50] w-full flex flex-col`}
     >
       <div>
         <div className="bg-white">

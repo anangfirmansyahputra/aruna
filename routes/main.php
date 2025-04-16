@@ -26,3 +26,5 @@ Route::get("/promo", [PromoController::class, 'index']);
 Route::get("/promo/{slug}", [PromoController::class, 'show']);
 
 Route::post("/contact", [MainController::class, 'sendMailContact']);
+
+Route::get("/e-deposito", [MainController::class, 'eDeposito']);
