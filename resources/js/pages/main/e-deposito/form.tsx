@@ -136,7 +136,6 @@ export default function ArticlePage() {
                             name="phone_number"
                             value={form.phone_number}
                             onChange={handleChange}
-                            required
                             className="border border-[#D2DAE2] rounded-xl px-4 w-full py-3 text-xs font-medium"
                           />
                         </div>
@@ -150,7 +149,6 @@ export default function ArticlePage() {
                             name="full_name"
                             value={form.full_name}
                             onChange={handleChange}
-                            required
                             className="border border-[#D2DAE2] rounded-xl px-4 w-full py-3 text-xs font-medium"
                           />
                         </div>
@@ -191,6 +189,7 @@ export default function ArticlePage() {
                         <div className="mt-[8px]">
                           <SelectInput
                             name="deposit_period"
+                            value={form.deposit_period}
                             onChange={handleSelectChange}
                             options={[
                               { label: '1 bulan', value: '1' },
@@ -198,7 +197,6 @@ export default function ArticlePage() {
                               { label: '6 bulan', value: '6' },
                               { label: '12 bulan', value: '12' },
                             ]}
-                            required
                           />
                         </div>
                       </div>
@@ -215,11 +213,11 @@ export default function ArticlePage() {
                         <SelectInput
                           name="extension_status"
                           onChange={handleSelectChange}
+                          value={form.extension_status}
                           options={extensionStatus.map((status) => ({
                             label: status.label,
                             value: status.value,
                           }))}
-                          required
                         />
                       </div>
                       <div className="space-y-2 text-gray-500">
@@ -260,11 +258,11 @@ export default function ArticlePage() {
                           <SelectInput
                             name="source_account"
                             onChange={handleSelectChange}
+                            value={form.source_account}
                             options={sourceAccounts.map((status) => ({
                               label: status.label,
                               value: status.value,
                             }))}
-                            required
                           />
                         </div>
                       </div>
@@ -275,12 +273,12 @@ export default function ArticlePage() {
                         <div className="mt-[8px]">
                           <SelectInput
                             name="payment_method"
+                            value={form.payment_method}
                             onChange={handleSelectChange}
                             options={paymentMethods.map((status) => ({
                               label: status.label,
                               value: status.value,
                             }))}
-                            required
                           />
                         </div>
                       </div>
