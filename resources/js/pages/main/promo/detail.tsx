@@ -6,7 +6,8 @@ import MainLayout from '@/layouts/main-layout'
 import { Promo } from '@/types'
 import { Head, useForm, usePage } from '@inertiajs/react'
 import { Calendar } from 'lucide-react'
-import { useState } from 'react'
+import { FormEvent, useState } from 'react'
+import { message } from 'antd'
 
 interface DetailPromoPageProps {
   promo: Promo
@@ -15,13 +16,43 @@ interface DetailPromoPageProps {
 export default function DetailPromoPage({ promo }: DetailPromoPageProps) {
   const { locale, app_url } = usePage().props
   const lang = locale as 'id' | 'en'
+  const [checked, setChecked] = useState<boolean>(false)
 
   const { data, setData, post, processing, errors } = useForm({
-    fullname: '',
+    name: '',
     no_hp: '',
     email: '',
     address: '',
+    promo_id: promo.id,
   })
+
+  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault()
+    if (!checked) {
+      message.info('Mohon untuk centang persetujuan terlebih dahulu')
+      return
+    }
+
+    post('/promo-requests', {
+      onSuccess: () => {
+        message.success(
+          'Pengajuan berhasil, mohon untuk menunggu konfirmasi dari pihak admin'
+        )
+        setData({
+          address: '',
+          email: '',
+          name: '',
+          no_hp: '',
+          promo_id: promo.id,
+        })
+
+        setChecked(false)
+      },
+      onError: () => {
+        setChecked(false)
+      },
+    })
+  }
 
   return (
     <>
@@ -92,24 +123,29 @@ export default function DetailPromoPage({ promo }: DetailPromoPageProps) {
             <h3 className="text-primary text-center">
               Ajukan dan Nikmati Promonya
             </h3>
-            <div className="mt-[20px] space-y-5">
+            <form onSubmit={handleSubmit} className="mt-[20px] space-y-5">
               <div>
                 <label
-                  htmlFor="fullname"
+                  htmlFor="name"
                   className="text-[#050B32] text-xs font-medium"
                 >
                   Nama Lengkap
                 </label>
 
+                <input name="promo_id" className="hidden" value={promo.id} />
+
                 <input
-                  value={data.no_hp}
-                  onChange={(e) => setData('no_hp', e.target.value)}
+                  value={data.name}
+                  onChange={(e) => setData('name', e.target.value)}
                   required
                   className="border border-[#E6E6E6] rounded-[12px] p-3 mt-[8px] w-full text-xs"
                   type="text"
-                  id="fullname"
-                  name="fullname"
+                  id="name"
+                  name="name"
                 />
+                {errors.name && (
+                  <p className="text-red-500 mt-2">{errors.name}</p>
+                )}
               </div>
               <div>
                 <label
@@ -128,6 +164,9 @@ export default function DetailPromoPage({ promo }: DetailPromoPageProps) {
                   id="no_hp"
                   name="no_hp"
                 />
+                {errors.no_hp && (
+                  <p className="text-red-500 mt-2">{errors.no_hp}</p>
+                )}
               </div>
               <div>
                 <label
@@ -146,6 +185,10 @@ export default function DetailPromoPage({ promo }: DetailPromoPageProps) {
                   id="email"
                   name="email"
                 />
+
+                {errors.email && (
+                  <p className="text-red-500 mt-2">{errors.email}</p>
+                )}
               </div>
               <div>
                 <label
@@ -164,19 +207,30 @@ export default function DetailPromoPage({ promo }: DetailPromoPageProps) {
                   id="address"
                   name="address"
                 />
+                {errors.address && (
+                  <p className="text-red-500 mt-2">{errors.address}</p>
+                )}
               </div>
               <div className="flex items-start gap-[10px]">
-                <input type="checkbox" className="mt-1" />
+                <input
+                  type="checkbox"
+                  className="mt-1"
+                  checked={checked}
+                  onChange={(e) => setChecked(e.target.checked)}
+                />
                 <p className="text-[#050B32] text-xs">
                   Saya bersedia dihubungi oleh pihak PT. BPR Aruna pada jam dan
                   hari kerja
                 </p>
               </div>
 
-              <button className="bg-primary text-white rounded-xl py-[7px] font-medium hover:bg-primary/90 transition-colors w-full px-4">
+              <button
+                type="submit"
+                className="bg-primary text-white rounded-xl py-[7px] font-medium hover:bg-primary/90 transition-colors w-full px-4"
+              >
                 Ajukan Sekarang
               </button>
-            </div>
+            </form>
           </div>
         </div>
       </MainLayout>

@@ -15,6 +15,7 @@ use App\Http\Controllers\ProductFAQController;
 use App\Http\Controllers\ProductFeatureController;
 use App\Http\Controllers\ProductRequirementController;
 use App\Http\Controllers\PromoController;
+use App\Http\Controllers\PromoRequestController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SeoController;
@@ -43,6 +44,8 @@ Route::prefix('dashboard')->middleware(['auth', 'checkPermission'])->group(funct
     Route::resource("product-features", ProductFeatureController::class);
     Route::resource("product-requirements", ProductRequirementController::class);
     Route::resource('product-faqs', ProductFAQController::class);
+    Route::resource("promo-requests", PromoRequestController::class);
+
     Route::get("seo", [SeoController::class, 'index'])->name("seo.index");
     Route::post("seo", [SeoController::class, 'update'])->name("seo.update");
     Route::get('/menus', [MenuController::class, 'index'])->name('menus.index');

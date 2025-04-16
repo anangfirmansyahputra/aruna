@@ -268,3 +268,15 @@ export interface Career {
   created_at: Date
   updated_at: Date
 }
+
+export interface PromoRequest {
+  id: number
+  promo_id: number
+  promo: Promo
+  name: string
+  email: string
+  no_hp: string
+  address: string
+  created_at: Date
+  updated_at: Date
+}

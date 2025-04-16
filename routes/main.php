@@ -4,6 +4,7 @@ use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\Main\ArticleController;
 use App\Http\Controllers\Main\CareerController;
 use App\Http\Controllers\Main\MainController;
+use App\Http\Controllers\PromoRequestController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Main\ProductController;
 use App\Http\Controllers\Main\PromoController;
@@ -24,5 +25,6 @@ Route::get("/credit", [MainController::class, 'credit']);
 Route::post("/credit", [MainController::class, 'creditStore']);
 Route::get("/promo", [PromoController::class, 'index']);
 Route::get("/promo/{slug}", [PromoController::class, 'show']);
+Route::post("/promo-requests", [PromoRequestController::class, "store"]);
 
 Route::post("/contact", [MainController::class, 'sendMailContact']);
