@@ -25,7 +25,7 @@ const paymentMethods = [
   { label: 'Pembayaran ke Rekening Bank Aruna', value: 'BANK_ARUNA' },
 ]
 
-export default function ArticlePage() {
+export default function DepositoFormPage() {
   const [step, setStep] = useState(1)
 
   const [form, setForm] = useState({

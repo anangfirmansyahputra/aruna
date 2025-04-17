@@ -1,11 +1,10 @@
 import Carousel from '@/components/carousel'
 import Faq from '@/components/faq'
 import FaqDeposito from '@/components/faq-deposito'
-import FaqProduct from '@/components/faq-product'
 import SeoHead from '@/components/seo-head'
 import MainLayout from '@/layouts/main-layout'
 import { Article, SEO } from '@/types'
-import { Link, router, usePage } from '@inertiajs/react'
+import { Link, usePage } from '@inertiajs/react'
 import { UserRound, UserRoundPlus } from 'lucide-react'
 
 interface DepositoPageProps {
@@ -37,13 +36,12 @@ function BannerContent({ index }: { index: number }) {
   );
 }
 
-export default function ArticlePage({ seo }: DepositoPageProps) {
+export default function DepositoPage({ seo }: DepositoPageProps) {
   const { locale } = usePage().props
   const lang = locale as 'id' | 'en'
-  const bannerItems = Array.from({ length: 5 }, (_, i) => ({
-    id: i + 1,
-    content: <BannerContent index={i + 1} />
-  }));
+  const bannerItems = Array.from({ length: 5 }, (_, i) => (
+    <BannerContent index={i + 1} key={i} />
+  ));
 
   const stepItems = Array.from({ length: 5 }, (_, i) => ({
     id: i + 1,
@@ -68,7 +66,7 @@ export default function ArticlePage({ seo }: DepositoPageProps) {
     en_question: `Question ${i + 1} in English`,
     en_answer: `Answer for question ${i + 1} in English`,
   }))
-  
+
   const infoItems = Array.from({ length: 2 }, (_, i) => ({
     id: i + 1,
     title: `Info Title ${i + 1}`,
@@ -100,22 +98,14 @@ export default function ArticlePage({ seo }: DepositoPageProps) {
       <MainLayout>
         <div className="">
           {/* Carousel Section */}
-          <div className="w-full h-[26rem]">
-            <Carousel
-              items={bannerItems}
-              options={{
-                slidesToScroll: 1,
-                align: 'start'
-              }}
-              autoplay={{
-                delay: 4000,
-                stopOnInteraction: true,
-                stopOnMouseEnter: true
-              }}
-              showPagination
-              itemClassName="basis-full"
-            />
-          </div>
+          <Carousel
+            slides={bannerItems}
+            autoLoop={true}
+            delay={5000}
+            className='w-full h-[26rem]'
+            navPosition='inside'
+            navClassName='z-20'
+          />
 
           {/* Button Section */}
           <div className="md:max-w-[80vw] mx-auto py-[40px] px-5 md:px-0 my-6 md:my-10">
@@ -219,9 +209,9 @@ export default function ArticlePage({ seo }: DepositoPageProps) {
               <div className="w-full text-base text-gray-700 md:w-2/3 md:text-lg space-y-6">
                 {infoItems.map((item) => (
                   <FaqDeposito
-                      title={item.title}
-                      items={item.items.map((i) => i[lang])}
-                      key={item.id}
+                    title={item.title}
+                    items={item.items.map((i) => i[lang])}
+                    key={item.id}
                   />
                 ))}
               </div>
