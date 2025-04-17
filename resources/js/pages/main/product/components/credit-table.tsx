@@ -45,6 +45,7 @@ export default function CreditTable({ product }: CreditTableProps) {
     nominal: string
     tenor: string
     interest: string
+    type: string
   } | null>(null)
   const [pinjaman, setPinjaman] = useState(0)
   const [displayPinjaman, setDisplayPinjaman] = useState('Rp 0')
@@ -310,6 +311,11 @@ export default function CreditTable({ product }: CreditTableProps) {
                   <div className="grid grid-cols-3 text-xl text-[#736E6E] font-normal">
                     <p className="col-span-2">Suku bunga per Tahun</p>
                     <p className="">{result?.interest}%</p>
+                  </div>
+
+                  <div className="grid grid-cols-3 text-xl text-[#736E6E] font-normal">
+                    <p className="col-span-2">Tipe Bunga</p>
+                    <p className="capitalize">{result?.type}</p>
                   </div>
                 </div>
 

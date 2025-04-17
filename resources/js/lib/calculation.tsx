@@ -74,6 +74,7 @@ export function generateAngsuranSchedule(
     interest: bungaTahunan.toString(),
     tenor: jumlahBulan.toString(),
     tipeBunga,
+    type: tipeBunga,
   }
 }
 
