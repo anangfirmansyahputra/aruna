@@ -59,7 +59,7 @@ type FormType = {
   debtor_no_hp: string
   debtor_email: string
   collateral_name_reference: string
-  debtor_address: string
+  collateral_address: string
   collateral_type: string
 }
 
@@ -67,6 +67,7 @@ export default function CreditForm({ credit_products }: CreditFormProps) {
   const fileInputRef = useRef<HTMLInputElement | null>(null)
   const [image, setImage] = useState<File | null>(null)
   const stepFromStorage = localStorage.getItem('e-credit-step')
+  const [check, setChek] = useState<boolean>(false)
   const storage = JSON.parse(
     localStorage.getItem('e-credit') as string
   ) as FormType | null
@@ -92,7 +93,7 @@ export default function CreditForm({ credit_products }: CreditFormProps) {
       debtor_no_hp: '',
       debtor_email: '',
       collateral_name_reference: '',
-      debtor_address: '',
+      collateral_address: '',
       collateral_type: '',
     }
   )
@@ -122,7 +123,7 @@ export default function CreditForm({ credit_products }: CreditFormProps) {
     if (currentStep === 3) {
       return (
         form.collateral_name_reference &&
-        form.debtor_address &&
+        form.collateral_address &&
         form.collateral_type
       )
     }
@@ -137,17 +138,63 @@ export default function CreditForm({ credit_products }: CreditFormProps) {
           collateral_photo_ktp: image,
         }
 
-        router.post('/credit', payload, {
-          forceFormData: true,
-          onSuccess: (props: any) => {
-            console.log('success', props)
-            setStep(4)
-          },
-          onError: (props: any) => {
-            console.log(props)
-            message.error('Internal server error')
-          },
-        })
+        if (!check) {
+          message.info(
+            'Mohon untuk centang persetujuan pengajuan kredit terlebih dahulu'
+          )
+          return
+        }
+
+        const confirm = window.confirm('Apakah anda yakin?')
+        if (confirm) {
+          router.post('/credit', payload, {
+            forceFormData: true,
+            onSuccess: (props: any) => {
+              console.log('success', props)
+              setStep(4)
+              setForm({
+                product_id: '',
+                plafond_amount: '',
+                usage_purpose: '',
+                debtor_name: '',
+                debtor_date_birth: '',
+                debtor_no_ktp: '',
+                debtor_npwp: '',
+                debtor_job: '',
+                debtor_no_hp: '',
+                debtor_email: '',
+                collateral_name_reference: '',
+                collateral_address: '',
+                collateral_type: '',
+              })
+
+              localStorage.setItem(
+                'e-credit',
+                JSON.stringify({
+                  product_id: '',
+                  plafond_amount: '',
+                  usage_purpose: '',
+                  debtor_name: '',
+                  debtor_date_birth: '',
+                  debtor_no_ktp: '',
+                  debtor_npwp: '',
+                  debtor_job: '',
+                  debtor_no_hp: '',
+                  debtor_email: '',
+                  collateral_name_reference: '',
+                  collateral_address: '',
+                  collateral_type: '',
+                })
+              )
+              localStorage.setItem('e-credit-step', '1')
+              setChek(false)
+            },
+            onError: (props: any) => {
+              console.log(props)
+              message.error('Internal server error')
+            },
+          })
+        }
       } else {
         setStep((prev) => prev + 1)
       }
@@ -406,9 +453,9 @@ export default function CreditForm({ credit_products }: CreditFormProps) {
                         </label>
                         <div className="mt-[8px]">
                           <input
-                            value={form.debtor_address}
+                            value={form.collateral_address}
                             onChange={handleChange}
-                            name="debtor_address"
+                            name="collateral_address"
                             type="text"
                             required
                             className="border border-[#D2DAE2] rounded-xl px-4 w-full py-3 text-xs font-medium"
@@ -479,7 +526,13 @@ export default function CreditForm({ credit_products }: CreditFormProps) {
                 </div>
 
                 <div className="flex gap-[10px] items-start mt-5">
-                  <input name="approve" type="checkbox" className="mt-[1px]" />
+                  <input
+                    checked={check}
+                    onChange={(e) => setChek(e.target.checked)}
+                    name="approve"
+                    type="checkbox"
+                    className="mt-[1px]"
+                  />
                   <p className="text-xs text-[#050B32] font-medium">
                     Dengan mengisi formulir ini, anda dinyatakan telah
                     mengajukan permohonan Kredit

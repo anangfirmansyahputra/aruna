@@ -95,17 +95,17 @@ class MainController extends Controller
 
     public function creditStore(Request $request)
     {
+
         $validate = $request->validate([
             "product_id" => "required|numeric|exists:products,id",
             "plafond_amount" => "required|numeric",
             "usage_purpose" => "required|string",
             "debtor_name" => "required|string",
-            "debtor_date_birth" => "required|date",
+            "debtor_date_birth" => "required|string",
             "debtor_no_ktp" => "required|string",
             "debtor_npwp" => "required|string",
             "debtor_no_hp" => "required|string",
             "debtor_email" => "required|string|email",
-            "debtor_address" => "required|string",
             "collateral_name_reference" => "string|nullable",
             "collateral_address" => "string|nullable",
             "collateral_type" => "required|string",
@@ -125,7 +125,6 @@ class MainController extends Controller
                 'debtor_npwp' => $validate['debtor_npwp'],
                 'debtor_no_hp' => $validate['debtor_no_hp'],
                 'debtor_email' => $validate['debtor_email'],
-                'debtor_address' => $validate['debtor_address'],
                 'collateral_name_reference' => $validate['collateral_name_reference'] ?? null,
                 'collateral_address' => $validate['collateral_address'] ?? null,
                 'collateral_type' => $validate['collateral_type'],
@@ -134,9 +133,9 @@ class MainController extends Controller
                 'updated_at' => now(),
             ]);
 
-            dd("terst");
             return back();
         } catch (\Exception $e) {
+            dd($e->getMessage());
             return back()->with('error', $e->getMessage());
         }
     }
