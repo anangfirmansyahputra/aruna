@@ -39,6 +39,8 @@ type CalculatorResult = {
 export default function CreditTable({ product }: CreditTableProps) {
   const [showInterest, setShowInterest] = useState(false)
   const [tenor, setTenor] = useState<null | number>(null)
+  const [interestType, setInterestType] = useState<'flat' | 'menurun'>('flat')
+  const [showInterestType, setShowInterestType] = useState(false)
   const [result, setResult] = useState<{
     nominal: string
     tenor: string
@@ -76,7 +78,8 @@ export default function CreditTable({ product }: CreditTableProps) {
     const { hasil, ...props } = generateAngsuranSchedule(
       pinjaman!,
       interest?.interest!,
-      interest?.tenor!
+      interest?.tenor!,
+      interestType
     )
 
     setCalculatorResults(hasil)
@@ -93,7 +96,7 @@ export default function CreditTable({ product }: CreditTableProps) {
 
   return (
     <>
-      {showInterest && (
+      {(showInterest || showInterestType) && (
         <div className="fixed h-screen w-screen bg-black/50 z-50 bottom-0" />
       )}
       <div className="bg-white py-[50px]">
@@ -132,7 +135,7 @@ export default function CreditTable({ product }: CreditTableProps) {
             </div>
 
             <div
-              className="bg-white p-3 flex gap-4 rounded-[10px] cursor-pointer relative z-[51]"
+              className={`bg-white p-3 flex gap-4 rounded-[10px] cursor-pointer relative ${showInterest && 'z-[51]'} `}
               onClick={() => setShowInterest(true)}
             >
               <img src={Timer} />
@@ -197,11 +200,66 @@ export default function CreditTable({ product }: CreditTableProps) {
               </div>
             </div>
 
+            <div
+              onClick={() => setShowInterestType(true)}
+              className={`bg-white p-3 flex gap-4 rounded-[10px] cursor-pointer relative ${showInterestType && 'z-[51]'} `}
+            >
+              <img src={PercentIcon} />
+
+              <div className="">
+                <p className="text-sm">Bunga</p>
+                <p className="text-lg capitalize">{interestType}</p>
+              </div>
+
+              {showInterestType && (
+                <AnimatePresence>
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.3, ease: 'easeInOut' }}
+                    className="absolute w-full bg-white left-0 mt-18 z-30 rounded-t cursor-auto shadow-lg"
+                  >
+                    <div className="border-b border-b-[#ddd] p-5">
+                      <p className="text-primary">Pilih tipe bunga</p>
+                    </div>
+                    <div className="p-5 py-5 space-y-2">
+                      {['menurun', 'flat'].map((interest) => (
+                        <div key={interest} className="space-x-3">
+                          <input
+                            checked={interestType === interest}
+                            onChange={() => {
+                              setInterestType(interest as 'flat' | 'menurun')
+                              setShowInterestType(false)
+                            }}
+                            name="tenor"
+                            type="radio"
+                            className="cursor-pointer"
+                            id={interest}
+                          />
+                          <label
+                            onClick={() => {
+                              setShowInterestType(false)
+                              setShowInterestType(false)
+                            }}
+                            className="cursor-pointer capitalize"
+                            htmlFor={interest}
+                          >
+                            {interest}
+                          </label>
+                        </div>
+                      ))}
+                    </div>
+                  </motion.div>
+                </AnimatePresence>
+              )}
+            </div>
+
             <button
               onClick={() => {
                 handleCalculation()
               }}
-              className="bg-[#3387EC] hover:bg-[#3387EC]/90 transition-colors text-white flex items-center justify-center cursor-pointer rounded-[10px]"
+              className="bg-[#3387EC] py-5 hover:bg-[#3387EC]/90 transition-colors text-white flex items-center justify-center cursor-pointer rounded-[10px]"
             >
               <span className="text-lg font-semibold">Hitung Simulasi</span>
               <ChevronRight className="ml-2.5" />
