@@ -47,31 +47,55 @@ const collateralTypes = [
   },
 ]
 
+type FormType = {
+  product_id: string
+  plafond_amount: string
+  usage_purpose: string
+  debtor_name: string
+  debtor_date_birth: string
+  debtor_no_ktp: string
+  debtor_npwp: string
+  debtor_job: string
+  debtor_no_hp: string
+  debtor_email: string
+  collateral_name_reference: string
+  debtor_address: string
+  collateral_type: string
+}
+
 export default function CreditForm({ credit_products }: CreditFormProps) {
   const fileInputRef = useRef<HTMLInputElement | null>(null)
   const [image, setImage] = useState<File | null>(null)
+  const stepFromStorage = localStorage.getItem('e-credit-step')
+  const storage = JSON.parse(
+    localStorage.getItem('e-credit') as string
+  ) as FormType | null
 
   const handleBrowseClick = () => {
     fileInputRef.current?.click()
   }
 
-  const [step, setStep] = useState(1)
+  const [step, setStep] = useState(
+    stepFromStorage ? Number(stepFromStorage) : 1
+  )
 
-  const [form, setForm] = useState({
-    product_id: '',
-    plafond_amount: '',
-    usage_purpose: '',
-    debtor_name: '',
-    debtor_date_birth: '',
-    debtor_no_ktp: '',
-    debtor_npwp: '',
-    debtor_job: '',
-    debtor_no_hp: '',
-    debtor_email: '',
-    collateral_name_reference: '',
-    debtor_address: '',
-    collateral_type: '',
-  })
+  const [form, setForm] = useState<FormType>(
+    storage ?? {
+      product_id: '',
+      plafond_amount: '',
+      usage_purpose: '',
+      debtor_name: '',
+      debtor_date_birth: '',
+      debtor_no_ktp: '',
+      debtor_npwp: '',
+      debtor_job: '',
+      debtor_no_hp: '',
+      debtor_email: '',
+      collateral_name_reference: '',
+      debtor_address: '',
+      collateral_type: '',
+    }
+  )
 
   const handleSelectChange = (value: string, name: string) => {
     setForm((prev) => ({
@@ -141,7 +165,22 @@ export default function CreditForm({ credit_products }: CreditFormProps) {
       ...prev,
       [e.target.name]: e.target.value,
     }))
+
+    localStorage.setItem('e-credit', JSON.stringify(form))
+    localStorage.setItem('e-credit-step', step.toString())
   }
+
+  const handleChangeTextArea = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setForm((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }))
+
+    localStorage.setItem('e-credit', JSON.stringify(form))
+    localStorage.setItem('e-credit-step', step.toString())
+  }
+
+  console.log(form)
 
   return (
     <MainLayout>
@@ -176,6 +215,7 @@ export default function CreditForm({ credit_products }: CreditFormProps) {
                     </label>
                     <div className="mt-[8px]">
                       <SelectInput
+                        value={form.product_id}
                         name="product_id"
                         onChange={handleSelectChange}
                         options={credit_products.map((credit) => ({
@@ -212,12 +252,7 @@ export default function CreditForm({ credit_products }: CreditFormProps) {
                   <textarea
                     name="usage_purpose"
                     value={form.usage_purpose}
-                    onChange={(e) =>
-                      setForm((prev) => ({
-                        ...prev,
-                        usage_purpose: e.target.value,
-                      }))
-                    }
+                    onChange={handleChangeTextArea}
                     rows={5}
                     className="border border-[#D2DAE2] rounded-xl px-4 py-3 text-xs font-medium"
                   />
@@ -393,6 +428,7 @@ export default function CreditForm({ credit_products }: CreditFormProps) {
                       </label>
                       <div className="mt-[8px]">
                         <SelectInput
+                          value={form.collateral_type}
                           name="collateral_type"
                           onChange={handleSelectChange}
                           options={collateralTypes.map((collateral) => ({

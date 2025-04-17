@@ -11,16 +11,16 @@ type SelectInputProps = {
   options: Option[]
   onChange: (e: string, name: string) => void
   name: string
+  value?: string
 }
-
 export default function SelectInput({
-  required,
   options,
   onChange,
   name,
+  value,
 }: SelectInputProps) {
-  const [selected, setSelected] = useState<Option | null>(null)
   const [open, setOpen] = useState(false)
+  const selected = options.find((opt) => opt.value === value) || null
 
   return (
     <div className="w-full">
@@ -28,7 +28,7 @@ export default function SelectInput({
         <button
           type="button"
           onClick={() => setOpen(!open)}
-          className="w-full text-left text-xs px-4 py-3 rounded-xl border border-gray-300 text-sm text-gray-500 focus:outline-none"
+          className="w-full text-left text-xs px-4 py-3 rounded-xl border border-gray-300 md:text-sm text-gray-500 focus:outline-none"
         >
           {selected ? selected.label : 'Silahkan Pilih'}
           <ChevronDown className="absolute right-4 top-1/2 transform -translate-y-1/2 text-blue-500 w-4 h-4" />
@@ -39,7 +39,6 @@ export default function SelectInput({
               <li
                 key={option.value}
                 onClick={() => {
-                  setSelected(option)
                   setOpen(false)
                   onChange(option.value, name)
                 }}
