@@ -8,8 +8,8 @@ export function formatRupiah(value: number): string {
 
 function formatNumber(num: number): string {
   return num.toLocaleString('id-ID', {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
+    // minimumFractionDigits: 2,
+    maximumFractionDigits: 0,
   })
 }
 
@@ -39,10 +39,7 @@ export function generateAngsuranSchedule(
     sisaPinjaman -= cicilanPokok
 
     hasil.push({
-      periode: tanggal.toLocaleString('id-ID', {
-        month: 'short',
-        year: 'numeric',
-      }),
+      periode: (bulan + 1).toString(),
       interest_rate: formatNumber(bungaBulanan),
       interest_rate_pokok: formatNumber(cicilanPokok),
       total_angsuran: formatNumber(angsuranPerBulan),

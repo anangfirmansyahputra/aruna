@@ -272,7 +272,7 @@ export default function CreditTable({ product }: CreditTableProps) {
             >
               <thead className="bg-[#64AAFF]">
                 <tr className="text-white font-semibold text-lg">
-                  <th className="py-[23px]">Periode</th>
+                  <th className="py-[23px]">Bulan Ke</th>
                   <th className="py-[23px]">Angsuran Bunga</th>
                   <th className="py-[23px]">Angsuran Pokok</th>
                   <th className="py-[23px]">Total Angsuran</th>
