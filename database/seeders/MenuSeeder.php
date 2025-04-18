@@ -112,6 +112,40 @@ class MenuSeeder extends Seeder
                 'path' => '/dashboard/company-values',
             ],
             [
+                'name' => 'e-Deposito Page',
+                'group' => 'Content',
+            ],
+            [
+                'name' => 'Carousel',
+                'group' => 'Content',
+                'submenu' => 'e-Deposito Page',
+                'path' => '/dashboard/deposito-carousel',
+            ],
+            [
+                'name' => 'Proposal Steps',
+                'group' => 'Content',
+                'submenu' => 'e-Deposito Page',
+                'path' => '/dashboard/deposito-step',
+            ],
+            [
+                'name' => 'Important Info',
+                'group' => 'Content',
+                'submenu' => 'e-Deposito Page',
+                'path' => '/dashboard/deposito-info',
+            ],
+            [
+                'name' => 'Slider',
+                'group' => 'Content',
+                'submenu' => 'e-Deposito Page',
+                'path' => '/dashboard/deposito-slider',
+            ],
+            [
+                'name' => 'FAQ',
+                'group' => 'Content',
+                'submenu' => 'e-Deposito Page',
+                'path' => '/dashboard/deposito-faq',
+            ],
+            [
                 'name' => 'SEO',
                 'group' => 'SEO',
                 'icon' => 'ProductOutlined',

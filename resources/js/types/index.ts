@@ -267,3 +267,14 @@ export interface Career {
   created_at: Date
   updated_at: Date
 }
+
+export interface DepositoCarousel {
+  id: number
+  id_title: string
+  en_title: string
+  id_description: string
+  en_description: string
+  image_url: string
+  created_at: Date
+  updated_at: Date
+}

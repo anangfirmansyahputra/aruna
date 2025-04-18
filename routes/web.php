@@ -7,6 +7,11 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CompanyValueController;
 use App\Http\Controllers\CreditProposalController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DepositoCarouselController;
+use App\Http\Controllers\DepositoFaqController;
+use App\Http\Controllers\DepositoInfoController;
+use App\Http\Controllers\DepositoSliderController;
+use App\Http\Controllers\DepositoStepController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\InterestRateController;
 use App\Http\Controllers\MenuController;
@@ -48,6 +53,12 @@ Route::prefix('dashboard')->middleware(['auth', 'checkPermission'])->group(funct
     Route::get('/menus', [MenuController::class, 'index'])->name('menus.index');
     Route::get('/menus/{menu}/edit', [MenuController::class, 'edit'])->name('menus.edit');
     Route::put('/menus/{menu}', [MenuController::class, 'update'])->name('menus.update');
+
+    Route::resource('deposito-carousel', DepositoCarouselController::class);
+    Route::resource('deposito-step', DepositoStepController::class);
+    Route::resource('deposito-faq', DepositoFaqController::class);
+    Route::resource('deposito-info', DepositoInfoController::class);
+    Route::resource('deposito-slider', DepositoSliderController::class);
 });
 
 

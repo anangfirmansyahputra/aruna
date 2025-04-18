@@ -3,22 +3,22 @@ import Faq from '@/components/faq'
 import FaqDeposito from '@/components/faq-deposito'
 import SeoHead from '@/components/seo-head'
 import MainLayout from '@/layouts/main-layout'
-import { Article, SEO } from '@/types'
+import { SEO, DepositoCarousel } from '@/types';
 import { Link, usePage } from '@inertiajs/react'
 import { UserRound, UserRoundPlus } from 'lucide-react'
 
 interface DepositoPageProps {
-  // articles: Article[]
+  carousel: DepositoCarousel[]
   seo: SEO | null
 }
 
-function BannerContent({ index }: { index: number }) {
+function BannerContent({ id_title, en_title, id_description, en_description, image_url, lang }: DepositoCarousel & { lang: 'id' | 'en' }) {
   return (
     <div className="relative h-full overflow-hidden">
       <div className="absolute inset-0 z-0">
         <img
-          src="/assets/placeholder.svg"
-          alt={`Banner ${index}`}
+          src={image_url}
+          alt={id_title || en_title}
           className="object-cover w-full h-full"
         />
         <div className="absolute inset-0 opacity-50 bg-primary"></div>
@@ -26,22 +26,18 @@ function BannerContent({ index }: { index: number }) {
 
       <div className="relative z-10 flex items-center justify-center w-full h-full px-4 py-16 mx-auto max-w-[85vw] md:py-24">
         <div className="max-w-4xl space-y-8 text-center text-white">
-          <h1 className="text-3xl font-bold tracking-tight md:text-4xl">Content {index}</h1>
-          <p className="text-base md:text-lg">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-          </p>
+          <h1 className="text-3xl font-bold tracking-tight md:text-4xl">{lang === 'id' ? id_title : en_title}</h1>
+          <p className="text-base md:text-lg">{lang === 'id' ? id_description : en_description}</p>
         </div>
       </div>
     </div>
   );
 }
 
-export default function DepositoPage({ seo }: DepositoPageProps) {
+export default function DepositoPage({ seo, carousel }: DepositoPageProps) {
   const { locale } = usePage().props
   const lang = locale as 'id' | 'en'
-  const bannerItems = Array.from({ length: 5 }, (_, i) => (
-    <BannerContent index={i + 1} key={i} />
-  ));
+  const bannerItems = carousel.map((item) => <BannerContent key={item.id} {...item} lang={lang} />);
 
   const stepItems = Array.from({ length: 5 }, (_, i) => ({
     id: i + 1,
