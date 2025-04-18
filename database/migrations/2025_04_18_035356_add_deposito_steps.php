@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('en_title');
             $table->text('id_description');
             $table->text('en_description');
-            $table->integer('position')->unique();
+            $table->integer('position');
             $table->boolean('is_highlighted');
             $table->string('image_url')->nullable();
             $table->timestamps();

@@ -56,6 +56,7 @@ Route::prefix('dashboard')->middleware(['auth', 'checkPermission'])->group(funct
 
     Route::resource('deposito-carousel', DepositoCarouselController::class);
     Route::resource('deposito-step', DepositoStepController::class);
+    Route::post('deposito-step/order', [DepositoStepController::class, 'order'])->name('deposito-step.order');
     Route::resource('deposito-faq', DepositoFaqController::class);
     Route::resource('deposito-info', DepositoInfoController::class);
     Route::resource('deposito-slider', DepositoSliderController::class);

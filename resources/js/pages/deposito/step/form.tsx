@@ -138,23 +138,10 @@ export default function FormPage({ data }: FormPageProps) {
                   tab={locale.toUpperCase()}
                   forceRender
                 >
-                  <Row gutter={[16, 16]} style={{ display: 'flex', flexDirection: 'row' }}>
-                    <Col xs={24} sm={12} style={{ flex: 1 }}>
-                      <Form.Item 
-                        name="position" 
-                        label="Position"
-                        rules={[{ required: true, message: 'Please enter position' }]}
-                      >
-                        <InputNumber min={1} />
-                      </Form.Item>
-                    </Col>
-                    <Col xs={24} sm={12} style={{ flex: 1 }}>
-                      <Form.Item name="is_highlighted" label="Highlighted">
-                        <Switch checked={isHighlighted} onChange={setIsHighlighted} />
-                      </Form.Item>
-                    </Col>
-                  </Row>
-
+                  <Form.Item name="is_highlighted" label="Highlighted">
+                    <Switch checked={isHighlighted} onChange={setIsHighlighted} />
+                  </Form.Item>
+                  
                   <Form.Item
                     name={`${locale}_title`}
                     label="Title"
