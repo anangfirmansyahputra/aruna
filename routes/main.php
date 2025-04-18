@@ -15,6 +15,8 @@ Route::get("/lang/{lang}", LocaleController::class);
 Route::get("/", [MainController::class, 'index']);
 Route::get("/careers", [CareerController::class, 'index']);
 Route::get("/careers/all", [CareerController::class, 'all']);
+Route::get('/careers/form', [CareerController::class, 'form']);
+Route::post('/careers/form', [CareerController::class, 'store']);
 Route::get("/products", [ProductController::class, "index"]);
 Route::get("/products/{slug}", [ProductController::class, "show"]);
 Route::get("/articles", [ArticleController::class, 'index']);
