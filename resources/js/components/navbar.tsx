@@ -21,7 +21,7 @@ export default function Navbar() {
 
   return (
     <div
-      className={`${isMenuOpen && 'h-screen'} fixed z-[50] w-full flex flex-col`}
+      className={`${isMenuOpen && 'h-screen'} fixed z-[52] w-full flex flex-col`}
     >
       <div>
         <div className="bg-white">
@@ -123,11 +123,12 @@ export default function Navbar() {
                               <Fragment key={product.id}>
                                 <a
                                   href={`/products/${product.translations[0].slug}`}
-                                  className={`${url ===
+                                  className={`${
+                                    url ===
                                     `/products/${product.translations[0].slug}`
-                                    ? 'text-primary'
-                                    : 'text-black'
-                                    } text-base font-normal hover:text-primary transition-colors`}
+                                      ? 'text-primary'
+                                      : 'text-black'
+                                  } text-base font-normal hover:text-primary transition-colors`}
                                   key={product.id}
                                 >
                                   {product.translations[0].name}
@@ -136,9 +137,9 @@ export default function Navbar() {
                                   {(product.translations[0].description
                                     ?.length || 0) > 50
                                     ? product.translations[0].description?.substring(
-                                      0,
-                                      80
-                                    ) + '...'
+                                        0,
+                                        80
+                                      ) + '...'
                                     : product.translations[0].description}
                                 </p>
                               </Fragment>
@@ -181,9 +182,7 @@ export default function Navbar() {
                 onMouseEnter={() => setIsHoverProposal(true)}
                 onMouseLeave={() => setIsHoverProposal(false)}
               >
-                <span>
-                  {getTranslate(lang, 'proposal_nav')}
-                </span>
+                <span>{getTranslate(lang, 'proposal_nav')}</span>
 
                 {/* Dropdown */}
                 <AnimatePresence>
@@ -207,10 +206,16 @@ export default function Navbar() {
                       {/* Dropdown Content */}
                       <motion.div className="max-w-fit bg-white py-[42px] px-12 shadow rounded-[10px] flex flex-col gap-5">
                         <div className="flex flex-col gap-y-2.5">
-                          <Link href="/credit" className="text-primary text-lg font-semibold w-full truncate">
+                          <Link
+                            href="/credit"
+                            className="text-primary text-lg font-semibold w-full truncate"
+                          >
                             Kredit
                           </Link>
-                          <Link href="/e-deposito" className="text-primary text-lg font-semibold w-full truncate">
+                          <Link
+                            href="/e-deposito"
+                            className="text-primary text-lg font-semibold w-full truncate"
+                          >
                             e-Deposito
                           </Link>
                         </div>
@@ -296,11 +301,12 @@ export default function Navbar() {
                               <Link
                                 onClick={(e) => e.stopPropagation()}
                                 href={`/products/${product.translations[0].slug}`}
-                                className={`${url ===
+                                className={`${
+                                  url ===
                                   `/products/${product.translations[0].slug}`
-                                  ? 'text-primary'
-                                  : 'text-black'
-                                  } text-base font-normal text-xs hover:text-primary transition-colors`}
+                                    ? 'text-primary'
+                                    : 'text-black'
+                                } text-base font-normal text-xs hover:text-primary transition-colors`}
                                 key={product.id}
                               >
                                 {product.translations[0].name}
@@ -309,9 +315,9 @@ export default function Navbar() {
                                 {(product.translations[0].description?.length ||
                                   0) > 50
                                   ? product.translations[0].description?.substring(
-                                    0,
-                                    80
-                                  ) + '...'
+                                      0,
+                                      80
+                                    ) + '...'
                                   : product.translations[0].description}
                               </p>
                             </Fragment>
@@ -371,10 +377,16 @@ export default function Navbar() {
                       className="bg-white rounded-[10px] space-y-5 mb-4"
                     >
                       <div className="flex flex-col gap-y-2.5">
-                        <Link href="/credit" className="text-primary text-xs font-semibold truncate">
+                        <Link
+                          href="/credit"
+                          className="text-primary text-xs font-semibold truncate"
+                        >
                           Kredit
                         </Link>
-                        <Link href="/e-deposito" className="text-primary text-xs font-semibold truncate">
+                        <Link
+                          href="/e-deposito"
+                          className="text-primary text-xs font-semibold truncate"
+                        >
                           e-Deposito
                         </Link>
                       </div>

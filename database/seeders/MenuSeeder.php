@@ -62,10 +62,22 @@ class MenuSeeder extends Seeder
                 "path" => "/dashboard/promos",
             ],
             [
+                'name' => 'Request',
+                'group' => "Promo",
+                'icon' => "DollarOutlined",
+                "path" => "/dashboard/promo-requests",
+            ],
+            [
                 'name' => 'Career',
                 'group' => "Career",
                 'icon' => "SolutionOutlined",
                 "path" => "/dashboard/careers",
+            ],
+            [
+                'name' => 'Applicant',
+                'group' => "Career",
+                'icon' => "SolutionOutlined",
+                "path" => "/dashboard/career-requests",
             ],
             [
                 'name' => 'Menu',

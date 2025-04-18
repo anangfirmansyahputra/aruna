@@ -3,6 +3,7 @@
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CareerController;
+use App\Http\Controllers\CareerRequestController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CompanyValueController;
 use App\Http\Controllers\CreditProposalController;
@@ -20,6 +21,7 @@ use App\Http\Controllers\ProductFAQController;
 use App\Http\Controllers\ProductFeatureController;
 use App\Http\Controllers\ProductRequirementController;
 use App\Http\Controllers\PromoController;
+use App\Http\Controllers\PromoRequestController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SeoController;
@@ -48,6 +50,8 @@ Route::prefix('dashboard')->middleware(['auth', 'checkPermission'])->group(funct
     Route::resource("product-features", ProductFeatureController::class);
     Route::resource("product-requirements", ProductRequirementController::class);
     Route::resource('product-faqs', ProductFAQController::class);
+    Route::resource("promo-requests", PromoRequestController::class);
+
     Route::get("seo", [SeoController::class, 'index'])->name("seo.index");
     Route::post("seo", [SeoController::class, 'update'])->name("seo.update");
     Route::get('/menus', [MenuController::class, 'index'])->name('menus.index');
@@ -60,6 +64,8 @@ Route::prefix('dashboard')->middleware(['auth', 'checkPermission'])->group(funct
     Route::resource('deposito-faq', DepositoFaqController::class);
     Route::resource('deposito-info', DepositoInfoController::class);
     Route::resource('deposito-slider', DepositoSliderController::class);
+    Route::get('/career-requests', [CareerRequestController::class, 'index'])->name('career-requests.index');
+    Route::delete('/career-requests/{id}', [CareerRequestController::class, 'destroy'])->name('career-requests.destroy');
 });
 
 

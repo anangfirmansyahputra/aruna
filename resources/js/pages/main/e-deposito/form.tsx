@@ -83,17 +83,10 @@ export default function DepositoFormPage() {
       return form.phone_number && form.full_name
     }
     if (currentStep === 2) {
-      return (
-        form.deposit_amount &&
-        form.deposit_period &&
-        form.extension_status
-      )
+      return form.deposit_amount && form.deposit_period && form.extension_status
     }
     if (currentStep === 3) {
-      return (
-        form.source_account &&
-        form.payment_method
-      )
+      return form.source_account && form.payment_method
     }
     return true
   }
@@ -168,7 +161,8 @@ export default function DepositoFormPage() {
                     <div className="space-y-5 mt-5">
                       <div>
                         <label className="text-[#050B32] text-xs font-medium">
-                          No. Telp/Whatsapp <span className="text-red-500">*</span>
+                          No. Telp/Whatsapp{' '}
+                          <span className="text-red-500">*</span>
                         </label>
                         <div className="mt-[8px]">
                           <input
@@ -181,7 +175,8 @@ export default function DepositoFormPage() {
                       </div>
                       <div>
                         <label className="text-[#050B32] text-xs font-medium">
-                          Nama Lengkap Sesuai KTP <span className="text-red-500">*</span>
+                          Nama Lengkap Sesuai KTP{' '}
+                          <span className="text-red-500">*</span>
                         </label>
                         <div className="mt-[8px]">
                           <input
@@ -203,7 +198,8 @@ export default function DepositoFormPage() {
                         Data Deposito
                       </h2>
                       <p className="text-white text-xs text-center">
-                        Pembukaan rekening e-Deposito dengan data sebagai berikut:
+                        Pembukaan rekening e-Deposito dengan data sebagai
+                        berikut:
                       </p>
                     </div>
 
@@ -228,7 +224,7 @@ export default function DepositoFormPage() {
                         <div className="mt-[8px]">
                           <SelectInput
                             name="deposit_period"
-                            value={form.deposit_period}
+                            // value={form.deposit_period}
                             onChange={handleSelectChange}
                             options={[
                               { label: '1 bulan', value: '1' },
@@ -246,13 +242,14 @@ export default function DepositoFormPage() {
                         Suku Bunga e-Deposito BPR Aruna 6,50% p.a.
                       </p>
                       <label className="text-[#050B32] text-xs font-medium">
-                        Status Perpanjangan <span className="text-red-500">*</span>
+                        Status Perpanjangan{' '}
+                        <span className="text-red-500">*</span>
                       </label>
                       <div className="mt-[8px]">
                         <SelectInput
                           name="extension_status"
                           onChange={handleSelectChange}
-                          value={form.extension_status}
+                          // value={form.extension_status}
                           options={extensionStatus.map((status) => ({
                             label: status.label,
                             value: status.value,
@@ -263,13 +260,19 @@ export default function DepositoFormPage() {
                         <p>Penjelasan:</p>
                         <ul className="list-disc pl-5">
                           <li>
-                            <span className="font-semibold">Non ARO:</span> Rekening tidak akan diperpanjang secara otomatis
+                            <span className="font-semibold">Non ARO:</span>{' '}
+                            Rekening tidak akan diperpanjang secara otomatis
                           </li>
                           <li>
-                            <span className="font-semibold">ARO:</span> Rekening akan diperpanjang secara otomatis dengan suku bunga yang berlaku saat itu
+                            <span className="font-semibold">ARO:</span> Rekening
+                            akan diperpanjang secara otomatis dengan suku bunga
+                            yang berlaku saat itu
                           </li>
                           <li>
-                            <span className="font-semibold">ARO Plus:</span> Rekening akan diperpanjang secara otomatis dengan suku bunga yang berlaku saat itu dan dapat dicairkan sebelum jatuh tempo
+                            <span className="font-semibold">ARO Plus:</span>{' '}
+                            Rekening akan diperpanjang secara otomatis dengan
+                            suku bunga yang berlaku saat itu dan dapat dicairkan
+                            sebelum jatuh tempo
                           </li>
                         </ul>
                       </div>
@@ -284,20 +287,22 @@ export default function DepositoFormPage() {
                         Informasi Sumber Dana Penempatan Deposito
                       </h2>
                       <p className="text-white text-xs text-center">
-                        BPR Aruna akan mengirimkan Nomor Virtual Account Danamon untuk proses penempatan deposito.
+                        BPR Aruna akan mengirimkan Nomor Virtual Account Danamon
+                        untuk proses penempatan deposito.
                       </p>
                     </div>
 
                     <div className="space-y-4 mt-5">
                       <div>
                         <label className="text-[#050B32] text-xs font-medium">
-                          Informasi Rekening Sumber Dana Penempatan Deposito <span className="text-red-500">*</span>
+                          Informasi Rekening Sumber Dana Penempatan Deposito{' '}
+                          <span className="text-red-500">*</span>
                         </label>
                         <div className="mt-[8px]">
                           <SelectInput
                             name="source_account"
                             onChange={handleSelectChange}
-                            value={form.source_account}
+                            // value={form.source_account}
                             options={sourceAccounts.map((status) => ({
                               label: status.label,
                               value: status.value,
@@ -307,12 +312,13 @@ export default function DepositoFormPage() {
                       </div>
                       <div>
                         <label className="text-[#050B32] text-xs font-medium">
-                          Metode Pembayaran Bunga dan Pencairan Deposito <span className="text-red-500">*</span>
+                          Metode Pembayaran Bunga dan Pencairan Deposito{' '}
+                          <span className="text-red-500">*</span>
                         </label>
                         <div className="mt-[8px]">
                           <SelectInput
                             name="payment_method"
-                            value={form.payment_method}
+                            // value={form.payment_method}
                             onChange={handleSelectChange}
                             options={paymentMethods.map((status) => ({
                               label: status.label,
@@ -336,36 +342,56 @@ export default function DepositoFormPage() {
                     <div className="space-y-4 mt-6 text-gray-500">
                       <ul className="list-decimal pl-5 space-y-4">
                         <li>
-                          Untuk pengajuan deposito, BPR Aruna akan menghubungi Nasabah untuk proses validasi data dalam rentang waktu 2 hari kerja (Senin &ndash; Jumat).
+                          Untuk pengajuan deposito, BPR Aruna akan menghubungi
+                          Nasabah untuk proses validasi data dalam rentang waktu
+                          2 hari kerja (Senin &ndash; Jumat).
                         </li>
                         <li>
-                          Penempatan deposito dilakukan setelah dana efektif diterima oleh BPR Aruna, apabila pembayaran deposito diterima setelah jam 15.00 WITA pada hari kerja, maka transaksi akan diproses pada hari kerja berikutnya.
+                          Penempatan deposito dilakukan setelah dana efektif
+                          diterima oleh BPR Aruna, apabila pembayaran deposito
+                          diterima setelah jam 15.00 WITA pada hari kerja, maka
+                          transaksi akan diproses pada hari kerja berikutnya.
                         </li>
                         <li>
-                          BPR Aruna hanya menerima penempatan e-Deposito dalam bentuk mata uang rupiah.
+                          BPR Aruna hanya menerima penempatan e-Deposito dalam
+                          bentuk mata uang rupiah.
                         </li>
                         <li>
                           Untuk status perpanjangan:
                           <ul className="list-disc pl-5 space-y-2 mt-2">
                             <li>
-                              <span className="font-semibold">Non ARO:</span> Deposito yang tidak diperpanjang ketika tanggal jatuh tempo.
+                              <span className="font-semibold">Non ARO:</span>{' '}
+                              Deposito yang tidak diperpanjang ketika tanggal
+                              jatuh tempo.
                             </li>
                             <li>
-                              <span className="font-semibold">ARO:</span> Deposito yang dapat diperpanjang secara otomatis sesuai dengan tenor yang berlaku dipengajuan sebelumnya.
+                              <span className="font-semibold">ARO:</span>{' '}
+                              Deposito yang dapat diperpanjang secara otomatis
+                              sesuai dengan tenor yang berlaku dipengajuan
+                              sebelumnya.
                             </li>
                             <li>
-                              <span className="font-semibold">ARO Plus:</span> Deposito yang dapat diperpanjang secara otomatis, bunga menambah nilai pokok setiap bulannya selama Deposito belum dicairkan oleh Nasabah.
+                              <span className="font-semibold">ARO Plus:</span>{' '}
+                              Deposito yang dapat diperpanjang secara otomatis,
+                              bunga menambah nilai pokok setiap bulannya selama
+                              Deposito belum dicairkan oleh Nasabah.
                             </li>
                           </ul>
                         </li>
                         <li>
-                          Apabila tanggal jatuh tempo berada pada hari libur/diluar hari operasional BPR, maka pencairan akan dilakukan pada hari kerja berikutnya.
+                          Apabila tanggal jatuh tempo berada pada hari
+                          libur/diluar hari operasional BPR, maka pencairan akan
+                          dilakukan pada hari kerja berikutnya.
                         </li>
                         <li>
-                          Penjaminan deposito oleh LPS mengacu pada tingkat suku bunga penjaminan LPS pada saat ikatan awal pembukaan deposito, terlepas dari penurunan dan kenaikan suku bunga penjaminan LPS di kemudian hari.
+                          Penjaminan deposito oleh LPS mengacu pada tingkat suku
+                          bunga penjaminan LPS pada saat ikatan awal pembukaan
+                          deposito, terlepas dari penurunan dan kenaikan suku
+                          bunga penjaminan LPS di kemudian hari.
                         </li>
                         <li>
-                          Jika pemilik deposito meninggal dunia, deposito dapat diserahkan/dialihkan kepada ahli waris.
+                          Jika pemilik deposito meninggal dunia, deposito dapat
+                          diserahkan/dialihkan kepada ahli waris.
                         </li>
                       </ul>
                     </div>

@@ -11,7 +11,6 @@ import {
   ProductTranslation,
 } from '@/types'
 import { Head, usePage } from '@inertiajs/react'
-import { motion, AnimatePresence } from 'framer-motion'
 import * as LucideIcons from 'lucide-react'
 import { ArrowRight, ChevronRight, X } from 'lucide-react'
 import React, { useState } from 'react'
@@ -22,6 +21,7 @@ import PercentIcon from '../../../../../public/assets/percent.svg'
 import Timer from '../../../../../public/assets/timer.svg'
 import WhiteCurrency from '../../../../../public/assets/white-currency.svg'
 import DepositoTable from './components/deposito-table'
+import CreditTable from './components/credit-table'
 
 interface DetailProductPageProps {
   product: ProductTranslation & {
@@ -33,79 +33,6 @@ interface DetailProductPageProps {
     }
   }
 }
-
-const calculatorResults = [
-  {
-    periode: 'Jan 2025',
-    interest_rate: '0,00',
-    interest_rate_pokok: '0,00',
-    total_angsuran: '0,00',
-    sisa_pinjaman: '100.000.000,00',
-  },
-  {
-    periode: 'Jan 2025',
-    interest_rate: '0,00',
-    interest_rate_pokok: '0,00',
-    total_angsuran: '0,00',
-    sisa_pinjaman: '100.000.000,00',
-  },
-  {
-    periode: 'Jan 2025',
-    interest_rate: '0,00',
-    interest_rate_pokok: '0,00',
-    total_angsuran: '0,00',
-    sisa_pinjaman: '100.000.000,00',
-  },
-  {
-    periode: 'Jan 2025',
-    interest_rate: '0,00',
-    interest_rate_pokok: '0,00',
-    total_angsuran: '0,00',
-    sisa_pinjaman: '100.000.000,00',
-  },
-  {
-    periode: 'Jan 2025',
-    interest_rate: '0,00',
-    interest_rate_pokok: '0,00',
-    total_angsuran: '0,00',
-    sisa_pinjaman: '100.000.000,00',
-  },
-  {
-    periode: 'Jan 2025',
-    interest_rate: '0,00',
-    interest_rate_pokok: '0,00',
-    total_angsuran: '0,00',
-    sisa_pinjaman: '100.000.000,00',
-  },
-  {
-    periode: 'Jan 2025',
-    interest_rate: '0,00',
-    interest_rate_pokok: '0,00',
-    total_angsuran: '0,00',
-    sisa_pinjaman: '100.000.000,00',
-  },
-  {
-    periode: 'Jan 2025',
-    interest_rate: '0,00',
-    interest_rate_pokok: '0,00',
-    total_angsuran: '0,00',
-    sisa_pinjaman: '100.000.000,00',
-  },
-  {
-    periode: 'Jan 2025',
-    interest_rate: '0,00',
-    interest_rate_pokok: '0,00',
-    total_angsuran: '0,00',
-    sisa_pinjaman: '100.000.000,00',
-  },
-  {
-    periode: 'Jan 2025',
-    interest_rate: '0,00',
-    interest_rate_pokok: '0,00',
-    total_angsuran: '0,00',
-    sisa_pinjaman: '100.000.000,00',
-  },
-]
 
 export default function DetailProductPage({ product }: DetailProductPageProps) {
   const { locale, app_url } = usePage().props
@@ -212,6 +139,10 @@ export default function DetailProductPage({ product }: DetailProductPageProps) {
           <DepositoTable
             product={product}
           />
+        )}
+        
+        {product.product.type_calculation === 'credit' && (
+          <CreditTable product={product} />
         )}
 
         {product.product.requirements.length > 0 && (

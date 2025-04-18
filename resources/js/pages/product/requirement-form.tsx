@@ -97,6 +97,9 @@ export default function RequirementForm({
 
   const handleCancel = () => {
     setIsModalOpen(false)
+    setIsEdit(null)
+    setNewItem('')
+    setData(null)
   }
 
   const confirm = (id: number) => {
@@ -185,9 +188,10 @@ export default function RequirementForm({
   }
 
   const handleCancelItem = () => {
-    setIsEdit(null)
     setIsModalOpenItem(false)
+    setIsEdit(null)
     setNewItem('')
+    setData(null)
   }
 
   return (
@@ -198,7 +202,13 @@ export default function RequirementForm({
           type="primary"
           size="middle"
           icon={<Plus />}
-          onClick={showModal}
+          onClick={() => {
+            setItems({
+              en: [],
+              id: [],
+            })
+            showModal()
+          }}
         />
       </div>
       <Divider />

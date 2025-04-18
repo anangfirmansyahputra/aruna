@@ -33,7 +33,8 @@ class ReportController extends Controller
     public function store(Request $request)
     {
         $validate = $request->validate([
-            'title' => 'required|string',
+            'id_title' => 'required|string',
+            'en_title' => 'required|string',
             'year' => 'required|date_format:Y',
             'file' => 'required|mimes:pdf|max:2048',
         ]);
@@ -69,16 +70,9 @@ class ReportController extends Controller
     public function update(Request $request, Report $report)
     {
         $validate = $request->validate([
-            'title' => 'required|string',
+            'id_title' => 'required|string',
+            'en_title' => 'required|string',
             'year' => 'required|date_format:Y',
-            'file' => [
-                'nullable',
-                Rule::when(
-                    $request->hasFile('file'),
-                    ['file', 'mimes:pdf', 'max:2048'],
-                    ['string', 'url']
-                )
-            ],
         ]);
 
         if ($request->hasFile('file')) {

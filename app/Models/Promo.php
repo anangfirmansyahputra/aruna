@@ -29,6 +29,11 @@ class Promo extends Model
         return Attribute::get(fn($value) => \Carbon\Carbon::parse($value)->format('d M Y'));
     }
 
+    public function promoRequests()
+    {
+        return $this->hasMany(PromoRequest::class);
+    }
+    
     protected static function boot()
     {
         parent::boot();

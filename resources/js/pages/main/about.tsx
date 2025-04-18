@@ -2,7 +2,7 @@ import MainLayout from '@/layouts/main-layout'
 import Wave from '../../../../public/assets/Wave.png'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import ProfileCard from '@/components/profile-card'
-import { CompanyValue, SEO, TeamProfile } from '@/types'
+import { CompanyValue, Report, SEO, TeamProfile } from '@/types'
 import { usePage } from '@inertiajs/react'
 import React from 'react'
 import * as LucideIcons from 'lucide-react'
@@ -12,12 +12,14 @@ interface AboutPageProps {
   profiles: TeamProfile[]
   company_values: CompanyValue[]
   seo: SEO | null
+  reports: Report[]
 }
 
 export default function AboutPage({
   profiles,
   company_values,
   seo,
+  reports,
 }: AboutPageProps) {
   const { locale } = usePage().props
   const lang = locale as 'id' | 'en'
@@ -224,12 +226,34 @@ export default function AboutPage({
         </div>
 
         <div className="bg-[#F0F4FF]">
-          <div className="container mx-auto">
-            <h2 className="text-4xl font-semibold">Laporan Keuangan</h2>
-            <p>
+          <div className="container mx-auto py-[27px]">
+            <h2 className="text-4xl font-semibold text-primary text-center">
+              Laporan Keuangan
+            </h2>
+            <p className="text-lg text-[#736E6E] text-center mt-[18px]">
               Akses laporan keuangan terbaru kami yang transparan dan akurat
               sebagai wujud komitmen terhadap tata kelola yang baik.
             </p>
+
+            <div className="mt-[38px] space-y-[25px]">
+              {reports.map((report) => (
+                <div
+                  key={report.id}
+                  className="flex items-baseline-last justify-between px-[40px] py-[38px] bg-white rounded-[30px]"
+                >
+                  <p className="font-medium text-xl text-[#292C31]">
+                    LAPORAN PUBLIKASI TRIWULANAN - {report[`${lang}_title`]}
+                  </p>
+                  <a
+                    href={'/storage/' + report.file}
+                    download={report[`${lang}_title`] + `-${report.year}`}
+                    className="text-primary bg-primary text-white py-[16px] px-[31px] rounded-[30px] text-lg"
+                  >
+                    Download
+                  </a>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </MainLayout>

@@ -124,7 +124,8 @@ export interface ProductFAQ {
 
 export interface Report {
   id: number
-  title: string
+  id_title: string
+  en_title: string
   file: string
   year: Date
   created_at: Date
@@ -276,6 +277,16 @@ export interface DepositoCarousel {
   id_description: string
   en_description: string
   image_url: string
+}
+
+export interface PromoRequest {
+  id: number
+  promo_id: number
+  promo: Promo
+  name: string
+  email: string
+  no_hp: string
+  address: string
   created_at: Date
   updated_at: Date
 }
@@ -299,6 +310,17 @@ export interface DepositoInfo {
   en_title: string
   id_content: string
   en_content: string
+  created_at: Date
+  updated_at: Date
+}
+
+export interface CareerRequest {
+  id: number
+  career: Career
+  name: string
+  email: string
+  no_hp: string
+  cv: string
   created_at: Date
   updated_at: Date
 }

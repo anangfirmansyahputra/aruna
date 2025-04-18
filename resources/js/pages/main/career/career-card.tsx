@@ -1,6 +1,7 @@
 import { Check, ChevronUp } from 'lucide-react'
 import { useState } from 'react'
 import { motion } from 'framer-motion'
+import { Link } from '@inertiajs/react'
 
 interface CareerCardProps {
   id: number
@@ -57,9 +58,12 @@ export default function CareerCard({
             </div>
           ))}
 
-          <button className="bg-primary text-lg text-white py-2 px-5 rounded-[16px] hover:bg-primary/90 transition-colors cursor-pointer">
+          <Link
+            href="/careers/form"
+            className="bg-primary inline-block text-lg text-white py-2 px-5 rounded-[16px] hover:bg-primary/90 transition-colors cursor-pointer"
+          >
             Lamar Sekarang
-          </button>
+          </Link>
         </motion.div>
       )}
     </div>

@@ -35,9 +35,15 @@ export default function ReportPage({ data }: ReportPageProps) {
 
   const columns: TableProps<Report>['columns'] = [
     {
-      title: 'Title',
-      dataIndex: 'title',
-      key: 'title',
+      title: 'ID Title',
+      dataIndex: 'id_title',
+      key: 'id_title',
+      width: 200,
+    },
+    {
+      title: 'EN Title',
+      dataIndex: 'en_title',
+      key: 'en_title',
       width: 200,
     },
     {
