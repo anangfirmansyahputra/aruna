@@ -12,7 +12,15 @@ import {
 } from '@/types'
 import { Head, usePage } from '@inertiajs/react'
 import * as LucideIcons from 'lucide-react'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, ChevronRight, X } from 'lucide-react'
+import React, { useState } from 'react'
+import Calculator from '../../../../../public/assets/calculator.svg'
+import CalendarIcon from '../../../../../public/assets/calendar.svg'
+import Currency from '../../../../../public/assets/currency.svg'
+import PercentIcon from '../../../../../public/assets/percent.svg'
+import Timer from '../../../../../public/assets/timer.svg'
+import WhiteCurrency from '../../../../../public/assets/white-currency.svg'
+import DepositoTable from './components/deposito-table'
 import CreditTable from './components/credit-table'
 
 interface DetailProductPageProps {
@@ -127,6 +135,12 @@ export default function DetailProductPage({ product }: DetailProductPageProps) {
           </div>
         )}
 
+        {product.product.type_calculation === 'deposit' && (
+          <DepositoTable
+            product={product}
+          />
+        )}
+        
         {product.product.type_calculation === 'credit' && (
           <CreditTable product={product} />
         )}

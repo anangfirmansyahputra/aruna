@@ -32,5 +32,5 @@ Route::post("/promo-requests", [PromoRequestController::class, "store"]);
 
 Route::post("/contact", [MainController::class, 'sendMailContact']);
 
-Route::get("/e-deposito", [DepositoController::class, 'index'])->name("e-deposito");
-Route::get("/e-deposito/form", [DepositoController::class, 'form'])->name("e-deposito.form");
+Route::get("/e-deposito", [DepositoController::class, 'index']);
+Route::get("/e-deposito/form", [DepositoController::class, 'form']);

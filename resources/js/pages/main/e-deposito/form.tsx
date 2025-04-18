@@ -5,7 +5,7 @@ import MainLayout from '@/layouts/main-layout'
 import { Link } from '@inertiajs/react'
 import Lottie from 'lottie-react'
 import { Check } from 'lucide-react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import animationData from '../../../../../public/assets/success-animation.json'
 import { message } from 'antd'
 
@@ -25,18 +25,51 @@ const paymentMethods = [
   { label: 'Pembayaran ke Rekening Bank Aruna', value: 'BANK_ARUNA' },
 ]
 
-export default function ArticlePage() {
-  const [step, setStep] = useState(1)
+// Default form values
+const defaultForm = {
+  phone_number: '',
+  full_name: '',
+  deposit_amount: '',
+  deposit_period: '',
+  extension_status: '',
+  source_account: '',
+  payment_method: '',
+}
 
-  const [form, setForm] = useState({
-    phone_number: '',
-    full_name: '',
-    deposit_amount: '',
-    deposit_period: '',
-    extension_status: '',
-    source_account: '',
-    payment_method: '',
-  })
+export default function DepositoFormPage() {
+  const [step, setStep] = useState(1)
+  const [form, setForm] = useState(defaultForm)
+
+  // Load form data and current step from localStorage when component mounts
+  useEffect(() => {
+    const savedForm = localStorage.getItem('depositoForm')
+    const savedStep = localStorage.getItem('depositoStep')
+    
+    if (savedForm) {
+      try {
+        setForm(JSON.parse(savedForm))
+      } catch (error) {
+        console.error('Error parsing saved form data:', error)
+      }
+    }
+    
+    if (savedStep) {
+      const parsedStep = parseInt(savedStep, 10)
+      if (!isNaN(parsedStep) && parsedStep >= 1 && parsedStep <= 5) {
+        setStep(parsedStep)
+      }
+    }
+  }, [])
+
+  // Save form data to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem('depositoForm', JSON.stringify(form))
+  }, [form])
+
+  // Save current step to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem('depositoStep', step.toString())
+  }, [step])
 
   const handleSelectChange = (value: string, name: string) => {
     setForm((prev) => ({
@@ -75,6 +108,12 @@ export default function ArticlePage() {
       ...prev,
       [e.target.name]: e.target.value,
     }))
+  }
+
+  // Clear form data when completed or when returning to the e-deposito page
+  const handleComplete = () => {
+    localStorage.removeItem('depositoForm')
+    localStorage.removeItem('depositoStep')
   }
 
   return (
@@ -373,6 +412,7 @@ export default function ArticlePage() {
                     <Link
                       href="/e-deposito"
                       className="cursor-pointer bg-primary py-[11px] rounded-xl px-[26px] text-white mt-[27px] hover:bg-primary/90 transition-colors"
+                      onClick={handleComplete}
                     >
                       Selesai
                     </Link>
@@ -385,6 +425,7 @@ export default function ArticlePage() {
                     <Link
                       href="/e-deposito"
                       className="cursor-pointer bg-gray-200 text-gray-800 px-5 py-2 rounded-md text-sm"
+                      onClick={handleComplete}
                     >
                       Kembali
                     </Link>
