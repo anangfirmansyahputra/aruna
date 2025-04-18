@@ -3,13 +3,14 @@ import Faq from '@/components/faq'
 import FaqDeposito from '@/components/faq-deposito'
 import SeoHead from '@/components/seo-head'
 import MainLayout from '@/layouts/main-layout'
-import { SEO, DepositoCarousel } from '@/types';
+import { SEO, DepositoCarousel, DepositoStep } from '@/types';
 import { Link, usePage } from '@inertiajs/react'
 import { UserRound, UserRoundPlus } from 'lucide-react'
 
 interface DepositoPageProps {
-  carousel: DepositoCarousel[]
   seo: SEO | null
+  carousels: DepositoCarousel[]
+  steps: DepositoStep[]
 }
 
 function BannerContent({ id_title, en_title, id_description, en_description, image_url, lang }: DepositoCarousel & { lang: 'id' | 'en' }) {
@@ -34,19 +35,27 @@ function BannerContent({ id_title, en_title, id_description, en_description, ima
   );
 }
 
-export default function DepositoPage({ seo, carousel }: DepositoPageProps) {
+export default function DepositoPage({ seo, carousels, steps }: DepositoPageProps) {
   const { locale } = usePage().props
   const lang = locale as 'id' | 'en'
-  const bannerItems = carousel.map((item) => <BannerContent key={item.id} {...item} lang={lang} />);
+  const bannerItems = carousels.map((item) => <BannerContent key={item.id} {...item} lang={lang} />);
 
-  const stepItems = Array.from({ length: 5 }, (_, i) => ({
-    id: i + 1,
-    number: `0${i + 1}`,
-    title: `Step ${i + 1}`,
-    description: `Description for step ${i + 1}`,
-    highlighted: i === 1,
-    imageUrl: `/assets/placeholder.svg`,
-  }))
+  const sortedSteps = [...steps].sort((a, b) => a.position - b.position);
+
+  const stepItems = sortedSteps.map((step) => ({
+    id: step.id,
+    number: `0${step.position}`,
+    position: step.position,
+    title: lang === 'id' ? step.id_title : step.en_title,
+    description: lang === 'id' ? step.id_description : step.en_description,
+    highlighted: step.is_highlighted,
+    imageUrl: step.image_url,
+  }));
+  
+  const rows = [];
+  for (let i = 0; i < stepItems.length; i += 3) {
+    rows.push(stepItems.slice(i, i + 3));
+  }
 
   const infographicItems = Array.from({ length: 3 }, (_, i) => ({
     id: i + 1,
@@ -126,51 +135,19 @@ export default function DepositoPage({ seo, carousel }: DepositoPageProps) {
               Alur Pengajuan e-Deposito BPR Aruna
             </h1>
             <div className="mx-auto mt-10 max-w-7xl">
-              <div className="relative">
-                {/* Top horizontal connecting line */}
-                <div className="absolute top-22 left-0 right-0 h-0.5 border-gray-200 border-dashed border-[1px] hidden sm:block"></div>
-                <div className="absolute left-0 z-10 hidden w-4 h-4 bg-[#45BBF4] rounded-full top-20 sm:block"></div>
-                <div className="absolute right-0 z-10 hidden w-4 h-4 bg-[#45BBF4] rounded-full top-20 sm:block"></div>
+              {rows.map((row, rowIndex) => (
+                <div key={rowIndex} className="relative mt-8">
+                  {/* Horizontal connecting line for each row */}
+                  <div className="absolute top-22 left-0 right-0 h-0.5 border-gray-200 border-dashed border-[1px] hidden sm:block"></div>
+                  <div className="absolute left-0 z-10 hidden w-4 h-4 bg-blue-400 rounded-full top-20 sm:block"></div>
+                  <div className="absolute right-0 z-10 hidden w-4 h-4 bg-blue-400 rounded-full top-20 sm:block"></div>
 
-                {/* Bottom horizontal connecting line */}
-                <div className="absolute top-[27rem] left-0 right-0 h-0.5 border-gray-200 border-dashed border-[1px] hidden sm:block"></div>
-                <div className="absolute left-0 z-10 hidden w-4 h-4 bg-[#45BBF4] rounded-full top-[26.5rem] sm:block"></div>
-                <div className="absolute right-0 z-10 hidden w-4 h-4 bg-[#45BBF4] rounded-full top-[26.5rem] sm:block"></div>
-
-                <div className="grid grid-cols-1 gap-8">
-                  {/* First row - 3 steps */}
-                  <div className="grid grid-cols-1 gap-8 sm:grid-cols-3">
-                    {stepItems.slice(0, 3).map((item) => (
+                  {/* Items in this row */}
+                  <div className={`grid grid-cols-1 gap-8 sm:grid-cols-${row.length}`}>
+                    {row.map((item) => (
                       <div key={item.number} className="flex flex-col items-center">
                         <div
-                          className={`size-16 rounded-md flex items-center justify-center text-xl font-bold mb-10 shadow-md z-10 ${item.highlighted ? "bg-gradient-to-br from-primary to-[#45BBF4] text-white" : "bg-white text-primary"
-                            }`}
-                        >
-                          {item.number}
-                        </div>
-                        <div className="flex items-center justify-center h-32 mb-4">
-                          <div className="relative w-24 h-24">
-                            <img
-                              src={item.imageUrl}
-                              alt={item.title}
-                              className="object-contain"
-                            />
-                          </div>
-                        </div>
-                        <div className="text-center">
-                          <h3 className="mb-2 text-lg font-bold">{item.title}</h3>
-                          <p className="text-sm text-gray-600">{item.description}</p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-
-                  {/* Second row - 2 steps centered */}
-                  <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 sm:px-16 md:px-32">
-                    {stepItems.slice(3, 5).map((item) => (
-                      <div key={item.number} className="flex flex-col items-center">
-                        <div
-                          className={`size-16 rounded-md flex items-center justify-center text-xl font-bold mb-10 shadow-md z-10 ${item.highlighted ? "bg-gradient-to-br from-primary to-[#45BBF4] text-white" : "bg-white text-primary"
+                          className={`w-16 h-16 rounded-md flex items-center justify-center text-xl font-bold mb-10 shadow-md z-10 ${item.highlighted ? "bg-gradient-to-br from-blue-600 to-blue-400 text-white" : "bg-white text-blue-600"
                             }`}
                         >
                           {item.number}
@@ -192,7 +169,7 @@ export default function DepositoPage({ seo, carousel }: DepositoPageProps) {
                     ))}
                   </div>
                 </div>
-              </div>
+              ))}
             </div>
           </div>
 

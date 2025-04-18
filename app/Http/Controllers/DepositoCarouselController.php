@@ -70,7 +70,7 @@ class DepositoCarouselController extends Controller
         ]);
 
         if ($request->hasFile('image_url')) {
-            $validate['image_url'] = $request->file('image_url')->store('products', 'public');
+            $validate['image_url'] = $request->file('image_url')->store('deposito_carousel', 'public');
         } else {
             unset($validate['image_url']);
         }

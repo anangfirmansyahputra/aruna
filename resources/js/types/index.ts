@@ -278,3 +278,16 @@ export interface DepositoCarousel {
   created_at: Date
   updated_at: Date
 }
+
+export interface DepositoStep {
+  id: number
+  id_title: string
+  en_title: string
+  id_description: string
+  en_description: string
+  image_url: string
+  position: number
+  is_highlighted: boolean
+  created_at: Date
+  updated_at: Date
+}

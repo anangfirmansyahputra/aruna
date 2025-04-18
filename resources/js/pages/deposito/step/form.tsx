@@ -3,18 +3,22 @@ import DashboardLayout from '@/layouts/dashboard-layout'
 import { checkPermission } from '@/lib/permission'
 import { InboxOutlined } from '@ant-design/icons'
 import {
-  DepositoCarousel,
+  DepositoStep,
 } from '@/types'
 import { Head, router, usePage } from '@inertiajs/react'
 import {
   Button,
+  Col,
   Divider,
   Form,
   GetProp,
   Image,
   Input,
+  InputNumber,
   message,
+  Row,
   Space,
+  Switch,
   Tabs,
   Typography,
   UploadFile,
@@ -25,7 +29,7 @@ import Dragger from 'antd/es/upload/Dragger'
 import { useEffect, useState } from 'react'
 
 interface FormPageProps {
-  data?: DepositoCarousel
+  data?: DepositoStep
 }
 
 type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0]
@@ -43,12 +47,13 @@ export default function FormPage({ data }: FormPageProps) {
   const [fileList, setFileList] = useState<UploadFile[]>([])
   const [previewOpen, setPreviewOpen] = useState(false)
   const [previewImage, setPreviewImage] = useState('')
+  const [isHighlighted, setIsHighlighted] = useState(data ? data.is_highlighted : false)
 
   const { form, submit, isLoading } = useFormHandler({
     initialValues: data,
     url: data
-      ? `/dashboard/deposito-carousel/${data.id}`
-      : `/dashboard/deposito-carousel`,
+      ? `/dashboard/deposito-step/${data.id}`
+      : `/dashboard/deposito-step`,
     method: data ? 'put' : 'post',
   })
 
@@ -116,12 +121,12 @@ export default function FormPage({ data }: FormPageProps) {
 
   return (
     <DashboardLayout
-      breadcrumbs={['Dashboard', 'Deposito Carousel', data ? 'Update' : 'Create']}
+      breadcrumbs={['Dashboard', 'Deposito Step', data ? 'Update' : 'Create']}
     >
-      <Head title="Create Deposito Carousel" />
+      <Head title="Create Deposito Step" />
 
       <div className="lg:p-6 bg-white h-full">
-        <Typography.Title level={4}>Deposito Carousel Form</Typography.Title>
+        <Typography.Title level={4}>Deposito Step Form</Typography.Title>
         <Divider />
 
         <div className="grid lg:grid-cols-2">
@@ -133,6 +138,23 @@ export default function FormPage({ data }: FormPageProps) {
                   tab={locale.toUpperCase()}
                   forceRender
                 >
+                  <Row gutter={[16, 16]} style={{ display: 'flex', flexDirection: 'row' }}>
+                    <Col xs={24} sm={12} style={{ flex: 1 }}>
+                      <Form.Item 
+                        name="position" 
+                        label="Position"
+                        rules={[{ required: true, message: 'Please enter position' }]}
+                      >
+                        <InputNumber min={1} />
+                      </Form.Item>
+                    </Col>
+                    <Col xs={24} sm={12} style={{ flex: 1 }}>
+                      <Form.Item name="is_highlighted" label="Highlighted">
+                        <Switch checked={isHighlighted} onChange={setIsHighlighted} />
+                      </Form.Item>
+                    </Col>
+                  </Row>
+
                   <Form.Item
                     name={`${locale}_title`}
                     label="Title"
@@ -154,7 +176,7 @@ export default function FormPage({ data }: FormPageProps) {
                   <Form.Item
                     label="Image"
                     name="image_url"
-                    // rules={[{ required: true, message: 'Please insert 1 image' }]}
+                  // rules={[{ required: true, message: 'Please insert 1 image' }]}
                   >
                     <Dragger {...uploadProps}>
                       <p className="ant-upload-drag-icon">
@@ -187,19 +209,19 @@ export default function FormPage({ data }: FormPageProps) {
 
             <Space>
               <Button
-                onClick={() => router.visit('/dashboard/deposito-carousel')}
+                onClick={() => router.visit('/dashboard/deposito-step')}
                 type="default"
               >
                 Cancel
               </Button>
               {checkPermission(
                 permissions as string[],
-                data ? 'deposito-carousel.update' : 'deposito-carousel.store'
+                data ? 'deposito-step.update' : 'deposito-step.store'
               ) && (
-                <Button type="primary" onClick={handleSubmit}>
-                  Submit
-                </Button>
-              )}
+                  <Button type="primary" onClick={handleSubmit}>
+                    Submit
+                  </Button>
+                )}
             </Space>
           </Form>
         </div>
