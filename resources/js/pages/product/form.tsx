@@ -357,6 +357,32 @@ export default function FormPage({
                 <Row gutter={[16, 16]}>
                   <Col xs={24} sm={12}>
                     <Form.Item
+                      label="Calculation Type"
+                      required
+                      name="type_calculation"
+                      rules={[
+                        {
+                          message: 'Please select calculation type',
+                          required: true,
+                        },
+                      ]}
+                    >
+                      <Select
+                        style={{
+                          textTransform: 'capitalize',
+                        }}
+                        options={['Credit', 'Deposit', 'Saving'].map(
+                          (type) => ({
+                            label: type,
+                            value: type.toLowerCase(),
+                          })
+                        )}
+                      />
+                    </Form.Item>
+                  </Col>
+
+                  <Col xs={24} sm={12}>
+                    <Form.Item
                       name={`${locale}__description`}
                       label="Descriptions"
                       rules={[

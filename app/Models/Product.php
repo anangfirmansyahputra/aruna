@@ -15,6 +15,7 @@ class Product extends Model
         'category_id',
         'is_credit',
         'image_url',
+        'type_calculation'
     ];
 
     public function category(): BelongsTo
@@ -44,9 +45,11 @@ class Product extends Model
 
     public function scopeTranslation(Builder $query, string $languageCode)
     {
-        return $query->with(["translations" => function ($query) use ($languageCode) {
-            $query->where("language_code", $languageCode);
-        }]);
+        return $query->with([
+            "translations" => function ($query) use ($languageCode) {
+                $query->where("language_code", $languageCode);
+            }
+        ]);
     }
 
     public function features()

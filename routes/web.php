@@ -3,6 +3,7 @@
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CareerController;
+use App\Http\Controllers\CareerRequestController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CompanyValueController;
 use App\Http\Controllers\CreditProposalController;
@@ -51,6 +52,8 @@ Route::prefix('dashboard')->middleware(['auth', 'checkPermission'])->group(funct
     Route::get('/menus', [MenuController::class, 'index'])->name('menus.index');
     Route::get('/menus/{menu}/edit', [MenuController::class, 'edit'])->name('menus.edit');
     Route::put('/menus/{menu}', [MenuController::class, 'update'])->name('menus.update');
+    Route::get('/career-requests', [CareerRequestController::class, 'index'])->name('career-requests.index');
+    Route::delete('/career-requests/{id}', [CareerRequestController::class, 'destroy'])->name('career-requests.destroy');
 });
 
 

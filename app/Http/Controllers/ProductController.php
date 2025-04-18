@@ -48,6 +48,7 @@ class ProductController extends Controller
             'category_id' => ['required', 'exists:categories,id'],
             'is_credit' => ['nullable', 'string'],
             'image_url' => 'mimes:jpeg,jpg,png,gif|max:1000',
+            'type_calculation' => ['required', 'string'],
             "translations" => "required|array",
             "translations.*.name" => "required|string",
             "translations.*.language_code" => "required|string",
@@ -127,6 +128,7 @@ class ProductController extends Controller
 
         $validate = $request->validate([
             'category_id' => ['required', 'exists:categories,id'],
+            'type_calculation' => ['required', 'string'],
             "translations" => "required|array",
             'is_credit' => ['nullable', 'string'],
             'image_url' => [
@@ -154,7 +156,7 @@ class ProductController extends Controller
             $product->update($validate);
 
             foreach ($validate["translations"] as $translation) {
-                $exist =  ProductTranslation::where("product_id", $product->id)
+                $exist = ProductTranslation::where("product_id", $product->id)
                     ->where("language_code", $translation["language_code"])
                     ->first();
 

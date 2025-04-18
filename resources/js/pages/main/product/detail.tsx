@@ -127,7 +127,9 @@ export default function DetailProductPage({ product }: DetailProductPageProps) {
           </div>
         )}
 
-        <CreditTable product={product} />
+        {product.product.type_calculation === 'credit' && (
+          <CreditTable product={product} />
+        )}
 
         {product.product.requirements.length > 0 && (
           <div className="bg-[#F0F4FF]">

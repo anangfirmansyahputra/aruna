@@ -51,6 +51,7 @@ export interface Product {
   is_credit: boolean
   created_at: Date
   updated_at: Date
+  type_calculation: 'credit' | 'deposit' | 'saving'
 }
 
 export interface Article {
@@ -277,6 +278,17 @@ export interface PromoRequest {
   email: string
   no_hp: string
   address: string
+  created_at: Date
+  updated_at: Date
+}
+
+export interface CareerRequest {
+  id: number
+  career: Career
+  name: string
+  email: string
+  no_hp: string
+  cv: string
   created_at: Date
   updated_at: Date
 }
