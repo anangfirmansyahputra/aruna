@@ -51,6 +51,7 @@ export interface Product {
   is_credit: boolean
   created_at: Date
   updated_at: Date
+  type_calculation: "credit" | "deposit" | "saving"
 }
 
 export interface Article {
@@ -288,6 +289,16 @@ export interface DepositoStep {
   image_url: string
   position: number
   is_highlighted: boolean
+  created_at: Date
+  updated_at: Date
+}
+
+export interface DepositoInfo {
+  id: number
+  id_title: string
+  en_title: string
+  id_content: string
+  en_content: string
   created_at: Date
   updated_at: Date
 }

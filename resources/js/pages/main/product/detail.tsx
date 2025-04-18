@@ -208,9 +208,11 @@ export default function DetailProductPage({ product }: DetailProductPageProps) {
           </div>
         )}
 
-        <DepositoTable 
-          product={product}
-        />
+        {product.product.type_calculation === 'deposit' && (
+          <DepositoTable
+            product={product}
+          />
+        )}
 
         {product.product.requirements.length > 0 && (
           <div className="bg-[#F0F4FF]">
