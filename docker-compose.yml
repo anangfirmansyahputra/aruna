@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  app:
+    build: 
+      context: .
+      dockerfile: docker/php/Dockerfile
+    container_name: aruna
+    working_dir: /var/www/html
+    volumes:
+      - .:/var/www/html
+      # - storage-aruna:/var/www/html/storage
+    depends_on:
+      - mysql
+    networks:
+      - aruna
+    
+  nginx:
+    image: nginx:alpine
+    container_name: aruna-nginx
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www/html
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - app
+    networks:
+      - aruna
+  
+  mysql:
+    image: mysql:8
+    container_name: aruna-mysql
+    restart: always
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - aruna
+  
+volumes:
+  mysql-data:
+  # storage-aruna:
+
+networks:
+  aruna:
+    driver: bridge
